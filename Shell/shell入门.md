@@ -1,7 +1,31 @@
 ##### 1.Shell的第一行#!
+
+dev.sh：
+
 ```sh
 #! /bin/sh
 who
 ```
 
 `#! /bin/sh`表示利用/bin/sh作为当前的Shell，当不写第一行时，系统将默认使用 /bin/sh
+
+##### 2.传递/接收参数
+
+dev.sh：
+
+```sh
+#! /bin/sh
+echo "${1} ${2} ${3}"
+```
+
+调用：
+
+```sh
+dev.sh a b c
+```
+
+输出：
+
+a b c
+
+`${num}`表示第几个参数
