@@ -54,3 +54,20 @@ fi
 ```
 
 `elif`代表elseif，`if`必须要以`fi`进行结尾闭合。其中`[]`也可以用`()`代替，但必须都有两对才能形成条件判断表达式。
+
+##### 5.for循环
+
+dev.sh：
+
+```sh
+#! /bin/sh
+for (( i = 0;i < 5;i++ )); do
+  echo $i
+done
+
+for j in 1 2 3 4 5; do
+  echo $j
+done
+```
+
+两种写法都行，适用于不同的情况。
