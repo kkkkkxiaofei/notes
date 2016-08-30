@@ -107,3 +107,46 @@ esac
 ```
 
 case语句相当于其他编程语言的switch case，它以`esac`作为闭合结尾，每一个case的都需要用`)`包裹，并且command调用结束后又两个`;;`。
+
+##### 8.debug 
+
+dev.sh：
+
+```sh
+#! /bin/sh
+total=`expr $1 + $2`
+echo "total: $total"
+```
+
+-x 调试：
+
+```sh
+sh -x dev.sh 1 2
+```
+
+输出：
+
+```sh
+++ expr 1 + 2
++ total=3
++ echo 'total: 3'
+total: 3
+```
+
+-v 调试：
+
+```sh
+sh -v dev.sh 1 2
+```
+
+输出：
+
+```sh
+#! /bin/sh
+total=`expr $1 + $2`
+expr $1 + $2
+echo "total: $total"
+total: 3
+```
+
+不难看出，-x调试可以打印输入变量，-v边执行脚本边进行输出，还有-n可以用来检查语法错误。
