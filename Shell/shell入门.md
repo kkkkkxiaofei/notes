@@ -103,10 +103,11 @@ case $1 in
   "a") echo "this is a";;
   "b") echo "this is b";;
   "c") echo "this is c";;
+  *) echo "i do not konw";;
 esac
 ```
 
-case语句相当于其他编程语言的switch case，它以`esac`作为闭合结尾，每一个case的都需要用`)`包裹，并且command调用结束后又两个`;;`。
+case语句相当于其他编程语言的switch case，它以`esac`作为闭合结尾，每一个case的都需要用`)`包裹，`*)`相当于default，command调用结束后有两个`;;`，缺一不可。
 
 ##### 8.debug 
 
