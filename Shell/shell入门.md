@@ -37,3 +37,20 @@ a b c
 |`$#`|参数个数|
 |`$*`,`$@`|全部参数|
 |`$?`|命令行返回值（正常0，异常非0)|
+
+##### 4.if条件语句
+
+dev.sh：
+
+```sh
+#! /bin/sh
+if [[ $1 > 0 ]]; then
+  echo "greater than 0"
+elif [[ $1 < 0 ]]; then
+  echo "less than 0"
+else
+  echo "equal to 0"
+fi
+```
+
+`elif`代表elseif，`if`必须要以`fi`进行结尾闭合。其中`[]`也可以用`()`代替，但必须都有两对才能形成条件判断表达式。
