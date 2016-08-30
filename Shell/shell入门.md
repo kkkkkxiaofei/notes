@@ -150,3 +150,27 @@ total: 3
 ```
 
 不难看出，-x调试可以打印输入变量，-v边执行脚本边进行输出，还有-n可以用来检查语法错误。
+
+##### 9.function
+
+dev.sh：
+
+```sh
+#! /bin/sh
+hello()
+{
+  echo "hello: $1"
+}
+
+hello $1
+```
+
+调用：
+
+```sh
+dev.sh Mr.fly
+```
+
+输出：
+
+hello: Mr.fly
