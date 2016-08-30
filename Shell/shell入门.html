@@ -193,7 +193,120 @@ who
 </code></pre>
 <p>&#x8F93;&#x51FA;&#xFF1A;</p>
 <p>a b c</p>
-<p><code>${num}</code>&#x8868;&#x793A;&#x7B2C;&#x51E0;&#x4E2A;&#x53C2;&#x6570;</p>
+<p><code>${num}</code>&#x8868;&#x793A;&#x7B2C;&#x51E0;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;num&#x4ECE;1&#x5F00;&#x59CB;&#xFF0C;num&#x4E3A;0&#x65F6;&#x8868;&#x793A;Shell&#x811A;&#x672C;&#x540D;&#x3002;</p>
+<h5 id="3&#x5E38;&#x7528;&#x7CFB;&#x7EDF;&#x7EA7;&#x53D8;&#x91CF;">3.&#x5E38;&#x7528;&#x7CFB;&#x7EDF;&#x7EA7;&#x53D8;&#x91CF;</h5>
+<table>
+<thead>
+<tr>
+<th>&#x53D8;&#x91CF;</th>
+<th>&#x542B;&#x4E49;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>$#</code></td>
+<td>&#x53C2;&#x6570;&#x4E2A;&#x6570;</td>
+</tr>
+<tr>
+<td><code>$*</code>,<code>$@</code></td>
+<td>&#x5168;&#x90E8;&#x53C2;&#x6570;</td>
+</tr>
+<tr>
+<td><code>$?</code></td>
+<td>&#x547D;&#x4EE4;&#x884C;&#x8FD4;&#x56DE;&#x503C;&#xFF08;&#x6B63;&#x5E38;0&#xFF0C;&#x5F02;&#x5E38;&#x975E;0)</td>
+</tr>
+</tbody>
+</table>
+<h5 id="4if&#x6761;&#x4EF6;&#x8BED;&#x53E5;">4.if&#x6761;&#x4EF6;&#x8BED;&#x53E5;</h5>
+<p>dev.sh&#xFF1A;</p>
+<pre><code class="lang-sh"><span class="hljs-meta">#! /bin/sh</span>
+<span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$1</span> &gt; 0 ]]; <span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;greater than 0&quot;</span>
+<span class="hljs-keyword">elif</span> [[ <span class="hljs-variable">$1</span> &lt; 0 ]]; <span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;less than 0&quot;</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;equal to 0&quot;</span>
+<span class="hljs-keyword">fi</span>
+</code></pre>
+<p><code>elif</code>&#x4EE3;&#x8868;elseif&#xFF0C;<code>if</code>&#x5FC5;&#x987B;&#x8981;&#x4EE5;<code>fi</code>&#x8FDB;&#x884C;&#x7ED3;&#x5C3E;&#x95ED;&#x5408;&#x3002;&#x5176;&#x4E2D;<code>[]</code>&#x4E5F;&#x53EF;&#x4EE5;&#x7528;<code>()</code>&#x4EE3;&#x66FF;&#xFF0C;&#x4F46;&#x5FC5;&#x987B;&#x90FD;&#x6709;&#x4E24;&#x5BF9;&#x624D;&#x80FD;&#x5F62;&#x6210;&#x6761;&#x4EF6;&#x5224;&#x65AD;&#x8868;&#x8FBE;&#x5F0F;&#x3002;</p>
+<h5 id="5for&#x5FAA;&#x73AF;">5.for&#x5FAA;&#x73AF;</h5>
+<p>dev.sh&#xFF1A;</p>
+<pre><code class="lang-sh"><span class="hljs-meta">#! /bin/sh</span>
+<span class="hljs-keyword">for</span> (( i = 0;i &lt; 5;i++ )); <span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-variable">$i</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> 1 2 3 4 5; <span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-variable">$j</span>
+<span class="hljs-keyword">done</span>
+</code></pre>
+<p>&#x4E24;&#x79CD;&#x5199;&#x6CD5;&#x90FD;&#x884C;&#xFF0C;&#x9002;&#x7528;&#x4E8E;&#x4E0D;&#x540C;&#x7684;&#x60C5;&#x51B5;&#x3002;</p>
+<h5 id="6while&#x5FAA;&#x73AF;">6.while&#x5FAA;&#x73AF;</h5>
+<p>dev.sh&#xFF1A;</p>
+<pre><code class="lang-sh"><span class="hljs-meta">#! /bin/sh</span>
+i=1
+<span class="hljs-keyword">while</span> [ <span class="hljs-variable">$i</span> -le 3 ]; <span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-variable">$i</span>
+  i=`expr <span class="hljs-variable">$i</span> + 1`
+<span class="hljs-keyword">done</span>
+</code></pre>
+<p>&#x8F93;&#x51FA;&#xFF1A;</p>
+<p>1
+2
+3</p>
+<p>&#x8FD9;&#x91CC;&#x5F97;&#x6CE8;&#x610F;&#xFF1A;<code>[ $i -le 3]</code>&#x7B49;&#x4EF7;&#x4E8E;<code>(( $i &lt;= 3 ))</code>&#x3002;</p>
+<h5 id="7case&#x8BED;&#x53E5;">7.case&#x8BED;&#x53E5;</h5>
+<p>dev.sh&#xFF1A;</p>
+<pre><code class="lang-sh"><span class="hljs-meta">#! /bin/sh</span>
+<span class="hljs-keyword">case</span> <span class="hljs-variable">$1</span> <span class="hljs-keyword">in</span>
+  <span class="hljs-string">&quot;a&quot;</span>) <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;this is a&quot;</span>;;
+  <span class="hljs-string">&quot;b&quot;</span>) <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;this is b&quot;</span>;;
+  <span class="hljs-string">&quot;c&quot;</span>) <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;this is c&quot;</span>;;
+  *) <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;i do not konw&quot;</span>;;
+<span class="hljs-keyword">esac</span>
+</code></pre>
+<p>case&#x8BED;&#x53E5;&#x76F8;&#x5F53;&#x4E8E;&#x5176;&#x4ED6;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x7684;switch case&#xFF0C;&#x5B83;&#x4EE5;<code>esac</code>&#x4F5C;&#x4E3A;&#x95ED;&#x5408;&#x7ED3;&#x5C3E;&#xFF0C;&#x6BCF;&#x4E00;&#x4E2A;case&#x7684;&#x90FD;&#x9700;&#x8981;&#x7528;<code>)</code>&#x5305;&#x88F9;&#xFF0C;<code>*)</code>&#x76F8;&#x5F53;&#x4E8E;default&#xFF0C;command&#x8C03;&#x7528;&#x7ED3;&#x675F;&#x540E;&#x6709;&#x4E24;&#x4E2A;<code>;;</code>&#xFF0C;&#x7F3A;&#x4E00;&#x4E0D;&#x53EF;&#x3002;</p>
+<h5 id="8debug">8.debug</h5>
+<p>dev.sh&#xFF1A;</p>
+<pre><code class="lang-sh"><span class="hljs-meta">#! /bin/sh</span>
+total=`expr <span class="hljs-variable">$1</span> + <span class="hljs-variable">$2</span>`
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;total: <span class="hljs-variable">$total</span>&quot;</span>
+</code></pre>
+<p>-x &#x8C03;&#x8BD5;&#xFF1A;</p>
+<pre><code class="lang-sh">sh -x dev.sh 1 2
+</code></pre>
+<p>&#x8F93;&#x51FA;&#xFF1A;</p>
+<pre><code class="lang-sh">++ expr 1 + 2
++ total=3
++ <span class="hljs-built_in">echo</span> <span class="hljs-string">&apos;total: 3&apos;</span>
+total: 3
+</code></pre>
+<p>-v &#x8C03;&#x8BD5;&#xFF1A;</p>
+<pre><code class="lang-sh">sh -v dev.sh 1 2
+</code></pre>
+<p>&#x8F93;&#x51FA;&#xFF1A;</p>
+<pre><code class="lang-sh"><span class="hljs-meta">#! /bin/sh</span>
+total=`expr <span class="hljs-variable">$1</span> + <span class="hljs-variable">$2</span>`
+expr <span class="hljs-variable">$1</span> + <span class="hljs-variable">$2</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;total: <span class="hljs-variable">$total</span>&quot;</span>
+total: 3
+</code></pre>
+<p>&#x4E0D;&#x96BE;&#x770B;&#x51FA;&#xFF0C;-x&#x8C03;&#x8BD5;&#x53EF;&#x4EE5;&#x6253;&#x5370;&#x8F93;&#x5165;&#x53D8;&#x91CF;&#xFF0C;-v&#x8FB9;&#x6267;&#x884C;&#x811A;&#x672C;&#x8FB9;&#x8FDB;&#x884C;&#x8F93;&#x51FA;&#xFF0C;&#x8FD8;&#x6709;-n&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x68C0;&#x67E5;&#x8BED;&#x6CD5;&#x9519;&#x8BEF;&#x3002;</p>
+<h5 id="9function">9.function</h5>
+<p>dev.sh&#xFF1A;</p>
+<pre><code class="lang-sh"><span class="hljs-meta">#! /bin/sh</span>
+<span class="hljs-function"><span class="hljs-title">hello</span></span>()
+{
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;hello: <span class="hljs-variable">$1</span>&quot;</span>
+}
+
+hello <span class="hljs-variable">$1</span>
+</code></pre>
+<p>&#x8C03;&#x7528;&#xFF1A;</p>
+<pre><code class="lang-sh">dev.sh Mr.fly
+</code></pre>
+<p>&#x8F93;&#x51FA;&#xFF1A;</p>
+<p>hello: Mr.fly</p>
 
                                 
                                 </section>
@@ -233,7 +346,7 @@ who
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Shell篇","level":"1.1.2","depth":2,"previous":{"title":"Linux篇","level":"1.1.1","depth":2,"path":"Linux/常用命令总结.md","ref":"Linux/常用命令总结.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Shell/shell入门.md","mtime":"2016-08-29T14:42:57.000Z","type":"markdown"},"gitbook":{"version":"3.1.1","time":"2016-08-29T14:17:54.929Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Shell篇","level":"1.1.2","depth":2,"previous":{"title":"Linux篇","level":"1.1.1","depth":2,"path":"Linux/常用命令总结.md","ref":"Linux/常用命令总结.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Shell/shell入门.md","mtime":"2016-08-30T13:49:00.000Z","type":"markdown"},"gitbook":{"version":"3.1.1","time":"2016-08-30T05:10:58.013Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
