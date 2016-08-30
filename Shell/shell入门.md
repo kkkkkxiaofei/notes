@@ -91,4 +91,19 @@ done
 2
 3
 
-这里得注意：`[ $i -le 3]`等价于`(( $i <= 3 ))`
+这里得注意：`[ $i -le 3]`等价于`(( $i <= 3 ))`。
+
+##### 7.case语句
+
+dev.sh：
+
+```sh
+#! /bin/sh
+case $1 in
+  "a") echo "this is a";;
+  "b") echo "this is b";;
+  "c") echo "this is c";;
+esac
+```
+
+case语句相当于其他编程语言的switch case，它以`esac`作为闭合结尾，每一个case的都需要用`)`包裹，并且command调用结束后又两个`;;`。
