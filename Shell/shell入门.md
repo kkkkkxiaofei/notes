@@ -175,3 +175,31 @@ dev.sh Mr.fly
 输出：
 
 hello: Mr.fly
+
+##### 10.set文件
+
+data.md：
+
+```sh
+this is a document...
+```
+
+调用：
+
+```sh
+sed '' data.md > newdata.md
+```
+
+查看newdata：
+
+this is a document...
+
+`sed {expression} {file}`可以利用一个表达式，在不打开文件的情况下编辑文件。上述Shell就是利用sed读取data.md中的内容后创建一个新的文件newdata.md，并将内容输入进去。当然这里还可以用正则去匹配执行，如将里面的所有小写字母全部替换为`-`:
+
+```sh
+sed '/[a-z]/s//-/g' data.md > newdata.md
+```
+
+查看newdata：
+
+---- -- - --------...
