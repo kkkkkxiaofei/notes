@@ -234,3 +234,16 @@ wc dev.sh
 
 `test [expression]` 或 `[[ expression ]]`
 
+##### 13.find
+
+寻找html文件：
+
+```
+find . -name '*.html'
+```
+
+寻找project文件夹：
+
+```
+find project -type d
+```
