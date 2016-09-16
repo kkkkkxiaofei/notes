@@ -307,7 +307,67 @@ hello <span class="hljs-variable">$1</span>
 </code></pre>
 <p>&#x8F93;&#x51FA;&#xFF1A;</p>
 <p>hello: Mr.fly</p>
-
+<h5 id="10sed&#x6587;&#x4EF6;">10.sed&#x6587;&#x4EF6;</h5>
+<p>data.md&#xFF1A;</p>
+<pre><code class="lang-sh">this is a document
+</code></pre>
+<p>&#x8C03;&#x7528;&#xFF1A;</p>
+<pre><code class="lang-sh">sed <span class="hljs-string">&apos;&apos;</span> data.md &gt; newdata.md
+</code></pre>
+<p>&#x67E5;&#x770B;newdata&#xFF1A;</p>
+<p>this is a document</p>
+<p><code>sed {expression} {file}</code>&#x53EF;&#x4EE5;&#x5229;&#x7528;&#x4E00;&#x4E2A;&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x5728;&#x4E0D;&#x6253;&#x5F00;&#x6587;&#x4EF6;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x7F16;&#x8F91;&#x6587;&#x4EF6;&#x3002;&#x4E0A;&#x8FF0;Shell&#x5C31;&#x662F;&#x5229;&#x7528;sed&#x8BFB;&#x53D6;data.md&#x4E2D;&#x7684;&#x5185;&#x5BB9;&#x540E;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x6587;&#x4EF6;newdata.md&#xFF0C;&#x5E76;&#x5C06;&#x5185;&#x5BB9;&#x8F93;&#x5165;&#x8FDB;&#x53BB;&#x3002;&#x5F53;&#x7136;&#x8FD9;&#x91CC;&#x8FD8;&#x53EF;&#x4EE5;&#x7528;&#x6B63;&#x5219;&#x53BB;&#x5339;&#x914D;&#x6267;&#x884C;&#xFF0C;&#x5982;&#x5C06;&#x91CC;&#x9762;&#x7684;&#x6240;&#x6709;&#x5C0F;&#x5199;&#x5B57;&#x6BCD;&#x5168;&#x90E8;&#x66FF;&#x6362;&#x4E3A;<code>-</code>:</p>
+<pre><code class="lang-sh">sed <span class="hljs-string">&apos;/[a-z]/s//-/g&apos;</span> data.md &gt; newdata.md
+</code></pre>
+<p>&#x67E5;&#x770B;newdata&#xFF1A;</p>
+<hr>
+<h5 id="11wc&#x7EDF;&#x8BA1;">11.wc&#x7EDF;&#x8BA1;</h5>
+<pre><code class="lang-sh">wc dev.sh
+</code></pre>
+<p>&#x8F93;&#x51FA;&#xFF1A;</p>
+<p>45     169     992 dev.sh</p>
+<p>&#x5206;&#x522B;&#x662F;: &#x884C;&#x6570;(-l) &#x5B57;&#x6570;(-w) &#x5B57;&#x8282;&#x6570;(-c)</p>
+<h5 id="12posix&#x7684;&#x7ED3;&#x675F;&#x72B6;&#x6001;">12.POSIX&#x7684;&#x7ED3;&#x675F;&#x72B6;&#x6001;</h5>
+<p>&#x901A;&#x5E38;&#x4E00;&#x4E2A;shell&#x547D;&#x4EE4;&#x7ED3;&#x675F;&#x540E;&#x4F1A;&#x6709;&#x4E00;&#x4E2A;&#x8FD4;&#x56DE;&#x503C;&#xFF0C;&#x7528;<code>$?</code>&#x8BBF;&#x95EE;&#xFF0C;&#x6539;&#x503C;&#x6709;&#x4EE5;&#x4E0B;&#x51E0;&#x79CD;&#x60C5;&#x51B5;:</p>
+<table>
+<thead>
+<tr>
+<th>&#x503C;</th>
+<th>&#x542B;&#x4E49;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>&#x547D;&#x4EE4;&#x6B63;&#x5E38;&#x9000;&#x51FA;</td>
+</tr>
+<tr>
+<td><code>1-125</code></td>
+<td>&#x547D;&#x4EE4;&#x4E3A;&#x6B63;&#x5E38;&#x9000;&#x51FA;&#xFF0C;&#x5177;&#x4F53;&#x7684;&#x503C;&#x662F;&#x7531;&#x5BF9;&#x5E94;&#x7684;&#x7A0B;&#x5E8F;&#x81EA;&#x5B9A;&#x4E49;&#x8FD4;&#x56DE;</td>
+</tr>
+<tr>
+<td><code>126</code></td>
+<td>&#x547D;&#x4EE4;&#x627E;&#x5230;&#x4E86;&#xFF0C;&#x4F46;&#x65E0;&#x6CD5;&#x6267;&#x884C;</td>
+</tr>
+<tr>
+<td><code>127</code></td>
+<td>&#x547D;&#x4EE4;&#x627E;&#x4E0D;&#x5230;</td>
+</tr>
+<tr>
+<td><code>&gt;128</code></td>
+<td>&#x547D;&#x4EE4;&#x56E0;&#x6536;&#x5230;&#x4FE1;&#x53F7;&#x800C;&#x6B7B;&#x4EA1;</td>
+</tr>
+</tbody>
+</table>
+<h5 id="12test&#x547D;&#x4EE4;">12.test&#x547D;&#x4EE4;</h5>
+<p>&#x5199;shell&#x65F6;&#x5E38;&#x5E38;&#x4F1A;&#x7528;&#x5230;&#x5224;&#x65AD;&#xFF0C;&#x4EE5;<code>[]</code>&#x4E3A;&#x4F8B;&#x5B50;&#xFF0C;&#x6709;&#x65F6;&#x4F1A;&#x7528;&#x5230;&#x4E24;&#x5BF9;&#xFF0C;&#x6709;&#x65F6;&#x53EA;&#x7528;&#x5230;&#x4E00;&#x5BF9;&#xFF0C;&#x5176;&#x5B9E;&#x4E00;&#x5BF9;<code>[]</code>&#x65F6;&#x91CC;&#x9762;&#x5FC5;&#x5B9A;&#x5185;&#x542B;&#x4E86;test&#x5224;&#x65AD;&#xFF0C;test&#x5224;&#x65AD;&#x8BED;&#x6CD5;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p><code>test [expression]</code> &#x6216; <code>[[ expression ]]</code></p>
+<h5 id="13find">13.find</h5>
+<p>&#x5BFB;&#x627E;html&#x6587;&#x4EF6;&#xFF1A;</p>
+<pre><code>find . -name &apos;*.html&apos;
+</code></pre><p>&#x5BFB;&#x627E;project&#x6587;&#x4EF6;&#x5939;&#xFF1A;</p>
+<pre><code>find project -type d
+</code></pre>
                                 
                                 </section>
                             
@@ -346,7 +406,7 @@ hello <span class="hljs-variable">$1</span>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Shell篇","level":"1.1.2","depth":2,"previous":{"title":"Linux篇","level":"1.1.1","depth":2,"path":"Linux/常用命令总结.md","ref":"Linux/常用命令总结.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Shell/shell入门.md","mtime":"2016-08-30T13:49:00.000Z","type":"markdown"},"gitbook":{"version":"3.1.1","time":"2016-08-30T05:10:58.013Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Shell篇","level":"1.1.2","depth":2,"previous":{"title":"Linux篇","level":"1.1.1","depth":2,"path":"Linux/常用命令总结.md","ref":"Linux/常用命令总结.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Shell/shell入门.md","mtime":"2016-09-16T03:29:31.000Z","type":"markdown"},"gitbook":{"version":"3.1.1","time":"2016-09-16T02:18:07.583Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
