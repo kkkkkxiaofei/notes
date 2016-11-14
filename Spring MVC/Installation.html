@@ -2,7 +2,7 @@
 <!DOCTYPE HTML>
 <html lang="" >
     <head>
-        <title>Linux · GitBook</title>
+        <title>Spring MVC · GitBook</title>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
@@ -57,10 +57,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../Shell/shell入门.html" />
+    <link rel="next" href="../ECMAScript/ES2016 and ES2017.html" />
     
     
-    <link rel="prev" href="../" />
+    <link rel="prev" href="../Shell/shell入门.html" />
     
 
     </head>
@@ -103,9 +103,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="1.1.1" data-path="常用命令总结.html">
+        <li class="chapter " data-level="1.1.1" data-path="../Linux/常用命令总结.html">
             
-                <a href="常用命令总结.html">
+                <a href="../Linux/常用命令总结.html">
             
                     
                     Linux
@@ -129,9 +129,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.3" data-path="../Spring MVC/Installation.html">
+        <li class="chapter active" data-level="1.1.3" data-path="Installation.html">
             
-                <a href="../Spring MVC/Installation.html">
+                <a href="Installation.html">
             
                     
                     Spring MVC
@@ -190,7 +190,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Linux</a>
+        <a href=".." >Spring MVC</a>
     </h1>
 </div>
 
@@ -205,8 +205,29 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h5 id="1&#x67E5;&#x770B;&#x7AEF;&#x53E3;&#x5360;&#x7528;">1.&#x67E5;&#x770B;&#x7AEF;&#x53E3;&#x5360;&#x7528;</h5>
-<pre><code class="lang-sh">lsof -i:port
+                                <h5 id="1&#x5B89;&#x88C5;maven">1.&#x5B89;&#x88C5;Maven</h5>
+<ul>
+<li>Check enviroment variable value</li>
+</ul>
+<pre><code class="lang-sh"><span class="hljs-built_in">echo</span> <span class="hljs-variable">$JAVA_HOME</span>
+/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home
+</code></pre>
+<ul>
+<li>Adding to PATH(edit .zshrc or .bashrc)</li>
+</ul>
+<pre><code class="lang-sh"><span class="hljs-built_in">export</span> PATH=/opt/apache-maven-3.3.9/bin:<span class="hljs-variable">$PATH</span>
+</code></pre>
+<ul>
+<li>Test mvn CLI</li>
+</ul>
+<pre><code class="lang-sh">mvn -v
+
+Apache Maven 3.3.3 (7994120775791599e205a5524ec3e0dfe41d4a06; 2015-04-22T04:57:37-07:00)
+Maven home: /opt/apache-maven-3.3.3
+Java version: 1.8.0_45, vendor: Oracle Corporation
+Java home: /Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home/jre
+Default locale: en_US, platform encoding: UTF-8
+OS name: <span class="hljs-string">&quot;mac os x&quot;</span>, version: <span class="hljs-string">&quot;10.8.5&quot;</span>, arch: <span class="hljs-string">&quot;x86_64&quot;</span>, family: <span class="hljs-string">&quot;mac&quot;</span>
 </code></pre>
 
                                 
@@ -235,12 +256,12 @@
 
             
                 
-                <a href="../" class="navigation navigation-prev " aria-label="Previous page: 写在前面">
+                <a href="../Shell/shell入门.html" class="navigation navigation-prev " aria-label="Previous page: Shell">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="../Shell/shell入门.html" class="navigation navigation-next " aria-label="Next page: Shell">
+                <a href="../ECMAScript/ES2016 and ES2017.html" class="navigation navigation-next " aria-label="Next page: ECMAScript">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -251,7 +272,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Linux","level":"1.1.1","depth":2,"next":{"title":"Shell","level":"1.1.2","depth":2,"path":"Shell/shell入门.md","ref":"Shell/shell入门.md","articles":[]},"previous":{"title":"写在前面","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[{"title":"Linux","level":"1.1.1","depth":2,"path":"Linux/常用命令总结.md","ref":"Linux/常用命令总结.md","articles":[]},{"title":"Shell","level":"1.1.2","depth":2,"path":"Shell/shell入门.md","ref":"Shell/shell入门.md","articles":[]},{"title":"Spring MVC","level":"1.1.3","depth":2,"path":"Spring MVC/Installation.md","ref":"Spring MVC/Installation.md","articles":[]},{"title":"ECMAScript","level":"1.1.4","depth":2,"path":"ECMAScript/ES2016 and ES2017.md","ref":"ECMAScript/ES2016 and ES2017.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Linux/常用命令总结.md","mtime":"2016-11-08T12:53:30.000Z","type":"markdown"},"gitbook":{"version":"3.1.1","time":"2016-11-14T15:13:49.321Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Spring MVC","level":"1.1.3","depth":2,"next":{"title":"ECMAScript","level":"1.1.4","depth":2,"path":"ECMAScript/ES2016 and ES2017.md","ref":"ECMAScript/ES2016 and ES2017.md","articles":[]},"previous":{"title":"Shell","level":"1.1.2","depth":2,"path":"Shell/shell入门.md","ref":"Shell/shell入门.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Spring MVC/Installation.md","mtime":"2016-11-08T12:58:06.000Z","type":"markdown"},"gitbook":{"version":"3.1.1","time":"2016-11-14T15:13:49.321Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
