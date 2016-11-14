@@ -1,4 +1,3 @@
-gitbook build
 cp -r ./_book ~/Desktop
 git co gh-pages
 cp -r ~/Desktop/_book/* . 
