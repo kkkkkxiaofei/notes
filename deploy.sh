@@ -8,3 +8,4 @@ git add .
 git ci -am "deploy@${date_time}-${version}"
 git push origin gh-pages
 rm -rf ~/Desktop/_book
+git co master
