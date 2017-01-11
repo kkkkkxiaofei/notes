@@ -8,7 +8,8 @@
   - Vim
     - [初级篇](Vim/Vim使用总结-初级篇.md)
     - [中级篇](Vim/Vim使用总结-中级篇.md)
-  - Spring MVC
-    - [Installation](Spring MVC/Installation.md)
+  - Spring Cloud
+    - [Installation](Spring Cloud/Installation.md)
+    - [Eureka Config](Spring Cloud/Config.md)
   - ECMAScript
     - [ECMAScript/ES2016 and ES2017](ECMAScript/ES2016 and ES2017.md)
