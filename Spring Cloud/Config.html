@@ -2,7 +2,7 @@
 <!DOCTYPE HTML>
 <html lang="" >
     <head>
-        <title>常用命令总结 · GitBook</title>
+        <title>Eureka Config · GitBook</title>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
@@ -57,6 +57,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
+    <link rel="next" href="Zuul.html" />
+    
+    
+    <link rel="prev" href="Installation.html" />
     
 
     </head>
@@ -113,9 +117,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="1.1.1.1" data-path="常用命令总结.html">
+        <li class="chapter " data-level="1.1.1.1" data-path="../Linux/常用命令总结.html">
             
-                <a href="常用命令总结.html">
+                <a href="../Linux/常用命令总结.html">
             
                     
                     常用命令总结
@@ -222,9 +226,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.1.4.1" data-path="../Spring Cloud/Installation.html">
+        <li class="chapter " data-level="1.1.4.1" data-path="Installation.html">
             
-                <a href="../Spring Cloud/Installation.html">
+                <a href="Installation.html">
             
                     
                     Installation
@@ -235,9 +239,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.4.2" data-path="../Spring Cloud/Config.html">
+        <li class="chapter active" data-level="1.1.4.2" data-path="Config.html">
             
-                <a href="../Spring Cloud/Config.html">
+                <a href="Config.html">
             
                     
                     Eureka Config
@@ -248,9 +252,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.4.3" data-path="../Spring Cloud/Zuul.html">
+        <li class="chapter " data-level="1.1.4.3" data-path="Zuul.html">
             
-                <a href="../Spring Cloud/Zuul.html">
+                <a href="Zuul.html">
             
                     
                     Eureka Zuul
@@ -333,7 +337,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >常用命令总结</a>
+        <a href=".." >Eureka Config</a>
     </h1>
 </div>
 
@@ -348,9 +352,46 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h5 id="1&#x67E5;&#x770B;&#x7AEF;&#x53E3;&#x5360;&#x7528;">1.&#x67E5;&#x770B;&#x7AEF;&#x53E3;&#x5360;&#x7528;</h5>
-<pre><code class="lang-sh">lsof -i:port
-</code></pre>
+                                <h1 id="introduction">Introduction</h1>
+<p>This <a href="https://github.com/kkkkkxiaofei/Spring-Cloud/tree/master/demo-for-config" target="_blank">demo</a> is the basic tutorial for &quot;Config Server/Client&quot;, and the usage of the services is below:</p>
+<ul>
+<li><code>eureka-server</code></li>
+</ul>
+<p>The Eureka server to discovery other service.</p>
+<ul>
+<li><code>config-server</code></li>
+</ul>
+<p>It&apos;s a Eureka client as well as config server, when start, it will firstly connect Eureka to be one of the cluster and then retrieve all config in config-repo, and listen on its port to wait other config client to connect.</p>
+<ul>
+<li><code>config-repo</code></li>
+</ul>
+<p>Store all config files in Github Repo.</p>
+<ul>
+<li><code>config-client</code></li>
+</ul>
+<p>It&apos;s a Eureka client as well as config client, it will start by getting config info from config-server.</p>
+<ul>
+<li><code>compute-servcie</code></li>
+</ul>
+<p>Just for test, add more Eureka client.</p>
+<h1 id="how-to-demo">How To Demo</h1>
+<ul>
+<li><p>1.<code>mvn spring-boot:run</code> to start <code>eureka-server</code>, lisenting on 1111</p>
+</li>
+<li><p>2.Start config-server like above. </p>
+</li>
+</ul>
+<p>It will connect <code>eureka-server</code>, and then fetch the info from <code>config-repo</code> on Github. After successfully start up, you can try <code>http://localhost:7001/env</code> or <code>http://localhost:7001/didispace/dev</code> to see the detailed or specified config info.
+The mapping relationship is <code>/{application}/{profile}[/{label}]</code>, and default label is <code>master</code>.</p>
+<ul>
+<li>3.Start config-client</li>
+</ul>
+<p>It will successfully connect the <code>eureka-server</code>: Some configs are defined in <code>bootstrap.properties</code> to connect <code>config-server</code>, but nothing for <code>eureka-server</code>. Because it can use this config info to find the specified detailed config info from <code>config-sever</code>. In this case, <code>config-server</code> has fetched the config of <code>dev</code> label in <code>repo-config</code>, it is defined in <code>didispace-dev.properties</code> </p>
+<ul>
+<li>4.It&apos;s up for you to start <code>compute-service</code></li>
+</ul>
+<h1 id="referrence">Referrence</h1>
+<p><a href="http://blog.didispace.com/springcloud4" target="_blank">Thanks for this blog</a></p>
 
                                 
                                 </section>
@@ -378,6 +419,14 @@
 
             
                 
+                <a href="Installation.html" class="navigation navigation-prev " aria-label="Previous page: Installation">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="Zuul.html" class="navigation navigation-next " aria-label="Next page: Eureka Zuul">
+                    <i class="fa fa-angle-right"></i>
+                </a>
                 
             
         
@@ -386,7 +435,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"常用命令总结","level":"1.1.1.1","depth":3,"next":{"title":"Shell","level":"1.1.2","depth":2,"ref":"","articles":[{"title":"shell入门","level":"1.1.2.1","depth":3,"path":"Shell/shell入门.md","ref":"Shell/shell入门.md","articles":[]}]},"previous":{"title":"Linux","level":"1.1.1","depth":2,"ref":"","articles":[{"title":"常用命令总结","level":"1.1.1.1","depth":3,"path":"Linux/常用命令总结.md","ref":"Linux/常用命令总结.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Linux/常用命令总结.md","mtime":"2016-11-17T12:17:15.000Z","type":"markdown"},"gitbook":{"version":"3.1.1","time":"2017-01-11T14:13:14.378Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Eureka Config","level":"1.1.4.2","depth":3,"next":{"title":"Eureka Zuul","level":"1.1.4.3","depth":3,"path":"Spring Cloud/Zuul.md","ref":"Spring Cloud/Zuul.md","articles":[]},"previous":{"title":"Installation","level":"1.1.4.1","depth":3,"path":"Spring Cloud/Installation.md","ref":"Spring Cloud/Installation.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Spring Cloud/Config.md","mtime":"2017-01-11T14:05:11.000Z","type":"markdown"},"gitbook":{"version":"3.1.1","time":"2017-01-11T14:13:14.378Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

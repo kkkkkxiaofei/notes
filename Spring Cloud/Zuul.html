@@ -2,7 +2,7 @@
 <!DOCTYPE HTML>
 <html lang="" >
     <head>
-        <title>常用命令总结 · GitBook</title>
+        <title>Eureka Zuul · GitBook</title>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
@@ -57,6 +57,8 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
+    
+    <link rel="prev" href="Config.html" />
     
 
     </head>
@@ -113,9 +115,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="1.1.1.1" data-path="常用命令总结.html">
+        <li class="chapter " data-level="1.1.1.1" data-path="../Linux/常用命令总结.html">
             
-                <a href="常用命令总结.html">
+                <a href="../Linux/常用命令总结.html">
             
                     
                     常用命令总结
@@ -222,9 +224,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.1.4.1" data-path="../Spring Cloud/Installation.html">
+        <li class="chapter " data-level="1.1.4.1" data-path="Installation.html">
             
-                <a href="../Spring Cloud/Installation.html">
+                <a href="Installation.html">
             
                     
                     Installation
@@ -235,9 +237,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.4.2" data-path="../Spring Cloud/Config.html">
+        <li class="chapter " data-level="1.1.4.2" data-path="Config.html">
             
-                <a href="../Spring Cloud/Config.html">
+                <a href="Config.html">
             
                     
                     Eureka Config
@@ -248,9 +250,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.4.3" data-path="../Spring Cloud/Zuul.html">
+        <li class="chapter active" data-level="1.1.4.3" data-path="Zuul.html">
             
-                <a href="../Spring Cloud/Zuul.html">
+                <a href="Zuul.html">
             
                     
                     Eureka Zuul
@@ -333,7 +335,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >常用命令总结</a>
+        <a href=".." >Eureka Zuul</a>
     </h1>
 </div>
 
@@ -348,9 +350,20 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h5 id="1&#x67E5;&#x770B;&#x7AEF;&#x53E3;&#x5360;&#x7528;">1.&#x67E5;&#x770B;&#x7AEF;&#x53E3;&#x5360;&#x7528;</h5>
-<pre><code class="lang-sh">lsof -i:port
-</code></pre>
+                                <h1 id="introduction">Introduction</h1>
+<p>This is the <a href="https://github.com/kkkkkxiaofei/Spring-Cloud/tree/master/demo-for-zuul" target="_blank">demo</a> to illustrate the workflow of zull.</p>
+<h1 id="how-to-demo">How To Demo</h1>
+<ul>
+<li>1.Start <code>eureka-server</code> and <code>compute-service</code> one by one. </li>
+</ul>
+<p>As you see, <code>compute-service</code> exposes a api for external invoking. We can get the result of <strong><em>From Service-A, Result is 23</em></strong> by send get request <code>http://localhost:2222/add?a=1&amp;b=22</code>. It doesn&apos;t make sense cause it has exposed the domain.</p>
+<ul>
+<li>2.Start <code>api-gateway</code>.</li>
+</ul>
+<p>This Eureka client roles as a gate way to redirect the address by mapping the route and serviceId you defined.</p>
+<p>api-gateway.domain:5555/api/<strong>  --&gt; compute-service.domain:2222/</strong></p>
+<p>api-gateway.domain:5555/api/add?a=1&amp;b=2&amp;accessToken=token  --&gt; compute-service.domain:2222/add?a=1&amp;b=2&amp;accessToken=token</p>
+<p>Also, you can define a custom filter to validate your request.</p>
 
                                 
                                 </section>
@@ -378,6 +391,10 @@
 
             
                 
+                <a href="Config.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Eureka Config">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
                 
             
         
@@ -386,7 +403,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"常用命令总结","level":"1.1.1.1","depth":3,"next":{"title":"Shell","level":"1.1.2","depth":2,"ref":"","articles":[{"title":"shell入门","level":"1.1.2.1","depth":3,"path":"Shell/shell入门.md","ref":"Shell/shell入门.md","articles":[]}]},"previous":{"title":"Linux","level":"1.1.1","depth":2,"ref":"","articles":[{"title":"常用命令总结","level":"1.1.1.1","depth":3,"path":"Linux/常用命令总结.md","ref":"Linux/常用命令总结.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Linux/常用命令总结.md","mtime":"2016-11-17T12:17:15.000Z","type":"markdown"},"gitbook":{"version":"3.1.1","time":"2017-01-11T14:13:14.378Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Eureka Zuul","level":"1.1.4.3","depth":3,"next":{"title":"ECMAScript","level":"1.1.5","depth":2,"ref":"","articles":[{"title":"ECMAScript/ES2016 and ES2017","level":"1.1.5.1","depth":3,"path":"ECMAScript/ES2016 and ES2017.md","ref":"ECMAScript/ES2016 and ES2017.md","articles":[]}]},"previous":{"title":"Eureka Config","level":"1.1.4.2","depth":3,"path":"Spring Cloud/Config.md","ref":"Spring Cloud/Config.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Spring Cloud/Zuul.md","mtime":"2017-01-11T14:08:57.000Z","type":"markdown"},"gitbook":{"version":"3.1.1","time":"2017-01-11T14:13:14.378Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
