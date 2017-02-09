@@ -14,5 +14,3 @@
     - [Eureka Zuul](Spring Cloud/Zuul.md)
   - ECMAScript
     - [ECMAScript/ES2016 and ES2017](ECMAScript/ES2016 and ES2017.md)
-  - Java8
-    - [函数式接口](Java8/function-interface.md) 
