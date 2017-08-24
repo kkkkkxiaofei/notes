@@ -2,7 +2,7 @@
 <!DOCTYPE HTML>
 <html lang="" >
     <head>
-        <title>初级篇 · GitBook</title>
+        <title>You don't know JavaScript · GitBook</title>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
@@ -57,8 +57,8 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="Vim使用总结-中级篇.html" />
     
+    <link rel="prev" href="ES2016 and ES2017.html" />
     
 
     </head>
@@ -179,9 +179,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="1.1.3.1" data-path="Vim使用总结-初级篇.html">
+        <li class="chapter " data-level="1.1.3.1" data-path="../Vim/Vim使用总结-初级篇.html">
             
-                <a href="Vim使用总结-初级篇.html">
+                <a href="../Vim/Vim使用总结-初级篇.html">
             
                     
                     初级篇
@@ -192,9 +192,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.3.2" data-path="Vim使用总结-中级篇.html">
+        <li class="chapter " data-level="1.1.3.2" data-path="../Vim/Vim使用总结-中级篇.html">
             
-                <a href="Vim使用总结-中级篇.html">
+                <a href="../Vim/Vim使用总结-中级篇.html">
             
                     
                     中级篇
@@ -282,9 +282,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.1.5.1" data-path="../ECMAScript/ES2016 and ES2017.html">
+        <li class="chapter " data-level="1.1.5.1" data-path="ES2016 and ES2017.html">
             
-                <a href="../ECMAScript/ES2016 and ES2017.html">
+                <a href="ES2016 and ES2017.html">
             
                     
                     ECMAScript/ES2016 and ES2017
@@ -295,9 +295,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.5.2" data-path="../ECMAScript/you-dont-know-javascript.html">
+        <li class="chapter active" data-level="1.1.5.2" data-path="you-dont-know-javascript.html">
             
-                <a href="../ECMAScript/you-dont-know-javascript.html">
+                <a href="you-dont-know-javascript.html">
             
                     
                     You don't know JavaScript
@@ -380,7 +380,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >初级篇</a>
+        <a href=".." >You don't know JavaScript</a>
     </h1>
 </div>
 
@@ -395,66 +395,79 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h4 id="1&#x6A21;&#x5F0F;">1.&#x6A21;&#x5F0F;</h4>
-<p>Vim&#x6709;&#x4E24;&#x79CD;&#x57FA;&#x672C;&#x6A21;&#x5F0F;&#xFF0C;&#x4E00;&#x79CD;&#x662F;<code>Normal</code>,&#x5728;&#x8FD9;&#x79CD;&#x6A21;&#x5F0F;&#x4E0B;&#x4F60;&#x53EF;&#x4EE5;&#x9AD8;&#x6548;&#x7684;&#x64CD;&#x4F5C;&#x6587;&#x672C;&#xFF1B;&#x53E6;&#x4E00;&#x79CD;&#x5219;&#x662F;<code>Insert</code>&#xFF0C;&#x6B64;&#x6A21;&#x5F0F;&#x4E0B;&#x53EF;&#x4EE5;&#x7F16;&#x8F91;&#x6587;&#x672C;&#x3002;</p>
-<h4 id="2&#x79FB;&#x52A8;&#x5149;&#x6807;">2.&#x79FB;&#x52A8;&#x5149;&#x6807;</h4>
-<ul>
-<li><code>h</code>,<code>j</code>,<code>k</code>,<code>l</code>&#x5206;&#x522B;&#x4E3A;&#x5DE6;&#x4E0B;&#x4E0A;&#x53F3;</li>
-<li><code>w</code>,<code>b</code>&#x5206;&#x522B;&#x4E3A;&#x540E;&#x4E00;&#x4E2A;&#x5355;&#x8BCD;&#x548C;&#x524D;&#x4E00;&#x4E2A;&#x5355;&#x8BCD;</li>
-<li><code>0</code>,<code>$</code>&#x5206;&#x522B;&#x4E3A;&#x884C;&#x5934;&#x548C;&#x884C;&#x5C3E;</li>
-<li><code>gg</code>,<code>G</code>&#x5206;&#x522B;&#x4E3A;&#x6587;&#x4EF6;&#x5F00;&#x5934;&#x548C;&#x6587;&#x4EF6;&#x7ED3;&#x5C3E;</li>
-<li><code>`.</code>&#x79FB;&#x52A8;&#x5149;&#x6807;&#x81F3;&#x4E0A;&#x6B21;&#x7F16;&#x8F91;&#x5904;</li>
-<li><code>%</code>&#x79FB;&#x52A8;&#x5149;&#x6807;&#x81F3;<code>(,{,[</code>&#x5904;</li>
-</ul>
-<h4 id="3&#x7F16;&#x8F91;">3.&#x7F16;&#x8F91;</h4>
-<h5 id="31&#x5220;&#x9664;">3.1&#x5220;&#x9664;</h5>
-<p>&#x5220;&#x9664;&#x7684;&#x547D;&#x4EE4;&#x4E3A;<code>d</code>,&#x7531;&#x6B64;&#x5C55;&#x5F00;&#x6709;&#x4EE5;&#x4E0B;&#x57FA;&#x672C;&#x529F;&#x80FD;&#xFF1A;</p>
-<ul>
-<li><code>dd</code>&#x5220;&#x9664;&#x4E00;&#x884C;</li>
-<li><code>dw</code>&#x5220;&#x9664;&#x4E00;&#x4E2A;&#x5355;&#x8BCD;</li>
-<li><code>d0</code>,<code>d$</code>&#x5220;&#x9664;&#x81F3;&#x884C;&#x5934;&#xFF0C;&#x5220;&#x9664;&#x81F3;&#x884C;&#x5C3E;</li>
-<li><code>dgg</code>,<code>dG</code></li>
-<li><code>x,X</code>&#x5411;&#x5DE6;&#x5220;&#x9664;&#x5B57;&#x7B26;&#xFF08;&#x53EF;&#x8FDE;&#x7EED;&#xFF09;</li>
-</ul>
-<p>&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;&#x5220;&#x9664;&#x7684;&#x57FA;&#x672C;&#x547D;&#x4EE4;&#x662F;&#x6709;&#x7531;<code>&#x5220;&#x9664;+&#x79FB;&#x52A8;</code>&#x7EC4;&#x5408;&#x51FA;&#x6765;&#x7684;&#xFF0C;&#x5341;&#x5206;&#x8868;&#x610F;&#xFF1B;&#x540C;&#x91CC;&#xFF0C;&#x6211;&#x4EEC;&#x4E5F;&#x6709;<code>d10d</code>,<code>d10d</code>,&#x53EF;&#x4EE5;&#x65B9;&#x4FBF;&#x5FEB;&#x901F;&#x5220;&#x9664;10&#x884C;&#x548C;10&#x4E2A;&#x5355;&#x8BCD;&#x3002;</p>
-<h5 id="32&#x63D2;&#x5165;">3.2&#x63D2;&#x5165;</h5>
-<ul>
-<li><code>i</code>&#x8FDB;&#x5165;<code>Insert</code>&#x6A21;&#x5F0F;</li>
-<li><code>o</code>&#x63D2;&#x5165;&#x65B0;&#x884C;&#x81F3;&#x4E0B;&#x4E00;&#x884C;&#x5E76;&#x8FDB;&#x5165;<code>Insert</code>&#x6A21;&#x5F0F;</li>
-<li><code>0</code>&#x63D2;&#x5165;&#x65B0;&#x884C;&#x81F3;&#x4E0A;&#x4E00;&#x884C;&#x5E76;&#x8FDB;&#x5165;<code>Insert</code>&#x6A21;&#x5F0F;</li>
-</ul>
-<p>&#x540C;&#x6837;&#xFF0C;&#x4F8B;&#x5982;<code>30iabc</code>&#x8FD9;&#x79CD;&#x63D2;&#x5165;30&#x4E2A;<code>abc</code>&#x7684;&#x64CD;&#x4F5C;&#x4E5F;&#x662F;&#x652F;&#x6301;&#x7684;&#x3002;</p>
-<h5 id="33&#x67E5;&#x627E;&#x4E0E;&#x66FF;&#x6362;">3.3&#x67E5;&#x627E;&#x4E0E;&#x66FF;&#x6362;</h5>
-<ul>
-<li><code>/text</code><strong><em>&#x6B63;&#x5411;</em></strong>&#x67E5;&#x627E;&#x5149;&#x6807;&#x540E;&#x7684;text&#xFF0C;<code>n</code>&#x4E3A;&#x4E0B;&#x4E00;&#x4E2A;&#xFF0C;<code>N</code>&#x4E3A;&#x4E0A;&#x4E00;&#x4E2A;</li>
-<li><code>?text</code><strong><em>&#x53CD;&#x5411;</em></strong>&#x67E5;&#x627E;&#x5149;&#x6807;&#x540E;&#x7684;text&#xFF0C;<code>n</code>&#x4E3A;&#x4E0B;&#x4E00;&#x4E2A;&#xFF0C;<code>N</code>&#x4E3A;&#x4E0A;&#x4E00;&#x4E2A;</li>
-<li><code>%s/text/replacement/g</code>&#xFF0C;&#x5728;<strong><em>&#x5168;&#x6587;&#x4EF6;</em></strong>&#x4E2D;&#x67E5;&#x627E;<code>text</code>&#x5E76;&#x4E14;&#x66FF;&#x6362;&#x4E3A;<code>replacement</code></li>
-<li><code>%s/text/replacement/gc</code>&#xFF0C;&#x5728;<strong><em>&#x5168;&#x6587;&#x4EF6;</em></strong>&#x4E2D;&#x67E5;&#x627E;<code>text</code>,&#x5728;&#x51C6;&#x5907;&#x66FF;&#x6362;&#x4E3A;<code>replacement</code>&#x65F6;&#x9700;&#x8981;&#x786E;&#x8BA4;</li>
-<li><code>r</code>&#x66FF;&#x6362;&#x5149;&#x6807;&#x5904;&#x7684;&#x5B57;&#x7B26;</li>
-<li><code>fcharacter</code>&#x5411;&#x540E;&#x67E5;&#x627E;&#x5B57;&#x7B26;</li>
-<li><code>*</code>,<code>#</code>&#x5411;&#x540E;/&#x5411;&#x524D;&#x67E5;&#x627E;&#x5F53;&#x524D;&#x5149;&#x6807;&#x51FA;&#x7684;&#x5355;&#x8BCD;</li>
-</ul>
-<p><strong><em>Note: &#x5982;&#x679C;&#x9700;&#x8981;&#x64A4;&#x9500;&#x7F16;&#x8F91;&#x5185;&#x5BB9;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;<code>u</code>,&#x82E5;&#x8981;&#x56DE;&#x6EDA;&#x64A4;&#x9500;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;<code>Ctrl + r</code></em></strong></p>
-<h4 id="4&#x590D;&#x5236;&#x4E0E;&#x7C98;&#x8D34;">4.&#x590D;&#x5236;&#x4E0E;&#x7C98;&#x8D34;</h4>
-<ul>
-<li><code>p</code>&#x590D;&#x5236;&#x5F53;&#x524D;&#x884C;&#x5230;&#x4E0B;&#x4E00;&#x884C;</li>
-<li><code>P</code>&#x590D;&#x5236;&#x5F53;&#x524D;&#x884C;&#x5230;&#x4E0A;&#x4E00;&#x884C;</li>
-<li><code>y</code>&#x5C06;&#x6240;&#x9009;&#x5185;&#x5BB9;&#x653E;&#x5165;&#x62F7;&#x8D1D;&#x7F13;&#x5B58;&#x533A;</li>
-</ul>
-<h4 id="5&#x53EF;&#x89C6;&#x5316;&#x6A21;&#x5F0F;">5.&#x53EF;&#x89C6;&#x5316;&#x6A21;&#x5F0F;</h4>
-<ul>
-<li><code>v</code>&#x9009;&#x4E2D;&#x5F53;&#x524D;&#x5B57;&#x7B26;&#x8FDB;&#x5165;&#x53EF;&#x89C6;&#x5316;&#x6A21;&#x5F0F;</li>
-<li><code>V</code>&#x9009;&#x4E2D;&#x5F53;&#x884C;&#x8FDB;&#x5165;&#x53EF;&#x89C6;&#x5316;&#x6A21;&#x5F0F;</li>
-<li><code>Ctrl-v</code>&#x8FDB;&#x5165;&#x53EF;&#x4EE5;&#x64CD;&#x4F5C;&#x591A;&#x5217;&#x7684;&#x53EF;&#x89C6;&#x5316;&#x6A21;&#x5F0F;&#xFF08;&#x5F88;&#x5B9E;&#x7528;&#xFF09;</li>
-</ul>
-<h4 id="6&#x4FDD;&#x5B58;&#x4E0E;&#x9000;&#x51FA;">6.&#x4FDD;&#x5B58;&#x4E0E;&#x9000;&#x51FA;</h4>
-<ul>
-<li><code>:w</code>&#x4FDD;&#x5B58;</li>
-<li><code>:q</code>&#x9000;&#x51FA;</li>
-<li><code>:q!</code>&#x5F3A;&#x5236;&#x9000;&#x51FA;</li>
-<li><code>:wq</code>,<code>x</code>&#x4FDD;&#x5B58;&#x5E76;&#x9000;&#x51FA;</li>
-<li><code>:e!</code>&#x653E;&#x5F03;&#x6240;&#x6709;&#x66F4;&#x6539;&#x6253;&#x5F00;&#x539F;&#x6587;&#x4EF6;</li>
-</ul>
+                                <h3 id="1&#x53D8;&#x91CF;&#x63D0;&#x5347;">1.&#x53D8;&#x91CF;&#x63D0;&#x5347;</h3>
+<p>&#x5148;&#x8003;&#x8651;&#x4EE5;&#x4E0B;&#x4EE3;&#x7801;(case1-1)&#xFF1A;</p>
+<pre><code>a = 1;
+var a;
+console.log(a);
+</code></pre><p>&#x5927;&#x90E8;&#x5206;&#x60C5;&#x51B5;&#xFF0C;&#x6211;&#x4EEC;&#x4F1A;&#x8BA4;&#x4E3A;<code>a = 1</code>&#xFF08;global&#xFF09;&#x4F1A;&#x88AB;<code>var a;</code>&#xFF08;&#x5C40;&#x90E8;&#xFF09;&#x8986;&#x76D6;&#x6389;&#xFF0C;&#x6700;&#x7EC8;&#x8F93;&#x51FA;<code>undefined</code>&#x3002;&#x7136;&#x800C;&#x7ED3;&#x679C;&#x662F;<code>1</code>&#x3002;</p>
+<p>&#x518D;&#x8003;&#x8651;&#x4EE5;&#x4E0B;&#x4EE3;&#x7801;(case1-2)&#xFF1A;</p>
+<pre><code>console.log(a);
+var a = 1;
+</code></pre><p>&#x5728;case1-1&#x7684;&#x57FA;&#x7840;&#x4E0A;&#xFF0C;&#x4F60;&#x662F;&#x4E0D;&#x662F;&#x8FD8;&#x4F1A;&#x8BA4;&#x4E3A;&#x4F1A;&#x8F93;&#x51FA;<code>1</code>&#xFF0C;&#x4EA6;&#x6216;&#x662F;&#x8BA4;&#x4E3A;<code>a</code>&#x6CA1;&#x6709;&#x5B9A;&#x4E49;&#x3002;&#x7136;&#x540E;&#x8F93;&#x51FA;&#x4E3A;<code>undefined</code>&#x3002;</p>
+<p>&#x89E3;&#x91CA;&#xFF1A;</p>
+<p>&#x5BF9;&#x4E8E;&#x53D8;&#x91CF;&#x7684;&#x58F0;&#x660E;&#x548C;&#x8D4B;&#x503C;&#x662F;&#x5728;&#x4E0D;&#x540C;&#x9636;&#x6BB5;&#x8FDB;&#x884C;&#x7684;&#xFF0C;&#x524D;&#x8005;&#x662F;&#x5728;&#x7F16;&#x8BD1;&#x671F;&#xFF0C;&#x800C;&#x540E;&#x8005;&#x662F;&#x5728;&#x8FD0;&#x884C;&#x671F;&#xFF0C;&#x4E8E;&#x662F;case1-1&#x5C31;&#x53D8;&#x6210;&#x4E86;&#xFF1A;</p>
+<pre><code>var a;
+a = 1;
+console.log(a);
+</code></pre><p>&#x800C;case1-2&#x53EF;&#x4EE5;&#x770B;&#x4F5C;&#xFF1A;</p>
+<pre><code>var a;
+console.log(a);
+a = 1;
+</code></pre><p><strong><em>Note: &#x8C28;&#x8BB0;&#xFF0C;&#x53D8;&#x91CF;&#x58F0;&#x660E;&#x5728;&#x524D;&#xFF0C;&#x8D4B;&#x503C;&#x5728;&#x540E;</em></strong></p>
+<p>case1-3:</p>
+<pre><code>foo();
+
+function foo() {
+    console.log( a ); // undefined
+    var a = 2;
+}
+</code></pre><p>&#x901A;&#x8FC7;&#x524D;&#x4E24;&#x4E2A;case&#xFF0C;&#x6211;&#x4EEC;&#x77E5;&#x9053;&#x53D8;&#x91CF;&#x63D0;&#x5347;&#x5728;&#x524D;&#xFF0C;&#x53EF;&#x4EE5;&#x5177;&#x4F53;&#x63D0;&#x5347;&#x591A;&#x524D;&#x5462;&#xFF1F;&#x5176;&#x5B9E;&#x5B83;&#x662F;&#x5728;&#x5F53;&#x524D;&#x4F5C;&#x7528;&#x57DF;&#x8FDB;&#x884C;&#x9876;&#x7AEF;&#x63D0;&#x5347;&#xFF0C;&#x5982;&#x5F53;&#x524D;<code>var a = 2</code>&#x662F;&#x5728;&#x65B9;&#x6CD5;&#x7684;&#x82B1;&#x62EC;&#x53F7;&#x5462;&#xFF0C;&#x5C5E;&#x4E8E;&#x8BE5;&#x8BE5;&#x65B9;&#x6CD5;&#x7684;&#x4F5C;&#x7528;&#x57DF;&#xFF0C;&#x5E76;&#x4E14;&#x63D0;&#x5347;&#x65F6;&#x5728;&#x5F53;&#x524D;&#x4F5C;&#x7528;&#x57DF;&#x7684;&#x6700;&#x9876;&#x7AEF;&#xFF0C;&#x5373;&#xFF1A;</p>
+<pre><code>foo();
+
+function foo() {
+  var a;
+    console.log( a ); // undefined
+    a = 2;
+}
+</code></pre><p>case1-4:</p>
+<pre><code>foo();
+
+var foo;
+
+function foo() {
+    console.log(1);
+}
+
+foo = function() {
+    console.log(2);
+};
+</code></pre><p>&#x4E00;&#x822C;&#x53D8;&#x91CF;&#x9700;&#x8981;&#x63D0;&#x5347;&#xFF0C;&#x65B9;&#x6CD5;&#x4E5F;&#x7B97;&#x662F;&#x53D8;&#x91CF;&#xFF0C;&#x800C;&#x4E14;&#x63D0;&#x5347;&#x5728;&#x6700;&#x524D;&#x9762;&#xFF1A;</p>
+<pre><code>function foo() {
+    console.log(1);
+}
+//var foo is ignored cause duplicated declaration
+foo();
+
+foo = function() {
+    console.log(2);
+};
+</code></pre><p>&#x81EA;&#x7136;&#x662F;&#x8F93;&#x51FA;<code>1</code>&#x3002;</p>
+<p>case1-5:</p>
+<pre><code>foo();
+
+function foo() {
+    console.log(1);
+}
+
+var foo = function() {
+    console.log(2);
+};
+
+function foo() {
+    console.log(3);
+}
+</code></pre><p>&#x7C7B;&#x4F3C;&#x7684;&#xFF0C;&#x6309;&#x7167;<code>&#x65B9;&#x6CD5;&#x58F0;&#x660E;&#x4F18;&#x5148;</code>&#x7684;&#x539F;&#x5219;&#xFF0C;<code>foo</code>&#x5728;&#x8C03;&#x7528;&#x4E4B;&#x524D;&#x5FC5;&#x7136;&#x662F;&#x5DF2;&#x7ECF;&#x58F0;&#x660E;&#x4E86;&#xFF0C;&#x4E14;&#x88AB;&#x540E;&#x8005;&#x8986;&#x76D6;&#xFF0C;&#x6545;&#x8F93;&#x51FA;<code>3</code>;</p>
 
                                 
                                 </section>
@@ -482,10 +495,10 @@
 
             
                 
-                
-                <a href="Vim使用总结-中级篇.html" class="navigation navigation-next navigation-unique" aria-label="Next page: 中级篇">
-                    <i class="fa fa-angle-right"></i>
+                <a href="ES2016 and ES2017.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: ECMAScript/ES2016 and ES2017">
+                    <i class="fa fa-angle-left"></i>
                 </a>
+                
                 
             
         
@@ -494,7 +507,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"初级篇","level":"1.1.3.1","depth":3,"next":{"title":"中级篇","level":"1.1.3.2","depth":3,"path":"Vim/Vim使用总结-中级篇.md","ref":"Vim/Vim使用总结-中级篇.md","articles":[]},"previous":{"title":"Vim","level":"1.1.3","depth":2,"ref":"","articles":[{"title":"初级篇","level":"1.1.3.1","depth":3,"path":"Vim/Vim使用总结-初级篇.md","ref":"Vim/Vim使用总结-初级篇.md","articles":[]},{"title":"中级篇","level":"1.1.3.2","depth":3,"path":"Vim/Vim使用总结-中级篇.md","ref":"Vim/Vim使用总结-中级篇.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Vim/Vim使用总结-初级篇.md","mtime":"2017-02-09T13:35:30.000Z","type":"markdown"},"gitbook":{"version":"3.1.1","time":"2017-08-23T11:35:28.185Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"You don't know JavaScript","level":"1.1.5.2","depth":3,"next":{"title":"Java8","level":"1.1.6","depth":2,"ref":"","articles":[{"title":"函数式接口","level":"1.1.6.1","depth":3,"path":"Java8/function-interface.md","ref":"Java8/function-interface.md","articles":[]}]},"previous":{"title":"ECMAScript/ES2016 and ES2017","level":"1.1.5.1","depth":3,"path":"ECMAScript/ES2016 and ES2017.md","ref":"ECMAScript/ES2016 and ES2017.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"ECMAScript/you-dont-know-javascript.md","mtime":"2017-08-23T12:10:53.000Z","type":"markdown"},"gitbook":{"version":"3.1.1","time":"2017-08-23T11:35:28.185Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
