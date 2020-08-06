@@ -139,3 +139,28 @@ csrf一般指A网站里有B网站的广告（第三方），正常情况下，A�
 `preventDefault`: 阻止默认行为，如a标签的跳转，checkbox的勾选等
 
 `stopPropagation`: 阻止冒泡
+
+### 5. new A() vs A()
+
+```
+function A(name) {
+  this.name = name;
+	return this;
+}
+
+let a1 = new A('Kelvin1');
+let a2 = A('Kelvin2');
+
+console.log(a1, a2);
+```
+
+对于a1: new关键字会创建当前实例，并指向this，若不返回结果则默认返回this。此外`a1 instanceof A`返回true，因为a1的原型链指向A的原型对象。
+
+对于a2: 必须显式的`return this`，否则返回undefined;此外由于在外部调用，则this默认指向window(browser)/global(node)，a2与A没有任何关系，必然也不是其实例；
+
+那么如果怎么让a2成为真正的A的实例呢：
+
+```
+let a2 = A.call({}, 'reall a2');
+a2.__prop__ = A.proptotype;
+```
