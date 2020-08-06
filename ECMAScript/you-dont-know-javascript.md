@@ -156,7 +156,7 @@ console.log(a1, a2);
 
 对于a1: new关键字会创建当前实例，并指向this，若不返回结果则默认返回this。此外`a1 instanceof A`返回true，因为a1的原型链指向A的原型对象。
 
-对于a2: 必须显式的`return this`，否则返回undefined;此外由于在外部调用，则this默认指向window(browser)/global(node)，a2与A没有任何关系，必然也不是其实例；
+对于a2: 必须显式的`return this`，否则返回undefined;此外由于在外部调用，则this默认指向window(browser)/global(node)，a2与A没有任何关系，必然也不是其实例, 它的原型链直接指向了Object的原型；
 
 那么如果怎么让a2成为真正的A的实例呢：
 
