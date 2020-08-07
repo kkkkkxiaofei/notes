@@ -164,3 +164,23 @@ console.log(a1, a2);
 let a2 = A.call({}, 'reall a2');
 a2.__prop__ = A.proptotype;
 ```
+
+### 6. Object.create(obj)
+
+Object.create会将新创建的对象的原型链指向obj，所以可以这样实现
+
+```
+function create(obj) {
+	function T() {}
+	T.prototype = obj;
+	return new T();
+}
+```
+
+因此，Object.create常常用在组合继承的方式里，类似
+
+```
+Man.prototype = Object.create(Person.prototype);
+```
+
+这样的话一旦执行new Man(), 该实例的原型链上必然可以找到基类构造器的原型对象，instanceof的话必然就是true了。
