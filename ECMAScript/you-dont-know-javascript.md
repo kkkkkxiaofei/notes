@@ -184,3 +184,9 @@ Man.prototype = Object.create(Person.prototype);
 ```
 
 这样的话一旦执行new Man(), 该实例的原型链上必然可以找到基类构造器的原型对象，instanceof的话必然就是true了。
+
+### 7. Object.defineProperty vs Proxy
+
+`Object.defineProperty`: ES6之前，实现对象属性监控的最佳手法，兼容IE，最大的弊端在于一次只能监控已有对象的一个属性，且无法监控数组。
+
+`Proxy`: ES6的产物，算是前者的enhancement，可监控数组变化，且捕捉的行为也比较多，直接捕获的是target本身，所以灵活性很强。（性能未知）
