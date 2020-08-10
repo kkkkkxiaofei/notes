@@ -154,7 +154,7 @@ let a2 = A('Kelvin2');
 console.log(a1, a2);
 ```
 
-对于a1: new关键字会创建当前实例，并指向this，若不返回结果则默认返回this。此外`a1 instanceof A`返回true，因为a1的原型链指向A的原型对象。
+对于a1: new关键字会寻找构造函数上原型对象里的constructor属性进行构建当前实例，并把当前对象指向this，若不返回结果则默认返回this。此外`a1 instanceof A`返回true，因为a1的原型链指向A的原型对象。
 
 对于a2: 必须显式的`return this`，否则返回undefined;此外由于在外部调用，则this默认指向window(browser)/global(node)，a2与A没有任何关系，必然也不是其实例, 它的原型链直接指向了Object的原型；
 
@@ -220,4 +220,35 @@ function throttle(fn, ms) {
 		}, ms);
 	}
 }
+```
+
+### 9. ES6的class继承
+
+例：基类为A，子类为B;
+
+若想实现继承，则b不但是B的实例，还得是A的实例，且b内含有A中的所有属性。
+
+- 1.b获取super的属性
+
+```
+function B(name) {
+	A.apply(this, arguments)
+}
+```
+
+- 2.让A的原型对象出现在b的原型链上
+
+```
+B.prototype = Object.create(A.prototype);
+```
+这里可得: `b.__proto__` -> B.prototype -> B.prototype.__proto__ -> `A.prototype`
+
+因此 `b instanceof A` 成立
+
+- 3.恢复b的构造器
+
+new B()时，默认会找寻B.prototype.constrcutor作为b的构造器，很显然已经被2步更改了，需要重置一下，使得`b instanceof B`也成立（这是底线哪@_@）
+
+```
+B.prototype.constructor = B;
 ```
