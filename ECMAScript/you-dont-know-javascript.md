@@ -252,3 +252,15 @@ new B()时，默认会找寻B.prototype.constrcutor作为b的构造器，很显�
 ```
 B.prototype.constructor = B;
 ```
+
+### 10. this指向问题
+
+直接调用函数: 非strict模式下是window;strict模式下为undefine。
+
+对象上调用: 调用对象
+
+call/apply/bind: 若第一个参数为null，在strict的模式下为undefine，非strict模式下会是window
+
+箭头函数：在调用处向上寻找作用域，若找不到则返回window
+
+事件：this指向事件绑定元素(target为事件触发元素，currentTarget才是事件绑定元素);
