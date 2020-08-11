@@ -255,12 +255,75 @@ B.prototype.constructor = B;
 
 ### 10. this指向问题
 
-直接调用函数: 非strict模式下是window;strict模式下为undefine。
+直接调用函数: 非strict模式下是window;strict模式下为undefined。
 
 对象上调用: 调用对象
 
-call/apply/bind: 若第一个参数为null，在strict的模式下为undefine，非strict模式下会是window
+call/apply/bind: 若第一个参数为null，在strict的模式下为undefined，非strict模式下会是window
 
 箭头函数：在调用处向上寻找作用域，若找不到则返回window
 
 事件：this指向事件绑定元素(target为事件触发元素，currentTarget才是事件绑定元素);
+
+
+### 11. async vs Promise
+
+若在一个方法内调用`await`，则必须显式的标注该方法为`aysnc`，这是最基本的用法。
+
+- 但执行异步方法时可以直接调用
+
+```
+let getData = () => Promise.reject('res');
+let fn = async () => await getData();
+fn();
+
+//Promise {<fulfilled>: "res"}
+```
+- 如果不在async里await呢
+
+```
+let fn = async () => 'async fn';
+fn();
+
+//Promise {<fulfilled>: "async fn"}
+```
+
+可以得出：async会返回一个promise，这个promise的结果就是await的结果，所以就算是await里抛了异常，那外部依然可以接住。
+
+- await后面的代码
+
+```
+let getData = () => Promise.reject('res');//1
+let fn = async () => {
+	await getData();
+	console.log('======after await=======');//2
+};
+fn();
+```
+
+此代码2处并不会打印，因为await就相当于隐式的return;
+
+可是我一不小心手误，将1处写为
+
+```
+let getData = () => { Promise.reject('res') };//1
+let fn = async () => {
+	await getData();
+	console.log('======after await=======');//2
+};
+fn();
+```
+这时2处是可以打印的，因为1处是一个没有返回值的普通函数；如果这里把1处内部花括号里
+
+显式return出去的话，那么就等同于上一个例子。
+
+可见对于await来说它会解析promise(async也是prmomise)，如果await后面不是promise，则正常执行。
+
+
+
+
+
+
+
+
+
