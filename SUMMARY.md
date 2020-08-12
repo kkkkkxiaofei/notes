@@ -17,9 +17,8 @@
   - Java8
     - [函数式接口](Java8/function-interface.md)
   - ECMAScript
-    - [ECMAScript/ES2016 and ES2017](ECMAScript/ES2016 and ES2017.md)
+    - [ECMAScript](ECMAScript/ES2016 and ES2017.md)
     - [你不知道的JavaScript](ECMAScript/you-dont-know-javascript.md)
-    - [你不知道的CSS](ECMAScript/you-dont-know-css.md)
   - HTML/CSS
     - [你不知道的HTML/CSS](HTML-CSS/you-dont-know-html-css.md)
   - React
@@ -37,4 +36,6 @@
     - [手动打造一个bundler](Webpack/bundler.md)
   - Babel
     - [你不知道的Babel](Babel/you-dont-know-babel.md)
+  - Algorithm
+    - [基本算法复习](Algorithm/basic.md)
   
