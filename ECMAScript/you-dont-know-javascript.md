@@ -369,4 +369,17 @@ function debounce(fn, ms) {
 缺点：内存泄漏
 
 
+### 13. 浅拷贝和深拷贝
 
+- 深拷贝：
+
+JSON.stringify: 缺点是会忽略方法，只能处理基本类型。
+
+手动实现: 需要一层层的展开，可参考lodash的set或者Immutable的操作。
+
+
+- 浅拷贝：
+
+Object.create: 利用原型链指向需要复制的对象
+
+Object.assign: 用的最多，但语法冗余，一般可以直接用`...`展开
