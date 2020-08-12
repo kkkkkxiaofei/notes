@@ -320,10 +320,53 @@ fn();
 可见对于await来说它会解析promise(async也是prmomise)，如果await后面不是promise，则正常执行。
 
 
+### 12. Closure
+
+闭包：当前函数f和其周围此法作用域形成依赖关系，导致f可以访问到外部变量，因此形闭包。
+
+优点：
+
+- 1.私有变量
+
+```
+function Person() {
+	var name = 'Kelvin'
+	this.getName = function() {
+		return name;
+	}
+}
+```
+
+- 2.柯里化
+
+```
+function add(x) {
+	return function(y) {
+		return x + y;
+	}
+}
+const add1 = add(1);
+const add2 = add(2);
+```
+
+- 3.缓存(持久化)
+
+```
+function debounce(fn, ms) {
+	var timer;
+	return function(...args) {
+		if (timer) {
+			clearTimeout(timer);
+		}
+		timer = setTimeout(function() {
+			fn.apply(null, args);
+		}, ms);
+	}
+}
+```
 
 
-
-
+缺点：内存泄漏
 
 
 
