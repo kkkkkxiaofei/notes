@@ -383,3 +383,18 @@ JSON.stringify: 缺点是会忽略方法，只能处理基本类型。
 Object.create: 利用原型链指向需要复制的对象
 
 Object.assign: 用的最多，但语法冗余，一般可以直接用`...`展开
+
+### 14. Event Loop
+
+- 浏览器中的事件循环
+
+这要从`js为什么是单线程而ajax又是异步`的说起。
+
+当前javascript运行在v8引擎中，v8里面有方法执行栈，有内存堆，还有web api，其中web api就包含了DOM, ajax，setTimeout等等。
+
+js运行时，首先会分析js代码片段，生成调用栈，栈描述了函数调用顺序，异步调用不会放在栈中，首先会放在event table里，而后根据event table里的事件来分析谁应该先放到event queue里，这还会有一个event loop，它主要是用来监测调用栈，当发现调用栈为空时则会去event queue里取一个事件放入栈中执行.
+
+> PS: setTimeout里的时间只是表明多久后会被加入到event queue里面。
+
+
+- Node.js中的事件循环(todo)
