@@ -11,6 +11,7 @@ function Node(value) {
 	this.value = value;
 	this.left = null;
 	this.right = null;
+  this.isLeaf = this.left || this.right;
 }
 
 function insert(root, value) {
@@ -49,3 +50,22 @@ init(arr)
     9    19 22  30
   /  \            \ 
  7   10            40
+
+ - DFS
+
+ ```
+function dfs(root) {
+  const stack = [root];
+  while(stack.length > 0) {
+    const node = stack.pop();
+    console.log(node.value);
+    if (node.right) {
+      stack.push(node.right);
+    }
+
+    if (node.left) {
+      stack.push(node.left);
+    }
+  }
+}  
+ ```
