@@ -50,6 +50,19 @@ var root = init(arr);
   /  \         /  \ 
  7   10      29    40
 
+ - 计算深度
+
+ ```
+ function calcDepth(root) {
+   if (root) {
+     const leftDepth = calcDepth(root.left);
+     const rightDepth = calcDepth(root.right);
+     return Math.max(leftDepth, rightDepth) + 1;
+   }
+   return 0;
+ }
+ ```
+
  - DFS
 
  ```
