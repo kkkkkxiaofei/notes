@@ -4,6 +4,8 @@
 
 node中主要是`module`和`exports`两个参数，其中`exports`和`module.exports`为同一引用。
 
+> ps: commonjs1中只有exports;而module.exports是commonjs2才引进的，默认commonjs指的是commonjs2
+
 `es module`：ES6引入的模块管理，默认情况下浏览器和node中解析，在浏览器中可以开启`type = module`来实现。但目前主流的做法还是在babel下将es module转为commonjs，如下
 
 es6 import/export
