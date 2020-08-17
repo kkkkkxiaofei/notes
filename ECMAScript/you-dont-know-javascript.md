@@ -110,22 +110,21 @@ function foo() {
 ```
 类似的，按照`方法声明优先`的原则，`foo`在调用之前必然是已经声明了，且被后者覆盖，故输出`3`;
 
-### 2.xss vs csrf
 
-xss一般主要是html类型的的脚本被上传至服务器，而后其他用户访问到相关资源后会执行该脚本，从而产生数据安全隐患。
-措施：检测脚本
+### 2. Event Loop
 
-csrf一般指A网站里有B网站的广告（第三方），正常情况下，A站点的操作对应的是A'的服务器，而对广告这里，如果后端设置了允许第三方cookie的话，那么在A站点浏览该广告后，会把B站点的cookie带到本地（第三方cookie），但是之后所有请求都应该保持cookie同源策略。此时如果这个广告里有一个攻击脚本，该脚本会模拟用户去访问A'，那这样的话，就会把A站点之前的cookie带过去，就会让A'无以为这是A，从而为此敞开大门，为所欲为。
+- 浏览器中的事件循环
 
-`措施`:
+这要从`js为什么是单线程而ajax又是异步`的说起。
 
-1.Samesite属性，Strict（只第一方带cookie），Lax(第三方的get会带cookie），None（都带），所以大部分情况将samesite设置为Lax并且请求改为post即可
+当前javascript运行在v8引擎中，v8里面有方法执行栈，有内存堆，还有web api，其中web api就包含了DOM, ajax，setTimeout等等。
 
-2.增加身份认证，其实B站点的攻击脚本并不能拿到A请求里的信息，只依赖于cookie，如果可以增加更多的信息来认证client的话也是可以的，比如origin, csrf-token
+js运行时，首先会分析js代码片段，生成调用栈，栈描述了函数调用顺序，异步调用不会放在栈中，首先会放在event table里，而后根据event table里的事件来分析谁应该先放到event queue里，这还会有一个event loop，它主要是用来监测调用栈，当发现调用栈为空时则会去event queue里取一个事件放入栈中执行.
 
-3.本质上1可以解决很多，但是如果真有攻击脚本的话，应该避免xss，这样也就无法注入其他类似iframe的东西了
+> PS: setTimeout里的时间只是表明多久后会被加入到event queue里面。
 
-> ps: 只有后端设置`Access-Control-Allow-Credentials: true` 且前端请求时header里`credentials: include`才可以把cookie发送到服务器。
+
+- Node.js中的事件循环(todo)
 
 ### 3.substr vs substring
 
@@ -385,18 +384,3 @@ JSON.stringify: 缺点是会忽略方法，只能处理基本类型。
 Object.create: 利用原型链指向需要复制的对象
 
 Object.assign: 用的最多，但语法冗余，一般可以直接用`...`展开
-
-### 14. Event Loop
-
-- 浏览器中的事件循环
-
-这要从`js为什么是单线程而ajax又是异步`的说起。
-
-当前javascript运行在v8引擎中，v8里面有方法执行栈，有内存堆，还有web api，其中web api就包含了DOM, ajax，setTimeout等等。
-
-js运行时，首先会分析js代码片段，生成调用栈，栈描述了函数调用顺序，异步调用不会放在栈中，首先会放在event table里，而后根据event table里的事件来分析谁应该先放到event queue里，这还会有一个event loop，它主要是用来监测调用栈，当发现调用栈为空时则会去event queue里取一个事件放入栈中执行.
-
-> PS: setTimeout里的时间只是表明多久后会被加入到event queue里面。
-
-
-- Node.js中的事件循环(todo)
