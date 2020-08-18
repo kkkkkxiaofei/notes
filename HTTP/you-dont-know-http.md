@@ -38,3 +38,19 @@ csrf一般指A网站里有B网站的广告（第三方），正常情况下，A�
 3.本质上1可以解决很多，但是如果真有攻击脚本的话，应该避免xss，这样也就无法注入其他类似iframe的东西了
 
 > ps: 只有后端设置`Access-Control-Allow-Credentials: true` 且前端请求时header里`credentials: include`才可以把cookie发送到服务器。
+
+### 2. Cookie
+
+常见属性：
+
+`HttpOnly`: js无法通过document.cookie获取cookie，只应用于服务端。
+`Secure`: Cookie只在https的站点生效。
+`Domain/Path`: 哪些domain（域）和路径可以接受Cookie。
+`SameSite`: 在跨站请求时Cookie的使用条件（参考1），以前如果不设置SameSite，浏览器会默认为None，但是目前浏览器的最新行为是：如果没有值，则设为Lax，需要注意。
+
+第三方Cookie:
+
+Cookie中有domain（域），若域与网站的域一致，则为第一方Cookie;否则为第三方Cookie。
+
+第三方Cookie常用于广告跟踪，但往往也会到来网络安全问题(参考1)。
+
