@@ -39,7 +39,7 @@ csrf一般指A网站里有B网站的广告（第三方），正常情况下，A�
 
 > ps: 只有后端设置`Access-Control-Allow-Credentials: true` 且前端请求时header里`credentials: include`才可以把cookie发送到服务器。
 
-### 2. Cookie
+### 3. Cookie
 
 常见属性：
 
@@ -54,3 +54,23 @@ Cookie中有domain（域），若域与网站的域一致，则为第一方Cooki
 
 第三方Cookie常用于广告跟踪，但往往也会到来网络安全问题(参考1)。
 
+### 4. Authorization
+
+- Oauth2.0
+
+授权码模式：
+
+如下url用于获取code：
+> https://${authServerDomain}/oauth2/default/v1/authorize?client_id=0oabucvy
+c38HLL1ef0h7&response_type=code&scope=openid&redirect_uri=http%3A%2F%2Flocal
+host%3A8080&state=state-296bc9a0-a2a2-4a57-be1a-d0e2fd9bb601'
+
+`client_id`: 在授权服务器内注册的application，会分配一个client_id。
+
+`response_type`: 值为code代表返回的是授权码。
+
+`scope`: 该授权的权限范围，openid表明会返回idToken表明用户身份。常见的scope还有email, profile等等。
+
+`redirect_uri`: 授权成功后应该返回到的地址，会在该地址上携带code。
+
+`state`: 产生于授权服务器，用于方式csrf攻击。
