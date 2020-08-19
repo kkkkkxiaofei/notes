@@ -113,3 +113,12 @@ host%3A8080&state=state-296bc9a0-a2a2-4a57-be1a-d0e2fd9bb601'
     "id_token": "eyJhbG[...]RTM0A"
 }
 ```
+
+3.验证accessToken
+
+有了accessToken，理论上就可以为所欲为了，所以在使用它之前，资源服务器（你的server）必须得验证它是否合法。
+
+- 1.由于token是被RS256/HS256加密过，所以需要首先获取解密的key
+- 2.解析access token
+- 3.验证签名
+- 4.验证claims信息
