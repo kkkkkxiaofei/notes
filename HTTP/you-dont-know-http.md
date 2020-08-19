@@ -58,9 +58,10 @@ Cookie中有domain（域），若域与网站的域一致，则为第一方Cooki
 
 - Oauth2.0
 
-授权码模式：
+1.授权码模式：
 
-如下url用于获取code：
+获取授权码需要授权服务器提供`/authorize`的url，例如以下get请求用于获取code：
+
 > https://${authServerDomain}/oauth2/default/v1/authorize?client_id=0oabucvy
 c38HLL1ef0h7&response_type=code&scope=openid&redirect_uri=http%3A%2F%2Flocal
 host%3A8080&state=state-296bc9a0-a2a2-4a57-be1a-d0e2fd9bb601'
@@ -74,3 +75,41 @@ host%3A8080&state=state-296bc9a0-a2a2-4a57-be1a-d0e2fd9bb601'
 `redirect_uri`: 授权成功后应该返回到的地址，会在该地址上携带code。
 
 `state`: 产生于授权服务器，用于方式csrf攻击。
+
+当用户session没有过期或者授权成功后，将会到达redirect_uri上：
+
+> http://localhost:8080/?code=P5I7mdxxdv13_JfXrCSq&state=state-296bc9a0-a2a2-4a57
+-be1a-d0e2fd9bb601
+
+授权码只会保留60秒的时间，下一步就是用授权码去获取token。
+
+2.交换token
+
+需要授权服务器提供`/token`的url，例如以下post请求：
+
+> curl --request POST \
+  --url https://${yourOktaDomain}/oauth2/default/v1/token \
+  --header 'accept: application/json' \
+  --header 'authorization: Basic MG9hY...' \
+  --header 'content-type: application/x-www-form-urlencoded' \
+  --data 'grant_type=authorization_code&redirect_uri=http%3A%2F%2Flocalhost%3A8080&code=P59yPm1_X1gxtdEOEZjn'
+
+`grant_type`: 这里指明授权方式是授权码模式
+
+`redirect_uri`: 这里的重定向一定得是上一步使用的值
+
+`code`: 上一步获取到的授权码
+
+`authorization`：在注册application时一般需要指定应用的交互时的验证方式，如果不设置，默认时`client_secret_basic`方式，格式为`Authorization: Basic ${Base64(<client_id>:<client_secret>)}`，还有其他的方式，如jwt方式。
+
+若请求成功，则会返回idToken和accessToken:
+
+```
+{
+    "access_token": "eyJhbG[...]9pDQ",
+    "token_type": "Bearer",
+    "expires_in": 3600,
+    "scope": "openid",
+    "id_token": "eyJhbG[...]RTM0A"
+}
+```
