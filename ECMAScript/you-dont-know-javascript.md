@@ -302,7 +302,15 @@ let fn = async () => {
 fn();
 ```
 
-此代码2处并不会打印，因为await就相当于隐式的return;
+此代码2处并不会打印，因为await解析出来的promise有异常。
+
+若1处改为：
+
+```
+let getData = () => Promise.resolve('res');//1
+```
+
+则可以输出log
 
 可是我一不小心手误，将1处写为
 
@@ -320,6 +328,7 @@ fn();
 
 可见对于await来说它会解析promise(async也是prmomise)，如果await后面不是promise，则正常执行。
 
+> ps:需要注意的是，尽管await会处理promise，但是如果没有在await之前显式的调用return，那么外部是无法获取到await的结果的。
 
 ### 12. Closure
 
