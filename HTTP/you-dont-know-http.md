@@ -119,7 +119,7 @@ host%3A8080&state=state-296bc9a0-a2a2-4a57-be1a-d0e2fd9bb601'
 有了accessToken，理论上就可以为所欲为了，所以在使用它之前，必须得验证它是否合法。
 
 验证其实大体分两个步骤，但都发生在resource server（你的服务器）：
- - 1.autho验证
+ - 1.auth验证
  
  a）由于token是被RS256/HS256加密过，所以需要首先获取解密的public key。这一步是遵循标准的，只要能够找到issuer，就知道授权服务器，授权服务器需要提供对应的api去获取公钥。
 
