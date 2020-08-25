@@ -70,6 +70,7 @@ Cookie中有domain（域），若域与网站的域一致，则为第一方Cooki
 | /.well-known/oauth-authorization-server | 返回授权服务器（OAuth 2.0）的metadata信息      |
 | /.well-known/openid-configuration       | 返回授权服务器（OpenID Connect）的metadata信息 |
 
+> ps: `OpenID Connect`是扩展于`OAuth 2.0`，在此基础上提供了`access token`
 
 - Oauth2.0
 
