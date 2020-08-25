@@ -56,6 +56,21 @@ Cookie中有domain（域），若域与网站的域一致，则为第一方Cooki
 
 ### 4. Authorization
 
+`OpenID Connect & OAuth 2.0`的常见API:
+
+| APIs                                    | Description                                    |
+|-----------------------------------------|------------------------------------------------|
+| /authorize                              | 和资源持有者进行交互并获取授权                 |
+| /token                                  | 根据不同的授权方式获取id/access/refresh token  |
+| /introspect                             | 返回token信息                                  |
+| /revoke                                 | 废除access/refresh token                       |
+| /logout                                 | 清除和当前id token的关系                       |
+| /keys                                   | 返回签名时的公钥                               |
+| /userinfo                               | 返回授权用户的claims                           |
+| /.well-known/oauth-authorization-server | 返回授权服务器（OAuth 2.0）的metadata信息      |
+| /.well-known/openid-configuration       | 返回授权服务器（OpenID Connect）的metadata信息 |
+
+
 - Oauth2.0
 
 1.授权码模式：
