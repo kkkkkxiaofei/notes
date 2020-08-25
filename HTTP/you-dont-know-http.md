@@ -55,6 +55,7 @@ Cookie中有domain（域），若域与网站的域一致，则为第一方Cooki
 第三方Cookie常用于广告跟踪，但往往也会到来网络安全问题(参考1)。
 
 ### 4. Authorization
+- OpenID Connect & OAuth 2.0
 
 `OpenID Connect & OAuth 2.0`的常见API:
 
@@ -71,6 +72,42 @@ Cookie中有domain（域），若域与网站的域一致，则为第一方Cooki
 | /.well-known/openid-configuration       | 返回授权服务器（OpenID Connect）的metadata信息 |
 
 > ps: `OpenID Connect`是扩展于`OAuth 2.0`，在此基础上提供了`access token`
+
+- Token
+
+`id token`: 代表用户身份
+`access token`: 访问资源，也可携带信息(需要资源服务器验证)
+`refresh token`: 用来更新id/access token
+
+当access token获取后，不必再次走一遍授权流程去拿token，取而代之的是用refresh token（前提是这个token合法且有效）去更新access token，就会方便很多：
+
+```
+http --form POST https://${yourOktaDomain}/oauth2/default/v1/token \
+  accept:application/json \
+  authorization:'Basic MG9hYmg3M...' \
+  cache-control:no-cache \
+  content-type:application/x-www-form-urlencoded \
+  grant_type=refresh_token \
+  redirect_uri=http://localhost:8080 \
+  scope=offline_access%20openid \
+  refresh_token=MIOf-U1zQbyfa3MUfJHhvnUqIut9ClH0xjlDXGJAyqo
+
+```
+请求成功后可以获得新的id/access token:
+
+```
+{
+    "access_token": "eyJhbGciOiJ[...]K1Sun9bA",
+    "token_type": "Bearer",
+    "expires_in": 3600,
+    "scope": "offline_access%20openid",
+    "refresh_token": "MIOf-U1zQbyfa3MUfJHhvnUqIut9ClH0xjlDXGJAyqo",
+    "id_token": "eyJraWQiO[...]hMEJQX6WRQ"
+}
+
+```
+
+> ps: 目前refresh token真有在授权码和用户密码方式下才可以。
 
 - Oauth2.0
 
