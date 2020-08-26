@@ -1,3 +1,61 @@
+### 队列与栈
+
+- 循环队列
+
+循环队列需要头尾指针，入队时，尾指针向后移动；出队时，头指针向后移动。
+
+头指针溢出的处理：
+
+```
+front = (front + 1) % capacity //capacity为队列最大长度
+```
+
+利用头指针可以计算出尾指针的位置（考虑溢出）：
+
+```
+rear = (front + count - 1) % capacity //count为队列长度
+```
+
+循环队列的基本实现：
+
+```
+class Queue() {
+  constructor(capacity) {
+    this.capacity = capacity;
+    this.buffer = new Array(capacity)
+    this.front = 0;
+    this.count = 0;
+  }
+
+  enQueue(item) {
+    if (!this.isFull()) {
+      this.count++;
+      this.buffer[(this.front + this.count - 1) % this.capacity] = item;
+      return true;
+    }
+    return false;
+  }
+
+  deQueue(item) {
+    if (!this.isEmpty()) {
+      this.count--;
+      this.front = (this.front + 1) % this.capacity;
+      return true;
+    }
+    return false;
+  }
+
+  isEmpty() {
+    return this.count === 0;
+  }
+
+  isFull() {
+    return this.count === this.capacity;
+  }
+}
+
+```
+
 ### 链表
 
 ### 树
