@@ -1,6 +1,6 @@
 # Summary
 
-* [写在前面](README.md)
+* [程序员的自我修养](README.md)
   - Git
     - [你不知道的Git](Git/you-dont-know-git.md)
   - Linux
