@@ -193,3 +193,70 @@ host%3A8080&state=state-296bc9a0-a2a2-4a57-be1a-d0e2fd9bb601'
  - 2.业务验证
 
 以上为auth相关验证，这一步是必须的，这一步之后就是真正的业务部分，看对应的用户是否有足够的业务权限访问该资源（取决于你的业务）。
+
+### 4. 条件式请求
+
+条件式请求：根据http头部信息的条件来决定response的结果，通常会利用文件的修改时间`Last-Modified`和文件资源表示标识`ETag`来进行验证，主要用途就是缓存和资源上/下传。
+
+常用的条件header:
+
+`If-Match`: 若远端资源标识与请求头部中的`ETag`相等，则表示匹配成功。
+
+`If-Not-Match`: 与之上相反。
+
+`If-Modified-Since`: 如果远端资源头部中的`Last-Modified`比该值晚，则匹配成功。
+
+`If-Unmodified-Since`: 与之上相反。
+
+`If-Range`: 值为日期，若匹配成功则返回`206 Partial Content`, 否则返回`200 完整资源`。
+
+
+缓存例子：
+
+1. client -> server
+
+```
+GET /doc HTTP/1.1
+```
+
+向服务端请求资源。
+
+2. server -> client
+
+```
+HTTP/1.1 200 OK
+Last-Modified: date1
+ETag: "xxx1"
+```
+
+首次请求没有缓存，返回200，且头部有资源信息标识。
+
+3. client -> server
+
+```
+GET /doc HTTP/1.1
+If-Modified-Since: date1
+If-None-Match: "xxx1"
+```
+再次请求资源，若在服务端中找不到资源`ETag`为`xxx1`或修改时间比date1要早，则不匹配，那么就会返回`200`，否则就是`304`。
+
+4. server -> client
+
+若`200`:
+
+```
+HTTP/1.1 304 Not Modified
+```
+这里虽然也有一次请求，但只是一次试探，远比请求资源要代价小的多。
+
+若`304`:
+
+```
+HTTP/1.1 200
+Last-Modified: date2
+ETag: "xxx2"
+```
+
+刷新缓存，更新资源标识。
+
+
