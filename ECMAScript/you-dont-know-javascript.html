@@ -660,6 +660,38 @@
             
         </li>
     
+        <li class="chapter " data-level="1.1.14" >
+            
+                <span>
+            
+                    
+                    HTTP
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.14.1" data-path="../HTTP/you-dont-know-http.html">
+            
+                <a href="../HTTP/you-dont-know-http.html">
+            
+                    
+                    你不知道的http
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
 
             </ul>
             
@@ -783,14 +815,19 @@ function foo() {
     console.log(3);
 }
 </code></pre><p>&#x7C7B;&#x4F3C;&#x7684;&#xFF0C;&#x6309;&#x7167;<code>&#x65B9;&#x6CD5;&#x58F0;&#x660E;&#x4F18;&#x5148;</code>&#x7684;&#x539F;&#x5219;&#xFF0C;<code>foo</code>&#x5728;&#x8C03;&#x7528;&#x4E4B;&#x524D;&#x5FC5;&#x7136;&#x662F;&#x5DF2;&#x7ECF;&#x58F0;&#x660E;&#x4E86;&#xFF0C;&#x4E14;&#x88AB;&#x540E;&#x8005;&#x8986;&#x76D6;&#xFF0C;&#x6545;&#x8F93;&#x51FA;<code>3</code>;</p>
-<h3 id="2xss-vs-csrf">2.xss vs csrf</h3>
-<p>xss&#x4E00;&#x822C;&#x4E3B;&#x8981;&#x662F;html&#x7C7B;&#x578B;&#x7684;&#x7684;&#x811A;&#x672C;&#x88AB;&#x4E0A;&#x4F20;&#x81F3;&#x670D;&#x52A1;&#x5668;&#xFF0C;&#x800C;&#x540E;&#x5176;&#x4ED6;&#x7528;&#x6237;&#x8BBF;&#x95EE;&#x5230;&#x76F8;&#x5173;&#x8D44;&#x6E90;&#x540E;&#x4F1A;&#x6267;&#x884C;&#x8BE5;&#x811A;&#x672C;&#xFF0C;&#x4ECE;&#x800C;&#x4EA7;&#x751F;&#x6570;&#x636E;&#x5B89;&#x5168;&#x9690;&#x60A3;&#x3002;
-&#x63AA;&#x65BD;&#xFF1A;&#x68C0;&#x6D4B;&#x811A;&#x672C;</p>
-<p>csrf&#x4E00;&#x822C;&#x6307;A&#x7F51;&#x7AD9;&#x91CC;&#x6709;B&#x7F51;&#x7AD9;&#x7684;&#x5E7F;&#x544A;&#xFF08;&#x7B2C;&#x4E09;&#x65B9;&#xFF09;&#xFF0C;&#x6B63;&#x5E38;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;A&#x7AD9;&#x70B9;&#x7684;&#x64CD;&#x4F5C;&#x5BF9;&#x5E94;&#x7684;&#x662F;A&apos;&#x7684;&#x670D;&#x52A1;&#x5668;&#xFF0C;&#x800C;&#x5BF9;&#x5E7F;&#x544A;&#x8FD9;&#x91CC;&#xFF0C;&#x5982;&#x679C;&#x540E;&#x7AEF;&#x8BBE;&#x7F6E;&#x4E86;&#x5141;&#x8BB8;&#x7B2C;&#x4E09;&#x65B9;cookie&#x7684;&#x8BDD;&#xFF0C;&#x90A3;&#x4E48;&#x5728;A&#x7AD9;&#x70B9;&#x6D4F;&#x89C8;&#x8BE5;&#x5E7F;&#x544A;&#x540E;&#xFF0C;&#x4F1A;&#x628A;B&#x7AD9;&#x70B9;&#x7684;cookie&#x5E26;&#x5230;&#x672C;&#x5730;&#xFF08;&#x7B2C;&#x4E09;&#x65B9;cookie&#xFF09;&#xFF0C;&#x4F46;&#x662F;&#x4E4B;&#x540E;&#x6240;&#x6709;&#x8BF7;&#x6C42;&#x90FD;&#x5E94;&#x8BE5;&#x4FDD;&#x6301;cookie&#x540C;&#x6E90;&#x7B56;&#x7565;&#x3002;&#x6B64;&#x65F6;&#x5982;&#x679C;&#x8FD9;&#x4E2A;&#x5E7F;&#x544A;&#x91CC;&#x6709;&#x4E00;&#x4E2A;&#x653B;&#x51FB;&#x811A;&#x672C;&#xFF0C;&#x8BE5;&#x811A;&#x672C;&#x4F1A;&#x6A21;&#x62DF;&#x7528;&#x6237;&#x53BB;&#x8BBF;&#x95EE;A&apos;&#xFF0C;&#x90A3;&#x8FD9;&#x6837;&#x7684;&#x8BDD;&#xFF0C;&#x5C31;&#x4F1A;&#x628A;A&#x7AD9;&#x70B9;&#x4E4B;&#x524D;&#x7684;cookie&#x5E26;&#x8FC7;&#x53BB;&#xFF0C;&#x5C31;&#x4F1A;&#x8BA9;A&apos;&#x65E0;&#x4EE5;&#x4E3A;&#x8FD9;&#x662F;A&#xFF0C;&#x4ECE;&#x800C;&#x4E3A;&#x6B64;&#x655E;&#x5F00;&#x5927;&#x95E8;&#xFF0C;&#x4E3A;&#x6240;&#x6B32;&#x4E3A;&#x3002;</p>
-<p><code>&#x63AA;&#x65BD;</code>:</p>
-<p>1.Samesite&#x5C5E;&#x6027;&#xFF0C;Strict&#xFF08;&#x53EA;&#x7B2C;&#x4E00;&#x65B9;&#x5E26;cookie&#xFF09;&#xFF0C;Lax(&#x7B2C;&#x4E09;&#x65B9;&#x7684;get&#x4F1A;&#x5E26;cookie&#xFF09;&#xFF0C;None&#xFF08;&#x90FD;&#x5E26;&#xFF09;&#xFF0C;&#x6240;&#x4EE5;&#x5927;&#x90E8;&#x5206;&#x60C5;&#x51B5;&#x5C06;samesite&#x8BBE;&#x7F6E;&#x4E3A;Lax&#x5E76;&#x4E14;&#x8BF7;&#x6C42;&#x6539;&#x4E3A;post&#x5373;&#x53EF;</p>
-<p>2.&#x589E;&#x52A0;&#x8EAB;&#x4EFD;&#x8BA4;&#x8BC1;&#xFF0C;&#x5176;&#x5B9E;B&#x7AD9;&#x70B9;&#x7684;&#x653B;&#x51FB;&#x811A;&#x672C;&#x5E76;&#x4E0D;&#x80FD;&#x62FF;&#x5230;A&#x8BF7;&#x6C42;&#x91CC;&#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x53EA;&#x4F9D;&#x8D56;&#x4E8E;cookie&#xFF0C;&#x5982;&#x679C;&#x53EF;&#x4EE5;&#x589E;&#x52A0;&#x66F4;&#x591A;&#x7684;&#x4FE1;&#x606F;&#x6765;&#x8BA4;&#x8BC1;client&#x7684;&#x8BDD;&#x4E5F;&#x662F;&#x53EF;&#x4EE5;&#x7684;&#xFF0C;&#x6BD4;&#x5982;origin, csrf-token</p>
-<p>3.&#x672C;&#x8D28;&#x4E0A;1&#x53EF;&#x4EE5;&#x89E3;&#x51B3;&#x5F88;&#x591A;&#xFF0C;&#x4F46;&#x662F;&#x5982;&#x679C;&#x771F;&#x6709;&#x653B;&#x51FB;&#x811A;&#x672C;&#x7684;&#x8BDD;&#xFF0C;&#x5E94;&#x8BE5;&#x907F;&#x514D;xss&#xFF0C;&#x8FD9;&#x6837;&#x4E5F;&#x5C31;&#x65E0;&#x6CD5;&#x6CE8;&#x5165;&#x5176;&#x4ED6;&#x7C7B;&#x4F3C;iframe&#x7684;&#x4E1C;&#x897F;&#x4E86;</p>
+<h3 id="2-event-loop">2. Event Loop</h3>
+<ul>
+<li>&#x6D4F;&#x89C8;&#x5668;&#x4E2D;&#x7684;&#x4E8B;&#x4EF6;&#x5FAA;&#x73AF;</li>
+</ul>
+<p>&#x8FD9;&#x8981;&#x4ECE;<code>js&#x4E3A;&#x4EC0;&#x4E48;&#x662F;&#x5355;&#x7EBF;&#x7A0B;&#x800C;ajax&#x53C8;&#x662F;&#x5F02;&#x6B65;</code>&#x7684;&#x8BF4;&#x8D77;&#x3002;</p>
+<p>&#x5F53;&#x524D;javascript&#x8FD0;&#x884C;&#x5728;v8&#x5F15;&#x64CE;&#x4E2D;&#xFF0C;v8&#x91CC;&#x9762;&#x6709;&#x65B9;&#x6CD5;&#x6267;&#x884C;&#x6808;&#xFF0C;&#x6709;&#x5185;&#x5B58;&#x5806;&#xFF0C;&#x8FD8;&#x6709;web api&#xFF0C;&#x5176;&#x4E2D;web api&#x5C31;&#x5305;&#x542B;&#x4E86;DOM, ajax&#xFF0C;setTimeout&#x7B49;&#x7B49;&#x3002;</p>
+<p>js&#x8FD0;&#x884C;&#x65F6;&#xFF0C;&#x9996;&#x5148;&#x4F1A;&#x5206;&#x6790;js&#x4EE3;&#x7801;&#x7247;&#x6BB5;&#xFF0C;&#x751F;&#x6210;&#x8C03;&#x7528;&#x6808;&#xFF0C;&#x6808;&#x63CF;&#x8FF0;&#x4E86;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x987A;&#x5E8F;&#xFF0C;&#x5F02;&#x6B65;&#x8C03;&#x7528;&#x4E0D;&#x4F1A;&#x653E;&#x5728;&#x6808;&#x4E2D;&#xFF0C;&#x9996;&#x5148;&#x4F1A;&#x653E;&#x5728;event table&#x91CC;&#xFF0C;&#x800C;&#x540E;&#x6839;&#x636E;event table&#x91CC;&#x7684;&#x4E8B;&#x4EF6;&#x6765;&#x5206;&#x6790;&#x8C01;&#x5E94;&#x8BE5;&#x5148;&#x653E;&#x5230;event queue&#x91CC;&#xFF0C;&#x8FD9;&#x8FD8;&#x4F1A;&#x6709;&#x4E00;&#x4E2A;event loop&#xFF0C;&#x5B83;&#x4E3B;&#x8981;&#x662F;&#x7528;&#x6765;&#x76D1;&#x6D4B;&#x8C03;&#x7528;&#x6808;&#xFF0C;&#x5F53;&#x53D1;&#x73B0;&#x8C03;&#x7528;&#x6808;&#x4E3A;&#x7A7A;&#x65F6;&#x5219;&#x4F1A;&#x53BB;event queue&#x91CC;&#x53D6;&#x4E00;&#x4E2A;&#x4E8B;&#x4EF6;&#x653E;&#x5165;&#x6808;&#x4E2D;&#x6267;&#x884C;.</p>
+<blockquote>
+<p>PS: setTimeout&#x91CC;&#x7684;&#x65F6;&#x95F4;&#x53EA;&#x662F;&#x8868;&#x660E;&#x591A;&#x4E45;&#x540E;&#x4F1A;&#x88AB;&#x52A0;&#x5165;&#x5230;event queue&#x91CC;&#x9762;&#x3002;</p>
+</blockquote>
+<ul>
+<li>Node.js&#x4E2D;&#x7684;&#x4E8B;&#x4EF6;&#x5FAA;&#x73AF;(todo)</li>
+</ul>
 <h3 id="3substr-vs-substring">3.substr vs substring</h3>
 <p><code>substr</code>: (start, length)</p>
 <p><code>substring</code>: (start, end)</p>
@@ -901,7 +938,10 @@ let fn = async () =&gt; {
     console.log(&apos;======after await=======&apos;);//2
 };
 fn();
-</code></pre><p>&#x6B64;&#x4EE3;&#x7801;2&#x5904;&#x5E76;&#x4E0D;&#x4F1A;&#x6253;&#x5370;&#xFF0C;&#x56E0;&#x4E3A;await&#x5C31;&#x76F8;&#x5F53;&#x4E8E;&#x9690;&#x5F0F;&#x7684;return;</p>
+</code></pre><p>&#x6B64;&#x4EE3;&#x7801;2&#x5904;&#x5E76;&#x4E0D;&#x4F1A;&#x6253;&#x5370;&#xFF0C;&#x56E0;&#x4E3A;await&#x89E3;&#x6790;&#x51FA;&#x6765;&#x7684;promise&#x6709;&#x5F02;&#x5E38;&#x3002;</p>
+<p>&#x82E5;1&#x5904;&#x6539;&#x4E3A;&#xFF1A;</p>
+<pre><code>let getData = () =&gt; Promise.resolve(&apos;res&apos;);//1
+</code></pre><p>&#x5219;&#x53EF;&#x4EE5;&#x8F93;&#x51FA;log</p>
 <p>&#x53EF;&#x662F;&#x6211;&#x4E00;&#x4E0D;&#x5C0F;&#x5FC3;&#x624B;&#x8BEF;&#xFF0C;&#x5C06;1&#x5904;&#x5199;&#x4E3A;</p>
 <pre><code>let getData = () =&gt; { Promise.reject(&apos;res&apos;) };//1
 let fn = async () =&gt; {
@@ -912,6 +952,9 @@ fn();
 </code></pre><p>&#x8FD9;&#x65F6;2&#x5904;&#x662F;&#x53EF;&#x4EE5;&#x6253;&#x5370;&#x7684;&#xFF0C;&#x56E0;&#x4E3A;1&#x5904;&#x662F;&#x4E00;&#x4E2A;&#x6CA1;&#x6709;&#x8FD4;&#x56DE;&#x503C;&#x7684;&#x666E;&#x901A;&#x51FD;&#x6570;&#xFF1B;&#x5982;&#x679C;&#x8FD9;&#x91CC;&#x628A;1&#x5904;&#x5185;&#x90E8;&#x82B1;&#x62EC;&#x53F7;&#x91CC;</p>
 <p>&#x663E;&#x5F0F;return&#x51FA;&#x53BB;&#x7684;&#x8BDD;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x7B49;&#x540C;&#x4E8E;&#x4E0A;&#x4E00;&#x4E2A;&#x4F8B;&#x5B50;&#x3002;</p>
 <p>&#x53EF;&#x89C1;&#x5BF9;&#x4E8E;await&#x6765;&#x8BF4;&#x5B83;&#x4F1A;&#x89E3;&#x6790;promise(async&#x4E5F;&#x662F;prmomise)&#xFF0C;&#x5982;&#x679C;await&#x540E;&#x9762;&#x4E0D;&#x662F;promise&#xFF0C;&#x5219;&#x6B63;&#x5E38;&#x6267;&#x884C;&#x3002;</p>
+<blockquote>
+<p>ps:&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x5C3D;&#x7BA1;await&#x4F1A;&#x5904;&#x7406;promise&#xFF0C;&#x4F46;&#x662F;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x5728;await&#x4E4B;&#x524D;&#x663E;&#x5F0F;&#x7684;&#x8C03;&#x7528;return&#xFF0C;&#x90A3;&#x4E48;&#x5916;&#x90E8;&#x662F;&#x65E0;&#x6CD5;&#x83B7;&#x53D6;&#x5230;await&#x7684;&#x7ED3;&#x679C;&#x7684;&#x3002;</p>
+</blockquote>
 <h3 id="12-closure">12. Closure</h3>
 <p>&#x95ED;&#x5305;&#xFF1A;&#x5F53;&#x524D;&#x51FD;&#x6570;f&#x548C;&#x5176;&#x5468;&#x56F4;&#x6B64;&#x6CD5;&#x4F5C;&#x7528;&#x57DF;&#x5F62;&#x6210;&#x4F9D;&#x8D56;&#x5173;&#x7CFB;&#xFF0C;&#x5BFC;&#x81F4;f&#x53EF;&#x4EE5;&#x8BBF;&#x95EE;&#x5230;&#x5916;&#x90E8;&#x53D8;&#x91CF;&#xFF0C;&#x56E0;&#x6B64;&#x5F62;&#x95ED;&#x5305;&#x3002;</p>
 <p>&#x4F18;&#x70B9;&#xFF1A;</p>
@@ -999,7 +1042,7 @@ const add2 = add(2);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"你不知道的JavaScript","level":"1.1.7.2","depth":3,"next":{"title":"HTML/CSS","level":"1.1.8","depth":2,"ref":"","articles":[{"title":"你不知道的HTML/CSS","level":"1.1.8.1","depth":3,"path":"HTML-CSS/you-dont-know-html-css.md","ref":"HTML-CSS/you-dont-know-html-css.md","articles":[]}]},"previous":{"title":"ECMAScript","level":"1.1.7.1","depth":3,"path":"ECMAScript/ES2016 and ES2017.md","ref":"ECMAScript/ES2016 and ES2017.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"ECMAScript/you-dont-know-javascript.md","mtime":"2020-08-12T12:14:08.106Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-08-12T12:55:06.338Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"你不知道的JavaScript","level":"1.1.7.2","depth":3,"next":{"title":"HTML/CSS","level":"1.1.8","depth":2,"ref":"","articles":[{"title":"你不知道的HTML/CSS","level":"1.1.8.1","depth":3,"path":"HTML-CSS/you-dont-know-html-css.md","ref":"HTML-CSS/you-dont-know-html-css.md","articles":[]}]},"previous":{"title":"ECMAScript","level":"1.1.7.1","depth":3,"path":"ECMAScript/ES2016 and ES2017.md","ref":"ECMAScript/ES2016 and ES2017.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"ECMAScript/you-dont-know-javascript.md","mtime":"2020-08-19T15:59:53.954Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-08-26T15:19:42.085Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
