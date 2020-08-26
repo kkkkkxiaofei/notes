@@ -120,3 +120,39 @@ module.exports = wepack_factory();
 exports['libName'] = wepack_factory();
 
 ```
+
+### 3. Module
+
+`java里一切皆class;webpack里一切皆module`。
+
+简单来讲任何一个文件，在webpack里都看作为一个module，问题就是如何解析这个module，那就涉及到了`loader`。先看一个最简单的module配置：
+
+```
+module: {
+	rules: [
+		//rule1
+		{
+			test: /\.js$/,
+			use: ['babel-loader'],
+			include: path.resolve(__dirname, 'src')
+		},
+		//rule2
+		{
+			test: /\.scss$/,
+			use: ['sass-loader'],
+			exclude: path.resolve(__dirname, 'node_modules')
+		}
+	]
+}
+```
+
+在解析module时，首先需要分析文件类型，从而推断需要什么样的`loader`(核心是loader)，`loader`会将对应的代码`'翻译'`为该语言最原生的版本。
+
+`exclude/include`很好理解，但是要强调的是这个最好还是明确写出来，不然webpack会在解析当前文件时，递归寻找依赖，这个效率可想而知，提早规划解析路径必然会加速打包进度。
+
+`noParse`: 对于一些没有模块化的依赖，但是却和你的代码库放在了一起的case来说，它是不需要解析的，可以跳过，如`jQuery`。
+
+`parser`: 如默认`@babel/preset-env`会将es中的`import/export`转换为`require/module.exports`，利用该属性就可以控制代码细节的解析。
+
+
+
