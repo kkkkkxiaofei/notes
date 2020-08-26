@@ -98,32 +98,35 @@ function init(arr) {
 }
 var root = init(arr);
 ```
-初始化后的二叉树：
 
-         20
-       /    \
-      12    27
-     /   \  /  \
-    9    19 22  30
-  /  \         /  \ 
- 7   10      29    40
+初始化后的二叉树：
+```
+          20
+        /    \
+       12    27
+      /   \  /  \
+     9    19 22  30
+    /  \         /  \ 
+   7   10      29    40
+
+```
 
  - 计算深度
 
- ```
- function calcDepth(root) {
-   if (root) {
-     const leftDepth = calcDepth(root.left);
-     const rightDepth = calcDepth(root.right);
-     return Math.max(leftDepth, rightDepth) + 1;
-   }
-   return 0;
- }
- ```
+```
+function calcDepth(root) {
+  if (root) {
+    const leftDepth = calcDepth(root.left);
+    const rightDepth = calcDepth(root.right);
+    return Math.max(leftDepth, rightDepth) + 1;
+  }
+  return 0;
+}
+```
 
  - DFS
 
- ```
+```
 function dfs(root) {
   const stack = [root];
   while (stack.length > 0) {
@@ -137,13 +140,14 @@ function dfs(root) {
     }
   }
 }  
- ```
+```
+
  输出：[20,12,9,7,10,19,27,22,30,29,40]
 
  - BFS 
 
- ```
- function bfs(root) {
+```
+function bfs(root) {
   const queue = [root];
   while (queue.length > 0) {
     const node = queue.shift();
@@ -156,5 +160,5 @@ function dfs(root) {
     }
   }
 }
- ```
+```
 输出：[20,12,27,9,19,22,30,7,10,29,40]

@@ -82,14 +82,14 @@ Cookie中有domain（域），若域与网站的域一致，则为第一方Cooki
 当access token获取后，不必再次走一遍授权流程去拿token，取而代之的是用refresh token（前提是这个token合法且有效）去更新access token，就会方便很多：
 
 ```
-http --form POST https://${yourOktaDomain}/oauth2/default/v1/token \
-  accept:application/json \
-  authorization:'Basic MG9hYmg3M...' \
-  cache-control:no-cache \
-  content-type:application/x-www-form-urlencoded \
-  grant_type=refresh_token \
-  redirect_uri=http://localhost:8080 \
-  scope=offline_access%20openid \
+http --form POST https://${yourOktaDomain}/oauth2/default/v1/token 
+  accept:application/json
+  authorization:'Basic MG9hYmg3M...'
+  cache-control:no-cache
+  content-type:application/x-www-form-urlencoded
+  grant_type=refresh_token
+  redirect_uri=http://localhost:8080
+  scope=offline_access%20openid
   refresh_token=MIOf-U1zQbyfa3MUfJHhvnUqIut9ClH0xjlDXGJAyqo
 
 ```
@@ -115,9 +115,11 @@ http --form POST https://${yourOktaDomain}/oauth2/default/v1/token \
 
 获取授权码需要授权服务器提供`/authorize`的url，例如以下get请求用于获取code：
 
-> https://${authServerDomain}/oauth2/default/v1/authorize?client_id=0oabucvy
+```
+https://${authServerDomain}/oauth2/default/v1/authorize?client_id=0oabucvy
 c38HLL1ef0h7&response_type=code&scope=openid&redirect_uri=http%3A%2F%2Flocal
 host%3A8080&state=state-296bc9a0-a2a2-4a57-be1a-d0e2fd9bb601'
+```
 
 `client_id`: 在授权服务器内注册的application，会分配一个client_id。
 
@@ -131,8 +133,10 @@ host%3A8080&state=state-296bc9a0-a2a2-4a57-be1a-d0e2fd9bb601'
 
 当用户session没有过期或者授权成功后，将会到达redirect_uri上：
 
-> http://localhost:8080/?code=P5I7mdxxdv13_JfXrCSq&state=state-296bc9a0-a2a2-4a57
+```
+http://localhost:8080/?code=P5I7mdxxdv13_JfXrCSq&state=state-296bc9a0-a2a2-4a57
 -be1a-d0e2fd9bb601
+```
 
 授权码只会保留60秒的时间，下一步就是用授权码去获取token。
 
@@ -140,12 +144,14 @@ host%3A8080&state=state-296bc9a0-a2a2-4a57-be1a-d0e2fd9bb601'
 
 需要授权服务器提供`/token`的url，例如以下post请求：
 
-> curl --request POST \
+```
+  curl --request POST \
   --url https://${yourOktaDomain}/oauth2/default/v1/token \
   --header 'accept: application/json' \
   --header 'authorization: Basic MG9hY...' \
   --header 'content-type: application/x-www-form-urlencoded' \
   --data 'grant_type=authorization_code&redirect_uri=http%3A%2F%2Flocalhost%3A8080&code=P59yPm1_X1gxtdEOEZjn'
+```
 
 `grant_type`: 这里指明授权方式是授权码模式
 
