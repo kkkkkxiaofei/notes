@@ -155,4 +155,6 @@ module: {
 `parser`: 如默认`@babel/preset-env`会将es中的`import/export`转换为`require/module.exports`，利用该属性就可以控制代码细节的解析。
 
 
+### 4. resolve
 
+最常用的就是`alias`，方便规划项目目录，在打包时也可以不用每次都去分析路径。
