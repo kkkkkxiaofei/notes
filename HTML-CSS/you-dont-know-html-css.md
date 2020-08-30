@@ -29,8 +29,10 @@
 ### 4.页面渲染
 
 - 1.首先根据url请求html并且进行解析，参考（3）
-
+  
 - 2.根据html和css生成DOM和CSSOM
+
+  生成DOM为`Parse HTML`, 生成CSSOM为`Recalculate style`
 
 //DOM
 
@@ -55,13 +57,17 @@ html {
 }
 ```
 
-- 3.生成渲染树
+- 3.生成渲染树(render tree)
 
 - 4.重排（layout)
+
+  在devtools里为`Layout`
 
 计算各个对象的精确位置，布局，大小等等。
 
 - 5.重绘（paint)
+
+在devtools里为`Paint`
 
 将像素，颜色等填充至屏幕。
 
