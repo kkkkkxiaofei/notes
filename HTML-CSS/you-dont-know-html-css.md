@@ -19,7 +19,7 @@
 脚本下载完，且执行完后才继续解析html（默认）
 ![](/images/css/2.png)
 
-有async属性时，脚本的下载不会阻塞html解析，但是执行期间会，知道执行完毕才继续解析html
+有async属性时，脚本的下载不会阻塞html解析，但是执行期间会，直到执行完毕才继续解析html
 ![](/images/css/3.png)
 
 有defer属性时，脚本的下载不阻塞html解析，当解析完毕后再去执行脚本（推荐）
@@ -32,7 +32,11 @@
   
 - 2.根据html和css生成DOM和CSSOM
 
-  生成DOM为`Parse HTML`, 生成CSSOM为`Recalculate style`
+  生成DOM为`Parse HTML`, 生成CSSOM为`Recalculate style`。
+
+  当正在解析html时，若遇到script标签，则会停止构建DOM，开始下载并且交由js引擎（默认不加defer/async时）去执行，完成后才会恢复DOM构建。
+
+  在执行js脚本时，js是可以修改DOM和CSSOM（比如改样式）的，此时浏览器会阻塞js的执行，直到CSSOM构建完成（外部样式还需要下载）才会恢复js的执行。
 
 //DOM
 
@@ -58,6 +62,8 @@ html {
 ```
 
 - 3.生成渲染树(render tree)
+
+  对于`visibility: hidden`和`display: none`来说：后者是不会出现在render tree上的，但是在DOM tree上是有的。
 
 - 4.重排（layout)
 
