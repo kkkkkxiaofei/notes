@@ -40,6 +40,8 @@
 
   一旦DOM构建成功，就会触发`DOMContentLoaded`事件，该事件不会像`load`事件那样需要等待style/image等外部资源后才会触发。因为在构建DOM时已经被js阻塞过了，能够触发`DOMContentLoaded`就表明后面就算有外部资源也不会影响DOM，因此这个事件在绝大多数情况下是可以替换`load`事件的。
 
+  > ps: `DOMContentLoaded`事件本身并不会被外部style阻塞，但是如果有外部script的话，就需要先等待外部style，然后再恢复js执行（此时style和js匀阻塞）。
+
 //DOM
 
 ```
@@ -81,7 +83,7 @@ html {
 
 因此应当避免一次操作大量DOM或者频繁更改窗口大小，均会导致页面重排。重排也必然会重绘。
 
-- 6.z-index层叠关系
+### 6. z-index层叠关系
 
 ![](/images/css/6.png)
 
