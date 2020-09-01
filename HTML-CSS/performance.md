@@ -1,14 +1,18 @@
 ### 1. 关键路径分析
 
 `DCL`: DOMContentLoaded事件，DOM构建完成就会触发。
-`L`: onload事件，外部依赖资源下载完成后会触发。
-`Parse HTML`: html文件请求后，开始分析html（词法，token..)，而后构建DOM，此过程完毕后DOM构建则完成。由于DOM的构建会受到其他外部依赖影响，但它并不是一次完成，有可能分段。
-`Reclaculate Style`: 构建CSSOM。
-`Layout`: 利用render tree进行重排。
-`Paint`: layout后的结果进行重绘。
-`Composite Layer`：组合层。
 
-- 基本html
+`L`: onload事件，外部依赖资源下载完成后会触发。
+
+`Parse HTML`: html文件请求后，开始分析html（词法，token..)，而后构建DOM，此过程完毕后DOM构建则完成。由于DOM的构建会受到其他外部依赖影响，但它并不是一次完成，有可能分段。
+
+`Reclaculate Style`: 构建CSSOM。
+
+`Layout`: 利用render tree进行重排。
+
+`Paint`: layout后的结果进行重绘。
+
+`Composite Layer`：组合层。
 
 - demo1: pure html
 
@@ -111,7 +115,17 @@ performance：
 
 之前总有个误区，认为L事件一定是在DCL事件后面边的，但实际上L事件只代表页面所有外部资源加载完成，而DCL只关注DOM是否构建完成，两者其实是不同的纬度，所以L是可以在DCL之前的。
 
-在L的左边最近一处的黄色片段就是`index.js`，它的执行直接导致了DOM和CSSDOM的改变，因此需要经历`Parse HTML -> Recalculate Style -> Layout`之后才能触发DCL。
+在L的左边最近一处的黄色片段就是`index.js`，它的执行直接导致了DOM和CSSDOM的改变，因此需要经历(L和DCL的间隙处)`Parse HTML -> Recalculate Style -> Layout`之后才能触发DCL。
+
+很明显，外部js脚本是最影响页面加载的资源了，因此可以用async：
+
+```
+<script src="/index.js" async></script>
+```
+
+![](/images/performance/1-5.png)
+
+很明显，async可以让js脚本不阻塞DOM构建，因此DCL在L之前。
 
 
 

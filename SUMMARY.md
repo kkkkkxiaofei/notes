@@ -21,6 +21,7 @@
     - [你不知道的JavaScript](ECMAScript/you-dont-know-javascript.md)
   - HTML/CSS
     - [你不知道的HTML/CSS](HTML-CSS/you-dont-know-html-css.md)
+    - [性能分析](HTML-CSS/performance.md)
   - React
     - [JSX](React/jsx.md)
     - [Reconciler](React/reconciler.md)
