@@ -202,3 +202,6 @@ performance：
 
 
 
+### 4. transform
+
+### 5. requestAnimationFrame
