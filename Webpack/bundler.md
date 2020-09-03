@@ -18,6 +18,46 @@ module.exports = {
 
 那么它是怎么做的呢？
 
+我们来分析一个vanilla js的demo。
+
+`main.js`
+
+```
+import app from './application.js';
+import config from './config/index.js';
+
+const { appName, version } = config;
+app.start(appName, version);
+```
+
+
+`main.js`有以下特点：
+
+
+- 1.有依赖
+`./applicantion.js`和`./config/index.js`，
+
+- 2.使用了ES module引入依赖
+ `import ...`
+
+- 3.依赖必然将自己进行了导出
+ `./applicantion.js`必然有`export default`; 依赖的依赖也许还会有`export const xxx`;
+
+- 4.main文件自身并没有导出
+
+基于此，可以提出以下问题：
+
+- 1.怎么处理ES module导出/导出的语法，这么貌似Node.js和Browser都不认识呀？
+
+- 2.假设1已经解决，怎么将依赖处理成一个模块，且支持自身导出和外部引用？
+
+- 3.如何分析依赖，以及依赖的依赖，以及。。。。
+
+
+
+
+
+
 
 - (done)继续测试es module的打包，包括node_module路径
 
