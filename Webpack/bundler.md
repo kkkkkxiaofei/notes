@@ -1,3 +1,5 @@
+### 写在前面
+
 前端自身由于缺少模块化管理，因此当我们进行模块化开发后，必须要将代码进行整合（bundle）。打包工具无非是将js, css以及其他资源文件进行合并。
 
 以webpack的startkit为例子：
@@ -55,7 +57,7 @@ app.start(appName, version);
 
 
 
-#### 模块导入导出
+### 1.模块导入导出
 
 我们先以ES module作为讨论。
 
@@ -147,10 +149,43 @@ _application.default.start(appName, version);
 > 这里必须澄清，require并不一定就在说Node.js的require, Node.js只是commonjs标准的一种实现。
 
 
-#### require的通用解决方案
+### 2. require的通用解决方案
+
+和上面一样，我们用babel测试以下ES module的导出转换：
+
+source code:
+
+```
+export default A;
+
+export const name = '';
+```
+
+after babel:
+
+```
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.name = exports.default = void 0;
+var _default = A;
+exports.default = _default;
+var name = '';
+exports.name = name;
+```
+
+### 3.依赖路径分析
+
+package.json的读取顺序
+
+有了上面的概念，我们就可以进入我们的主题了。
+
+### 4.Babel
 
 
-
+### 5.实现
 
 - (done)继续测试es module的打包，包括node_module路径
 
@@ -171,3 +206,11 @@ _application.default.start(appName, version);
 - 支持scss
 
 - jsx(babel插件)
+
+
+### 6.发布
+多个版本
+
+### 7.回顾
+
+每个环节对应webpack哪个核心概念
