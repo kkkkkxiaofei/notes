@@ -57,7 +57,11 @@ app.start(appName, version);
 
 #### 模块导入导出
 
-上面的demo里用到ES module的导入导出(以下为es)，你也许没有关注，目前es模块在`部分`浏览器里是可以直接用的：
+我们先以ES module作为讨论。
+
+#### ES module in browser
+
+你也许没有关注，目前es module在`部分`浏览器里是可以直接使用的：
 
 index.html
 
@@ -96,7 +100,54 @@ export default () => {
 
 - 3.不支持commonjs
 
-如果我在node环境写了代码，这也是没办法用这种方式加载的，更别提其他模块机制了。
+如果我写了node环境的代码，是没办法用这种方式加载的，更别提其他模块机制了。
+
+#### ES module in Node.js
+
+默认情况下是无法在Node.js环境下使用ES moudle的，但是自从`13.9`版本以上，可以开启flag `--experimental-modules`，并且在`package.json`里:
+
+```
+{
+  "type": "module"
+}
+```
+
+#### 从ES module 到commonjs
+
+不难看出，单就ES module在浏览器和Node.js的切换肯定是有问题的，为了消除差异，目前主流的做法是不在浏览器里使用ES module，取而代之的是将ES module先转化为commonjs，比如上面的`main.js`，利用babel转换后如下：
+
+```
+"use strict";
+
+//1
+var _application = _interopRequireDefault(require("./application.js"));
+
+//2
+var _index = _interopRequireDefault(require("./config/index.js"));
+
+//3
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//4
+var appName = _index.default.appName,
+    version = _index.default.version;
+//5
+_application.default.start(appName, version);
+```
+
+首先1,2已经把`import`改为了`require`。
+
+其次，3处对require的实现做了一次签名包装：若moudle为es module则具有内部属性`_esModule`，此时默认导出的模块就是自身；
+否则，默认导出的模块。
+
+最后，由于`./application.js`和`./config/index.js`均为默认导出，所以使用时需要取出`default`，完全是按照3的标准来解析的。
+
+看到这里，似乎问题已经解决了一大半了（代码已经归一化了），但还有一个问题没有解决：这个require该怎么实现？
+
+> 这里必须澄清，require并不一定就在说Node.js的require, Node.js只是commonjs标准的一种实现。
+
+
+#### require的通用解决方案
 
 
 
