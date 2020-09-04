@@ -153,7 +153,7 @@ _application.default.start(appName, version);
 
 和上面一样，我们用babel测试以下ES module的导出转换：
 
-source code:
+source code from ES module:
 
 ```
 export default A;
@@ -175,6 +175,48 @@ exports.default = _default;
 var name = '';
 exports.name = name;
 ```
+
+很简单，默认导出`export default`转化为`exports.default`；变量导出`export const xxx`转化为`exports.xxx`。
+
+那万一需要打包的代码使用了commonjs呢？
+
+source code from commonjs:
+
+```
+module.exports = A;
+
+module.exports = {
+  name: ''
+}
+```
+
+after babel:
+
+```
+module.exports = A;
+module.exports = {
+  name: ''
+};
+```
+
+什么？居然一样。
+
+没错，这就是目前的标准：因为浏览器端和Node.js端对ES module的支持都还不成熟，所以所谓的转译就是ES moudle转commonjs的过程。
+
+这样依赖，我们就只用处理commonjs1和commonjs2的情况就好了，即代码里模块操作只有`require`,`exports.default`,`exports.xxx`, `module.exports`。所以任意文件的代码都可以按照如下来封装：
+
+source.js
+
+```
+function(require, module, exports) {
+  // source code
+}
+```
+
+有`require`是因为有可能还需要引用其他模块，这个我们下面会讲到。
+
+`exports`等价于`module.exports`，因此本质上是利用module对象去注入原始代码，最终取出导出的模块。
+
 
 ### 3.依赖路径分析
 
