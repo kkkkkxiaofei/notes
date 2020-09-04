@@ -39,7 +39,7 @@ app.start(appName, version);
 - 1.有依赖
 `./applicantion.js`和`./config/index.js`，
 
-- 2.使用了ES module引入依赖
+- 2.使用了ESM引入依赖
  `import ...`
 
 - 3.依赖必然将自己进行了导出
@@ -49,7 +49,7 @@ app.start(appName, version);
 
 基于此，可以提出以下问题：
 
-- 1.怎么处理ES module导入/导出的语法，这么貌似Node.js和Browser都不认识呀？
+- 1.怎么处理ESM导入/导出的语法，这么貌似Node.js和Browser都不认识呀？
 
 - 2.假设1已经解决，怎么将依赖处理成一个模块，且支持自身导出和外部引用？
 
@@ -59,11 +59,11 @@ app.start(appName, version);
 
 ### 1.模块导入导出
 
-我们先以ES module作为讨论。
+我们先以ESM作为讨论。
 
-#### ES module in browser
+#### ESM in browser
 
-你也许没有关注，目前es module在`部分`浏览器里是可以直接使用的：
+你也许没有关注，目前ESM在`部分`浏览器里是可以直接使用的：
 
 index.html
 
@@ -104,7 +104,7 @@ export default () => {
 
 如果我写了node环境的代码，是没办法用这种方式加载的，更别提其他模块机制了。
 
-#### ES module in Node.js
+#### ESM in Node.js
 
 默认情况下是无法在Node.js环境下使用ES moudle的，但是自从`13.9`版本以上，可以开启flag `--experimental-modules`，并且在`package.json`里:
 
@@ -114,9 +114,9 @@ export default () => {
 }
 ```
 
-#### 从ES module 到commonjs
+#### 从ESM 到commonjs
 
-不难看出，单就ES module在浏览器和Node.js的切换肯定是有问题的，为了消除差异，目前主流的做法是不在浏览器里使用ES module，取而代之的是将ES module先转化为commonjs，比如上面的`main.js`，利用babel转换后如下：
+不难看出，单就ESM在浏览器和Node.js的切换肯定是有问题的，为了消除差异，目前主流的做法是不在浏览器里使用ESM，取而代之的是将ESM先转化为commonjs，比如上面的`main.js`，利用babel转换后如下：
 
 ```
 "use strict";
@@ -139,7 +139,7 @@ _application.default.start(appName, version);
 
 首先1,2已经把`import`改为了`require`。
 
-其次，3处对require的实现做了一次签名包装：若moudle为es module则具有内部属性`_esModule`，此时默认导出的模块就是自身；
+其次，3处对require的实现做了一次签名包装：若moudle为ESM则具有内部属性`_esModule`，此时默认导出的模块就是自身；
 否则，默认导出的模块。
 
 最后，由于`./application.js`和`./config/index.js`均为默认导出，所以使用时需要取出`default`，完全是按照3的标准来解析的。
@@ -149,11 +149,11 @@ _application.default.start(appName, version);
 > 这里必须澄清，require并不一定就在说Node.js的require, Node.js只是commonjs标准的一种实现。
 
 
-### 2. require的通用解决方案
+### 2. 模块导出的通用解决方案
 
-和上面一样，我们用babel测试以下ES module的导出转换：
+和上面一样，我们用babel测试以下ESM的导出转换：
 
-source code from ES module:
+source code from ESM:
 
 ```
 export default A;
@@ -201,7 +201,7 @@ module.exports = {
 
 什么？居然一样。
 
-没错，这就是目前的标准：因为浏览器端和Node.js端对ES module的支持都还不成熟，所以所谓的转译就是ES moudle转commonjs的过程。
+没错，这就是目前的标准：因为浏览器端和Node.js端对ESM的支持都还不成熟，所以所谓的转译就是ES moudle转commonjs的过程。
 
 这样依赖，我们就只用处理commonjs1和commonjs2的情况就好了，即代码里模块操作只有`require`,`exports.default`,`exports.xxx`, `module.exports`。所以任意文件的代码都可以按照如下来封装：
 
@@ -215,7 +215,7 @@ function(require, module, exports) {
 
 有`require`是因为有可能还需要引用其他模块，这个我们下面会讲到。
 
-`exports`等价于`module.exports`，因此本质上是利用module对象去注入原始代码，最终取出导出的模块。
+`exports`等价于`module.exports`，因此本质上是利用`module`对象去注入原始代码，最终取出导出的模块。
 
 
 ### 3.依赖路径分析
@@ -229,7 +229,7 @@ package.json的读取顺序
 
 ### 5.实现
 
-- (done)继续测试es module的打包，包括node_module路径
+- (done)继续测试ESM的打包，包括node_module路径
 
 - 解决CommonJS无法从AST中读取依赖的问题,包括node_module路径
   - 排除node内置模块(http, path, fs...)
