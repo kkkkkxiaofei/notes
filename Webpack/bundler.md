@@ -331,6 +331,9 @@ app.start(appName, version);
 
 after parse:
 
+![](/images/bundler/4-1.png)
+
+
 可以看到1,2为导入声明，3为变量声明，4为表达式。
 
 以1为例，1为ImportDeclaration表明是ESM的import（require语法不会是这种类型的Node），且source里的value为依赖模块的相对路径。但是这个树的可能会很深，导致我们取具体信息的操作会很复杂（a?.b?.c?.e?....），为此我们可以进入Babel转译的第二个阶段。
