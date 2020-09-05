@@ -220,12 +220,85 @@ function(require, module, exports) {
 `exports`等价于`module.exports`，因此本质上是利用`module`对象去注入原始代码，最终取出导出的模块。
 
 
-### 3.依赖路径分析
+### 3.导入路径分析
 
-package.json的读取顺序
+当我们导入一个模块时，一般有两类写法：
 
-如果用require：那么就是
+```
+//1
+import _ from 'lodash'; 
 
+//2
+import util from './util';
+
+```
+其中1的寻找规则默认会去项目根目录下的`node_modules`里寻找；
+
+而2的寻找规则就稍微复杂一点：
+
+当`./util`没有`package.json`文件时会去尝试寻找`./util`;否则会查看`package.json`里的`main`属性作为入口。
+
+以上规则的前提没有用任何的打包工具，比如用webpack打包时路径的分析会比这个要复杂的多，还牵扯到`main`,`module`,`browser`等的优先级。所以基于此，我们这里把规则定的简单点：
+
+- 1.默认外部依赖的路径为`${projectRoot}/node_modules`
+
+- 2.`./util` 等价于 `./util.js` 或 `./util/index.js`
+
+- 3.任何以字符开头的路径均代表外部依赖（`util`等价于`${projectRoot}/node_modules/util/index.js`)
+
+于是首先我们需要把相对路径转化为绝对路径：
+
+```
+function buildPath(relativePath, dirname, config) {
+  const { entry } = config;
+  const NODE_MOUDLES_PATH = `${path.dirname(entry)}/node_modules`;
+
+  if (relativePath === entry) {
+    return relativePath;
+  }
+
+  let absPath = relativePath;
+  if (/^\./.test(relativePath)) {
+    absPath = path.join(dirname, relativePath);
+    
+  } else {
+    absPath = path.join(NODE_MOUDLES_PATH, relativePath);
+  }
+
+  return revisePath(absPath);
+}
+
+```
+
+而后，需要修复文件的最终定位（自身还是内部的index.js)
+
+```
+function revisePath(absPath) {
+  const ext = path.extname(absPath);
+  if (ext) {
+    if (EXTENSIONS.indexOf(ext) === -1) {
+      throw new Error(`Only support bundler for (${EXTENSIONS}) file, current ext is ${ext}`)
+    }
+    if (fs.existsSync(absPath)) {
+      return absPath;
+    }  
+  }
+
+  if (ext !== '.js') {
+    if (fs.existsSync(`${absPath}.js`)) {
+      return `${absPath}.js`;
+    }
+
+    if (fs.existsSync(`${absPath}/index.js`)) {
+      return `${absPath}/index.js`;
+    }
+    throw new Error(`Can not revise the path ${absPath}`)
+  }
+  //here relative path is absolute path
+  return absPath;
+}
+
+```
 
 有了上面的概念，我们就可以进入我们的主题了。
 
