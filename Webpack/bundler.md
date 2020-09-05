@@ -128,7 +128,9 @@ var _application = _interopRequireDefault(require("./application.js"));
 var _index = _interopRequireDefault(require("./config/index.js"));
 
 //3
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { 
+  return obj && obj.__esModule ? obj : { default: obj }; 
+}
 
 //4
 var appName = _index.default.appName,
@@ -221,6 +223,9 @@ function(require, module, exports) {
 ### 3.依赖路径分析
 
 package.json的读取顺序
+
+如果用require：那么就是
+
 
 有了上面的概念，我们就可以进入我们的主题了。
 
