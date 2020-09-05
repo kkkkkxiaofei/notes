@@ -304,6 +304,156 @@ function revisePath(absPath) {
 
 ### 4.Babel
 
+上面分析了这么多关于模块导入导出的思路，当下摆在我们面前的第一步就是：如何在语法上识别一个文件里有依赖，以及依赖的路径是什么呢？
+
+这里不得不提一下Babel转译js的步骤。
+
+- 1. parse
+
+parse阶段会将源代码解析为抽象语法树(AST)，AST通过词法分析生成对应类型的节点，详细的描述了每一行代码的具体`特征`，例如：
+
+source code 
+
+```
+//1
+import app from './application.js';
+
+//2
+import config from './config/index.js';
+
+//3
+const { appName, version } = config;
+
+//4
+app.start(appName, version);
+
+```
+
+after parse:
+
+可以看到1,2为导入声明，3为变量声明，4为表达式。
+
+以1为例，1为ImportDeclaration表明是ESM的import（require语法不会是这种类型的Node），且source里的value为依赖模块的相对路径。但是这个树的可能会很深，导致我们取具体信息的操作会很复杂（a?.b?.c?.e?....），为此我们可以进入Babel转译的第二个阶段。
+
+- 2.traverse
+
+traverse可以方便的操作AST，比如我们可以这样遍历`ImportDeclaration`:
+
+```
+traverse(ast, {
+    ImportDeclaration({
+      node
+    }) {
+      const relativePath = node.source.value;
+      //record the dependency
+    }
+});
+
+```
+
+而对于`Commonjs`的`require`，在AST中存在于`CallExpression`的Node上(笔者下面的寻找方式肯定不是最佳的)：
+
+```
+
+traverse(ast, {
+  CallExpression({
+    node
+  }) {
+    const {
+      callee: {
+        name
+      },
+      arguments
+    } = node;
+
+    if (name === 'require') {
+      const relativePath = arguments[0].value;
+      //record the dependency
+    }
+  }
+});
+
+```
+
+在traverse的阶段我们还可以自定义一些语法然后去分析，比如对于动态导入模块来说，一般我们使用异步import:
+
+```
+import('./util').then(...)
+```
+
+我们可以在定义自己喜欢的语法糖：
+
+```
+dynamicImport('./api').then(
+  module => console.log('======successfully load dynamic moudle=====');
+);
+
+```
+
+在然后去像上面一样遍历该语法存在的节点：
+
+```
+
+traverse(ast, {
+  CallExpression({
+    node
+  }) {
+    const {
+      callee: {
+        name
+      },
+      arguments
+    } = node;
+
+    if (name === 'dynamicImport') {
+      const revisedPath = buildPath(relativePath, path.dirname(filename), config);
+      //record the dependency
+    }
+  }
+});
+
+```
+类似的，我们甚至可以模拟ES7的Decorator(@xxx)，这就不赘述了。
+
+
+- 3.transform
+
+生成了语法树，遍历/修改了语法树，最终Babel的目标是还是js代码，transform可以将我们修改后的AST输出最终的代码。
+
+在这一过程中一般只需要配置以下Babel的`presets`即可，比如我们常用的`preset-env`就是ES6->ES5，如果什么都不设置，那Babel就什么也不干。
+
+presets的角色比较上层，或者说它是一种宏观的规则，对于一些非常具体的代码转换逻辑，就需要plugin了。比如我们上面使用了`dynamicImport`语法，在traverse阶段我们也遍历到了该信息，但是这毕竟不是js语法，我们是需要写一个小插件来进行语法转换(插件的写法这里就不赘述了)：
+
+plugin/dynamicImport.js
+
+```
+module.exports = {
+  visitor: {
+    Identifier(path) {
+      if (path.node.name === 'dynamicImport') {
+        path.node.name = 'require';
+      }
+    }
+  }
+};
+```
+
+我们又将dynamicImport转换为了require（其实更好的实现应该是将dynamicImport转换为promise，但是笔者这里用了另外一种取巧的方式来实现异步导入，下面会提到）。
+
+然后利用自己的插件以及配置好的preset，最终输出转译后的代码。
+
+```
+const { code } = babel.transformFromAstSync(
+  ast, null, {
+    plugins: [
+      dynamicImportPlugin
+    ],
+    presets,
+  }
+);
+```
+
+至此，Babel的功能已经完成。
 
 ### 5.实现
 
