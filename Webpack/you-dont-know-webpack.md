@@ -202,6 +202,10 @@ webpack --profile --json > stat.json
 
 ```
 
+### 6. package.json的入口文件
 
+`main`: 支持`node`和`browser`端；发布包时会用`index.js`来兼容，对于`node`端来说会是`lib`。
 
+`moudle`: 支持ESM；发布包时一般为`es`的文件夹。
 
+`browser`: 支持browser。
