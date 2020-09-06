@@ -460,6 +460,111 @@ const { code } = babel.transformFromAstSync(
 
 ### 5.实现
 
+#### 5.1 生成资源文件
+
+我们建立一个很简单vanilla项目，结构如下：
+
+```
+vanilla
+│   main.js
+│   constant.js    
+│   application.js    
+└───utils
+│   └───log.js
+└───config
+    └───index.js
+```
+
+`main.js`
+
+```
+import app from './application.js';
+import config from './config/index.js';
+
+const { appName, version } = config;
+app.start(appName, version);
+```
+
+好，我们先开始分析依赖。
+
+对于main.js，它是这个项目的入口，这个必须由调用者提供。我们期望从main.js分析出类似如下信息：
+
+```
+{
+  id: String,
+  code: String,
+  filename: String,
+  dependencies: Array:
+}
+```
+
+我们可以把这个结构称作一个资源文件(`Asset`)。main.js是一个资源，它的依赖如下：
+
+```
+dependencies = ['./application.js', './config/index.js']
+```
+
+同理，dependencies里自身也是一个Asset。
+
+生成一个asset的逻辑如下：
+
+- 1.生成资源id
+
+简单点，我们这里使用自增id（第一个资源id为0）。
+
+- 2.读取源代码
+
+直接同步读取文件（暂时不考虑内存和效率）。
+
+- 3.生成ast
+
+参考上面。
+
+- 4.遍历ast，收集依赖
+
+遍历ast不再赘述。收集依赖只是将依赖添加到队列中：
+
+```
+const dependencies = [];
+
+traverse(ast, {
+  ImportDeclaration({
+    node
+  }) {
+    const relativePath = node.source.value;
+    dependencies.push(relativePath);
+  }
+});
+```
+
+注意，依赖资源的路径是相对路径，还需要后期修正。
+
+- 5.转换为源代码
+
+参考上面。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - (done)继续测试ESM的打包，包括node_module路径
 
 - 解决CommonJS无法从AST中读取依赖的问题,包括node_module路径
