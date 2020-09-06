@@ -537,16 +537,110 @@ traverse(ast, {
 });
 ```
 
-注意，依赖资源的路径是相对路径，还需要后期修正。
+注意，依赖资源的路径是相对路径，后期使用时还需要修正。
 
 - 5.转换为源代码
 
 参考上面。
 
+最终代码大致如下：
+
+```
+function createAsset(filename) {
+    id++;
+    const file = fs.readFileSync(filename, 'utf8');
+
+    const dependencies = [];
+
+    const ast = parser.parse(file, {
+      sourceType: 'module'
+    });
+
+    traverse(ast, {
+      ImportDeclaration({
+        node
+      }) {
+        const relativePath = node.source.value;
+        dependencies.push(relativePath);
+      },
+      CallExpression({
+        node
+      }) {
+        const {
+          callee: {
+            name
+          },
+          arguments
+        } = node;
+
+        if (name === 'require') {
+          const relativePath = arguments[0].value;
+
+          if (/^\./.test(relativePath)) {
+            dependencies.push(relativePath);
+          }
+
+        }
+      }
+    });
+    const {
+      code
+    } = babel.transformFromAstSync(
+      ast,
+      null, {
+        presets,
+      }
+    );
+
+    return {
+      id,
+      filename,
+      dependencies,
+      code
+    }
+  };
+
+```
 
 
+#### 5.2 生成资源树
+
+再来回顾以下我们的项目结构，这是一个典型的以入口文件（main.js）为根资源节点的多叉树，我们采用DFS进行遍历：
+
+```
+function createAssets(filename) {
+    const stack = [], assets = {};
+    const push = stack.push; 
+    stack.push = function(asset) {
+      push.call(stack, asset);
+      assets[asset.filename] = asset;
+    }
+    stack.push(createAsset(filename));
+    
+    //DFS
+    while(stack.length > 0) {
+      const asset = stack.pop();
+      asset.mapping = {};//1
+      asset.dependencies.forEach(relativePath => {
+        const revisedPath = buildPath(relativePath, path.dirname(asset.filename), config);
+        console.log(`Start extracting: ${revisedPath}`);
+        const depAsset = createAsset(revisedPath);
+        asset.mapping[relativePath] = depAsset.id;
+        stack.push(depAsset);
+      });
+    }
+
+    return assets;
+  };
+
+```
+
+上面的实现很简单，但有一点需要特别解释下，就是再1处我们给asset附加了一个mapping属性。
+
+mapping记录的是一个资源下一层（处于树中同一深度）的依赖关系保存下来，这样就可以利用路径去反查id。比如main.js的依赖里必然有`./application.js`，当我们去建立完main.js这个资源后，mapping里大致有`{"./application.js": 1}`这样的信息。这非常有用，当后面我们需要把main.js这个资源进行打包时可以利用mapping取出所有依赖的模块。
 
 
+#### 5.3 
 
 
 
