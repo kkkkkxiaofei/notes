@@ -792,27 +792,280 @@ var _application = _interopRequireDefault(require("./application.js"));
 
 `6`: 返回4步的对象。
 
+考虑到打包的代码量，我们用一个很小的工程作为一个测试：
 
+`main.js`
+```
+const isArray = require('./util');
 
+const arr = [1,2,3];
 
+console.log(`[1,2,3] is array: ${isArray(arr)}`);
+```
 
+`./util`
 
+```
+const isArray = arr => arr instanceof Array;
 
+module.exports = isArray;
+```
 
+打包后：
 
+```
+(function (modules) {
+  function load(id) {
+    const [factory, mapping] = modules[id];
+    function require(relativePath) {
+      return load(mapping[relativePath]);
+    }
+    const module = {
+      exports: {},
+    };
+    const result = factory(require, module, module.exports);
+    if (
+      module.exports &&
+      Object.getOwnPropertyNames(module.exports).length === 0
+    ) {
+      return result;
+    }
+    return module.exports;
+  }
+  return function () {
+    return load(0);
+  };
+})({
+  0: [
+    function (require, module, exports) {
+      const isArray = require("./util");
 
+      const arr = [1, 2, 3];
+      console.log(`arr is array: ${isArray(arr)}`);
+    },
+    { "./util": 1 },
+  ],
 
+  1: [
+    function (require, module, exports) {
+      const isArray = (arr) => arr instanceof Array;
 
+      module.exports = isArray;
+    },
+    {},
+  ],
+})();
 
+```
 
+在node/browser上执行:
 
+```
+[1,2,3] is array: true
+```
 
+至此，我们已经可以打包一个小型的纯js项目了，尽管它还有非常多的问题（@_@)
 
+### 6. 优化
 
+一个好的打包工具是一个需要考虑很多细节以及性能问题的，虽然笔者无法做到webpack这样优秀，但是基于上面的实现，我们还是能提出一些优化的实现和建议的。
 
+- 1.缓存
 
+我们在建立资源时(createAsset)，由于不同的文件也许会导入同样的资源a1，那么我们没有必要多次创建a1，毕竟建立a1的历程还是很长的。因此我们建立一个cache对象简直就是事半功倍。
 
+```
+...
+console.log(`Start extracting: ${revisedPath}`);
+if (cache[revisedPath]) {
+  asset.mapping[relativePath] = cache[revisedPath].id;
+} else {
+  const depAsset = createAsset(revisedPath);
+  cache[revisedPath] = depAsset;
+  asset.mapping[relativePath] = depAsset.id;
+}
+...
+```
 
+- 2.umd
+
+我们目前打包输出的bundle文件结构如下：
+
+```
+(function(modules) {
+  function load(id) {
+    ...
+    return module.exports;//1
+  }  
+})(modules)
+
+```
+
+很显然1处的`return`显得几乎毫无意义，因为没有直接的办法能够接得住这个return的结果，它就像是你在浏览器里的console里执行了一个函数`var result = do()`,这种方式叫做`var`打包。
+
+其实大部分情况下，你做比如react的项目，不关心这个也是没有问题的，因为chunk之间的调用关系已经被webpack组织好了，并不需要你自己去管理最终打包的返回值。
+
+但是也有时候我们为了兼容其他的环境或者确实是想拿到这个打包后的结果（微前端的拆分），那我们就需要考虑更完善的兼容方案了，这是`umd`。
+
+我们只需要简单的封装一层即可：
+
+```
+
+(function (root, factory) {
+  //commonjs2
+  if (typeof module === "Object" && typeof exports === "Object")
+    module.exports = factory();
+  //commonjs1
+  else if (typeof exports === "Object") exports["dummy"] = factory();
+  else root["umd-test"] = factory();
+})(window, (function(modules) {
+              function load(id) {
+                ...
+                return module.exports;//1
+              }  
+            })(modules))
+)
+
+```
+
+3. 配置文件
+
+有几个重要的信息还是有必要抽离出来，这里笔者模仿webpack，最基本的配置如下：
+
+```
+module.exports = {
+  entry: './main.js',
+  output: {
+    filename: 'chunck.js',
+    library: 'umd-test',
+    libraryTarget: 'umd'  
+  },
+  presets: [
+    '@babel/preset-env'
+  ]
+}
+```
+
+4. 代码分离
+
+上面我多次提到了`dynamicImport`这个语法，其实我这里用了一种比较偷懒的方式实现了代码分离。
+
+首先代码分离必须配置`library`的名字，在遍历AST时，我就记录了哪些资源是需要异步加载的。
+
+```
+const dynamicDeps = {};
+...
+
+if (name === 'dynamicImport') {
+  const revisedPath = buildPath(relativePath, path.dirname(filename), config);
+  dynamicDeps[revisedPath] = '';
+}
+```
+
+`dynamicDeps`里的key就表明这个路径的资源是异步模块，由于我还需要在最终阶段修改它，所以暂时没办法设置它的value。
+
+```
+const {
+  code
+} = babel.transformFromAstSync(
+  ast,
+  null, {
+    plugins: [
+      dynamicImportPlugin
+    ],
+    presets,
+  }
+);
+
+```
+
+这样我在打包阶段就可以和正常的模块一起输出：
+
+```
+function bundle(assets) {
+  ...
+  if (dynamicDeps.hasOwnProperty(revisedPath)) {
+    //code split here:
+    //1.assume that the dynamic module does't have mapping
+    //2.and not allowed to import the same moudle in other place
+    asyncModules.push({
+      prefix: `${id}.`,
+      content: buildDynamicFactory(id, assets[revisedPath].code)
+    });
+    return result;
+  }
+
+  return [
+    ...normalModules,
+    ...asyncModules,
+  ]
+}
+
+```
+
+这里我还用到了 `buildDynamicFactory`, 它实现了一个类`jsonp`的promise：
+
+```
+buildDynamicFactory: function (id, code) {
+    return `(self || this)['jsonpArray']['${id}'] = function(require, module, exports) {
+      ${code}  
+    }`
+  }
+```
+
+只要异步模块被调到，它的factory就会被注册到全局`jsonpArray`对象上，key为模块的id，value为模块的factory。
+
+但在这之前还需要告诉你的代码如何寻找对应的异步模块，回忆上面的load函数，我需要有如下改造：
+
+```
+
+function load(id) {
+  if (!modules[id]) {
+    return (function (id) {
+      window["jsonpArray"] = window["jsonpArray"] || {};
+      const script = document.createElement("script");
+      script.src = `/dist/${id}.chunck.js`;
+      document.body.appendChild(script);
+      return new Promise(function (res, rej) {
+        script.onload = function () {
+          const factory = window["jsonpArray"][id];
+          const module = {
+            exports: {},
+          };
+          factory(null, module, module.exports);
+          res(module.exports);
+        };
+      });
+    })(id);
+  }
+  
+  ...
+
+  return module.exports;
+}
+
+```
+请求到异步模块后，它自己会完成注册，我只需要异步返回下factory执行后的结果即可。
+
+比如，我源代码如果为：
+
+```
+dynamicImport('./api')
+    .then(res => console.log(`dynamic module response: ${JSON.stringify(res.default())}`));
+```
+
+会被我转译为：
+
+```
+require('./api')
+    .then(res => console.log(`dynamic module response: ${JSON.stringify(res.default())}`));
+```
+
+注意：这个require返回的是一个promise。
+
+你可能见惯了`import('xxx').then`的写法，觉得笔者这样很怪异，但我想说，语法还不就是人定的么，你都自己写打包了，自己怎么舒服怎么来嘛。
+
+5. 其他
 
 - (done)继续测试ESM的打包，包括node_module路径
 
