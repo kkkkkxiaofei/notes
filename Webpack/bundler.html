@@ -774,8 +774,354 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <ul>
-<li><p>(done)&#x7EE7;&#x7EED;&#x6D4B;&#x8BD5;es module&#x7684;&#x6253;&#x5305;&#xFF0C;&#x5305;&#x62EC;node_module&#x8DEF;&#x5F84;</p>
+                                <h3 id="&#x5199;&#x5728;&#x524D;&#x9762;">&#x5199;&#x5728;&#x524D;&#x9762;</h3>
+<p>&#x524D;&#x7AEF;&#x81EA;&#x8EAB;&#x7531;&#x4E8E;&#x7F3A;&#x5C11;&#x6A21;&#x5757;&#x5316;&#x7BA1;&#x7406;&#xFF0C;&#x56E0;&#x6B64;&#x5F53;&#x6211;&#x4EEC;&#x8FDB;&#x884C;&#x6A21;&#x5757;&#x5316;&#x5F00;&#x53D1;&#x540E;&#xFF0C;&#x5FC5;&#x987B;&#x8981;&#x5C06;&#x4EE3;&#x7801;&#x8FDB;&#x884C;&#x6574;&#x5408;&#xFF08;bundle&#xFF09;&#x3002;&#x6253;&#x5305;&#x5DE5;&#x5177;&#x65E0;&#x975E;&#x662F;&#x5C06;js, css&#x4EE5;&#x53CA;&#x5176;&#x4ED6;&#x8D44;&#x6E90;&#x6587;&#x4EF6;&#x8FDB;&#x884C;&#x5408;&#x5E76;&#x3002;</p>
+<p>&#x4EE5;webpack&#x7684;startkit&#x4E3A;&#x4F8B;&#x5B50;&#xFF1A;</p>
+<pre><code>
+module.exports = {
+  entry: path.resolve(__dirname, &apos;index.js&apos;),
+  output: {
+    path: path.resolve(__dirname, &apos;dist&apos;),
+    filename: &apos;main.js&apos;
+  }
+};
+</code></pre><p>&#x914D;&#x7F6E;&#x5F88;&#x7B80;&#x5355;&#xFF0C;&#x5B83;&#x53EA;&#x9700;&#x8981;entry&#x548C;output&#xFF08;&#x751A;&#x81F3;&#x53EF;&#x4EE5;&#x6709;&#x9ED8;&#x8BA4;&#x7684;&#xFF09;&#x5373;&#x53EF;&#x3002;</p>
+<p>&#x90A3;&#x4E48;&#x5B83;&#x662F;&#x600E;&#x4E48;&#x505A;&#x7684;&#x5462;&#xFF1F;</p>
+<p>&#x6211;&#x4EEC;&#x6765;&#x5206;&#x6790;&#x4E00;&#x4E2A;vanilla js&#x7684;demo&#x3002;</p>
+<p><code>main.js</code></p>
+<pre><code>import app from &apos;./application.js&apos;;
+import config from &apos;./config/index.js&apos;;
+
+const { appName, version } = config;
+app.start(appName, version);
+</code></pre><p><code>main.js</code>&#x6709;&#x4EE5;&#x4E0B;&#x7279;&#x70B9;&#xFF1A;</p>
+<ul>
+<li><p>1.&#x6709;&#x4F9D;&#x8D56;
+<code>./applicantion.js</code>&#x548C;<code>./config/index.js</code>&#xFF0C;</p>
+</li>
+<li><p>2.&#x4F7F;&#x7528;&#x4E86;ESM&#x5F15;&#x5165;&#x4F9D;&#x8D56;
+<code>import ...</code></p>
+</li>
+<li><p>3.&#x4F9D;&#x8D56;&#x5FC5;&#x7136;&#x5C06;&#x81EA;&#x5DF1;&#x8FDB;&#x884C;&#x4E86;&#x5BFC;&#x51FA;
+<code>./applicantion.js</code>&#x5FC5;&#x7136;&#x6709;<code>export default</code>; &#x4F9D;&#x8D56;&#x7684;&#x4F9D;&#x8D56;&#x4E5F;&#x8BB8;&#x8FD8;&#x4F1A;&#x6709;<code>export const xxx</code>;</p>
+</li>
+<li><p>4.main&#x6587;&#x4EF6;&#x81EA;&#x8EAB;&#x5E76;&#x6CA1;&#x6709;&#x5BFC;&#x51FA;</p>
+</li>
+</ul>
+<p>&#x57FA;&#x4E8E;&#x6B64;&#xFF0C;&#x53EF;&#x4EE5;&#x63D0;&#x51FA;&#x4EE5;&#x4E0B;&#x95EE;&#x9898;&#xFF1A;</p>
+<ul>
+<li><p>1.&#x600E;&#x4E48;&#x5904;&#x7406;ESM&#x5BFC;&#x5165;/&#x5BFC;&#x51FA;&#x7684;&#x8BED;&#x6CD5;&#xFF0C;&#x8FD9;&#x4E48;&#x8C8C;&#x4F3C;Node.js&#x548C;Browser&#x90FD;&#x4E0D;&#x8BA4;&#x8BC6;&#x5440;&#xFF1F;</p>
+</li>
+<li><p>2.&#x5047;&#x8BBE;1&#x5DF2;&#x7ECF;&#x89E3;&#x51B3;&#xFF0C;&#x600E;&#x4E48;&#x5C06;&#x4F9D;&#x8D56;&#x5904;&#x7406;&#x6210;&#x4E00;&#x4E2A;&#x6A21;&#x5757;&#xFF0C;&#x4E14;&#x652F;&#x6301;&#x81EA;&#x8EAB;&#x5BFC;&#x51FA;&#x548C;&#x5916;&#x90E8;&#x5F15;&#x7528;&#xFF1F;</p>
+</li>
+<li><p>3.&#x5982;&#x4F55;&#x5206;&#x6790;&#x4F9D;&#x8D56;&#xFF0C;&#x4EE5;&#x53CA;&#x4F9D;&#x8D56;&#x7684;&#x4F9D;&#x8D56;&#xFF0C;&#x4EE5;&#x53CA;&#x3002;&#x3002;&#x3002;&#x3002;</p>
+</li>
+</ul>
+<h3 id="1&#x6A21;&#x5757;&#x5BFC;&#x5165;&#x5BFC;&#x51FA;">1.&#x6A21;&#x5757;&#x5BFC;&#x5165;&#x5BFC;&#x51FA;</h3>
+<p>&#x6211;&#x4EEC;&#x5148;&#x4EE5;ESM&#x4F5C;&#x4E3A;&#x8BA8;&#x8BBA;&#x3002;</p>
+<h4 id="esm-in-browser">ESM in browser</h4>
+<p>&#x4F60;&#x4E5F;&#x8BB8;&#x6CA1;&#x6709;&#x5173;&#x6CE8;&#xFF0C;&#x76EE;&#x524D;ESM&#x5728;<code>&#x90E8;&#x5206;</code>&#x6D4F;&#x89C8;&#x5668;&#x91CC;&#x662F;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x7684;&#xFF1A;</p>
+<p>index.html</p>
+<pre><code>&lt;script type=&quot;module&quot;&gt;
+  import showVersion from &apos;./index.js&apos;;
+  showVersion();
+&lt;/script&gt;
+</code></pre><p>index.js</p>
+<pre><code>import { version } from &apos;./config.js&apos;;
+
+export default () =&gt; {
+    console.log(`====== app version: ${version} ======`);
+}
+</code></pre><p>&#x662F;&#x4E0D;&#x662F;&#x5F88;&#x65B9;&#x4FBF;&#xFF1F;</p>
+<p>&#x4F46;&#x5176;&#x4E2D;&#x95EE;&#x9898;&#x4E5F;&#x4E0D;&#x5C11;&#xFF1A;</p>
+<ul>
+<li>1.&#x6587;&#x4EF6;&#x8DEF;&#x5F84;</li>
+</ul>
+<p>&#x8FD9;&#x91CC;&#x6211;&#x6240;&#x6709;&#x7684;&#x6587;&#x4EF6;&#x90FD;&#x5FC5;&#x987B;&#x5199;&#x540E;&#x7F00;&#xFF0C;&#x4E14;&#x8DEF;&#x5F84;&#x5FC5;&#x987B;&#x662F;&#x4EE5;&#x670D;&#x52A1;&#x5668;&#x7684;host&#x4E3A;&#x76F8;&#x5BF9;&#x8DEF;&#x5F84;&#xFF0C;&#x8FD9;&#x5C31;&#x6781;&#x5927;&#x7684;&#x9650;&#x5236;&#x4E86;&#x6A21;&#x5757;&#x7684;&#x8DEF;&#x5F84;&#xFF08;alias&#xFF0C;node_modules&#x7B49;&#xFF09;</p>
+<ul>
+<li>2.http&#x8BF7;&#x6C42;</li>
+</ul>
+<p>&#x5982;&#x679C;&#x4F60;&#x5C1D;&#x8BD5;&#x4E0A;&#x9762;&#x7684;&#x4EE3;&#x7801;&#xFF0C;&#x4F1A;&#x53D1;&#x73B0;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x662F;&#x76F4;&#x63A5;&#x53BB;&#x8BF7;&#x6C42;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x4E14;&#x8BF7;&#x6C42;&#x987A;&#x5E8F;&#x662F;&#x6709;&#x987A;&#x7684;&#x3002;</p>
+<p>&#x8FD9;&#x9996;&#x5148;&#x4F1A;&#x9700;&#x8981;&#x5927;&#x91CF;http&#x8BF7;&#x6C42;&#xFF0C;&#x4E14;&#x9690;&#x5F0F;&#x7684;&#x9700;&#x8981;&#x8BA9;callback&#x4E5F;&#x6709;&#x5E8F;&#xFF0C;&#x4E0D;&#x7136;&#x53EF;&#x80FD;&#x4F1A;&#x51FA;&#x73B0;f1&#x5728;f2&#x4E4B;&#x524D;&#x8BF7;&#x6C42;&#x7684;&#xFF0C;&#x4F46;&#x5374;&#x665A;&#x56DE;&#x6765;&#xFF0C;f2&#x5374;&#x4F9D;&#x8D56;&#x4E86;f1&#x91CC;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x4F1A;&#x8DEA;&#x3002;</p>
+<ul>
+<li>3.&#x4E0D;&#x652F;&#x6301;commonjs</li>
+</ul>
+<p>&#x5982;&#x679C;&#x6211;&#x5199;&#x4E86;node&#x73AF;&#x5883;&#x7684;&#x4EE3;&#x7801;&#xFF0C;&#x662F;&#x6CA1;&#x529E;&#x6CD5;&#x7528;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x52A0;&#x8F7D;&#x7684;&#xFF0C;&#x66F4;&#x522B;&#x63D0;&#x5176;&#x4ED6;&#x6A21;&#x5757;&#x673A;&#x5236;&#x4E86;&#x3002;</p>
+<h4 id="esm-in-nodejs">ESM in Node.js</h4>
+<p>&#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#x662F;&#x65E0;&#x6CD5;&#x5728;Node.js&#x73AF;&#x5883;&#x4E0B;&#x4F7F;&#x7528;ES moudle&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x81EA;&#x4ECE;<code>13.9</code>&#x7248;&#x672C;&#x4EE5;&#x4E0A;&#xFF0C;&#x53EF;&#x4EE5;&#x5F00;&#x542F;flag <code>--experimental-modules</code>&#xFF0C;&#x5E76;&#x4E14;&#x5728;<code>package.json</code>&#x91CC;:</p>
+<pre><code>{
+  &quot;type&quot;: &quot;module&quot;
+}
+</code></pre><h4 id="&#x4ECE;esm-&#x5230;commonjs">&#x4ECE;ESM &#x5230;commonjs</h4>
+<p>&#x4E0D;&#x96BE;&#x770B;&#x51FA;&#xFF0C;&#x5355;&#x5C31;ESM&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x548C;Node.js&#x7684;&#x5207;&#x6362;&#x80AF;&#x5B9A;&#x662F;&#x6709;&#x95EE;&#x9898;&#x7684;&#xFF0C;&#x4E3A;&#x4E86;&#x6D88;&#x9664;&#x5DEE;&#x5F02;&#xFF0C;&#x76EE;&#x524D;&#x4E3B;&#x6D41;&#x7684;&#x505A;&#x6CD5;&#x662F;&#x4E0D;&#x5728;&#x6D4F;&#x89C8;&#x5668;&#x91CC;&#x4F7F;&#x7528;ESM&#xFF0C;&#x53D6;&#x800C;&#x4EE3;&#x4E4B;&#x7684;&#x662F;&#x5C06;ESM&#x5148;&#x8F6C;&#x5316;&#x4E3A;commonjs&#xFF0C;&#x6BD4;&#x5982;&#x4E0A;&#x9762;&#x7684;<code>main.js</code>&#xFF0C;&#x5229;&#x7528;babel&#x8F6C;&#x6362;&#x540E;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code>&quot;use strict&quot;;
+
+//1
+var _application = _interopRequireDefault(require(&quot;./application.js&quot;));
+
+//2
+var _index = _interopRequireDefault(require(&quot;./config/index.js&quot;));
+
+//3
+function _interopRequireDefault(obj) { 
+  return obj &amp;&amp; obj.__esModule ? obj : { default: obj }; 
+}
+
+//4
+var appName = _index.default.appName,
+    version = _index.default.version;
+//5
+_application.default.start(appName, version);
+</code></pre><p>&#x9996;&#x5148;1,2&#x5DF2;&#x7ECF;&#x628A;<code>import</code>&#x6539;&#x4E3A;&#x4E86;<code>require</code>&#x3002;</p>
+<p>&#x5176;&#x6B21;&#xFF0C;3&#x5904;&#x5BF9;require&#x7684;&#x5B9E;&#x73B0;&#x505A;&#x4E86;&#x4E00;&#x6B21;&#x7B7E;&#x540D;&#x5305;&#x88C5;&#xFF1A;&#x82E5;moudle&#x4E3A;ESM&#x5219;&#x5177;&#x6709;&#x5185;&#x90E8;&#x5C5E;&#x6027;<code>_esModule</code>&#xFF0C;&#x6B64;&#x65F6;&#x9ED8;&#x8BA4;&#x5BFC;&#x51FA;&#x7684;&#x6A21;&#x5757;&#x5C31;&#x662F;&#x81EA;&#x8EAB;&#xFF1B;
+&#x5426;&#x5219;&#xFF0C;&#x9ED8;&#x8BA4;&#x5BFC;&#x51FA;&#x7684;&#x6A21;&#x5757;&#x3002;</p>
+<p>&#x6700;&#x540E;&#xFF0C;&#x7531;&#x4E8E;<code>./application.js</code>&#x548C;<code>./config/index.js</code>&#x5747;&#x4E3A;&#x9ED8;&#x8BA4;&#x5BFC;&#x51FA;&#xFF0C;&#x6240;&#x4EE5;&#x4F7F;&#x7528;&#x65F6;&#x9700;&#x8981;&#x53D6;&#x51FA;<code>default</code>&#xFF0C;&#x5B8C;&#x5168;&#x662F;&#x6309;&#x7167;3&#x7684;&#x6807;&#x51C6;&#x6765;&#x89E3;&#x6790;&#x7684;&#x3002;</p>
+<p>&#x770B;&#x5230;&#x8FD9;&#x91CC;&#xFF0C;&#x4F3C;&#x4E4E;&#x95EE;&#x9898;&#x5DF2;&#x7ECF;&#x89E3;&#x51B3;&#x4E86;&#x4E00;&#x5927;&#x534A;&#x4E86;&#xFF08;&#x4EE3;&#x7801;&#x5DF2;&#x7ECF;&#x5F52;&#x4E00;&#x5316;&#x4E86;&#xFF09;&#xFF0C;&#x4F46;&#x8FD8;&#x6709;&#x4E00;&#x4E2A;&#x95EE;&#x9898;&#x6CA1;&#x6709;&#x89E3;&#x51B3;&#xFF1A;&#x8FD9;&#x4E2A;require&#x8BE5;&#x600E;&#x4E48;&#x5B9E;&#x73B0;&#xFF1F;</p>
+<blockquote>
+<p>&#x8FD9;&#x91CC;&#x5FC5;&#x987B;&#x6F84;&#x6E05;&#xFF0C;require&#x5E76;&#x4E0D;&#x4E00;&#x5B9A;&#x5C31;&#x5728;&#x8BF4;Node.js&#x7684;require, Node.js&#x53EA;&#x662F;commonjs&#x6807;&#x51C6;&#x7684;&#x4E00;&#x79CD;&#x5B9E;&#x73B0;&#x3002;</p>
+</blockquote>
+<h3 id="2-&#x6A21;&#x5757;&#x5BFC;&#x51FA;&#x7684;&#x901A;&#x7528;&#x89E3;&#x51B3;&#x65B9;&#x6848;">2. &#x6A21;&#x5757;&#x5BFC;&#x51FA;&#x7684;&#x901A;&#x7528;&#x89E3;&#x51B3;&#x65B9;&#x6848;</h3>
+<p>&#x548C;&#x4E0A;&#x9762;&#x4E00;&#x6837;&#xFF0C;&#x6211;&#x4EEC;&#x7528;babel&#x6D4B;&#x8BD5;&#x4EE5;&#x4E0B;ESM&#x7684;&#x5BFC;&#x51FA;&#x8F6C;&#x6362;&#xFF1A;</p>
+<p>source code from ESM:</p>
+<pre><code>export default A;
+
+export const name = &apos;&apos;;
+</code></pre><p>after babel:</p>
+<pre><code>&quot;use strict&quot;;
+
+Object.defineProperty(exports, &quot;__esModule&quot;, {
+  value: true
+});
+exports.name = exports.default = void 0;
+var _default = A;
+exports.default = _default;
+var name = &apos;&apos;;
+exports.name = name;
+</code></pre><p>&#x5F88;&#x7B80;&#x5355;&#xFF0C;&#x9ED8;&#x8BA4;&#x5BFC;&#x51FA;<code>export default</code>&#x8F6C;&#x5316;&#x4E3A;<code>exports.default</code>&#xFF1B;&#x53D8;&#x91CF;&#x5BFC;&#x51FA;<code>export const xxx</code>&#x8F6C;&#x5316;&#x4E3A;<code>exports.xxx</code>&#x3002;</p>
+<p>&#x90A3;&#x4E07;&#x4E00;&#x9700;&#x8981;&#x6253;&#x5305;&#x7684;&#x4EE3;&#x7801;&#x4F7F;&#x7528;&#x4E86;commonjs&#x5462;&#xFF1F;</p>
+<p>source code from commonjs:</p>
+<pre><code>module.exports = A;
+
+module.exports = {
+  name: &apos;&apos;
+}
+</code></pre><p>after babel:</p>
+<pre><code>module.exports = A;
+module.exports = {
+  name: &apos;&apos;
+};
+</code></pre><p>&#x4EC0;&#x4E48;&#xFF1F;&#x5C45;&#x7136;&#x4E00;&#x6837;&#x3002;</p>
+<p>&#x6CA1;&#x9519;&#xFF0C;&#x8FD9;&#x5C31;&#x662F;&#x76EE;&#x524D;&#x7684;&#x6807;&#x51C6;&#xFF1A;&#x56E0;&#x4E3A;&#x6D4F;&#x89C8;&#x5668;&#x7AEF;&#x548C;Node.js&#x7AEF;&#x5BF9;ESM&#x7684;&#x652F;&#x6301;&#x90FD;&#x8FD8;&#x4E0D;&#x6210;&#x719F;&#xFF0C;&#x6240;&#x4EE5;&#x6240;&#x8C13;&#x7684;&#x8F6C;&#x8BD1;&#x5C31;&#x662F;ES moudle&#x8F6C;commonjs&#x7684;&#x8FC7;&#x7A0B;&#x3002;</p>
+<p>&#x8FD9;&#x6837;&#x4F9D;&#x8D56;&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x53EA;&#x7528;&#x5904;&#x7406;commonjs1&#x548C;commonjs2&#x7684;&#x60C5;&#x51B5;&#x5C31;&#x597D;&#x4E86;&#xFF0C;&#x5373;&#x4EE3;&#x7801;&#x91CC;&#x6A21;&#x5757;&#x64CD;&#x4F5C;&#x53EA;&#x6709;<code>require</code>,<code>exports.default</code>,<code>exports.xxx</code>, <code>module.exports</code>&#x3002;&#x6240;&#x4EE5;&#x4EFB;&#x610F;&#x6587;&#x4EF6;&#x7684;&#x4EE3;&#x7801;&#x90FD;&#x53EF;&#x4EE5;&#x6309;&#x7167;&#x5982;&#x4E0B;&#x6765;&#x5C01;&#x88C5;&#xFF1A;</p>
+<p>source.js</p>
+<pre><code>function(require, module, exports) {
+  // source code
+}
+</code></pre><p>&#x6709;<code>require</code>&#x662F;&#x56E0;&#x4E3A;&#x6709;&#x53EF;&#x80FD;&#x8FD8;&#x9700;&#x8981;&#x5F15;&#x7528;&#x5176;&#x4ED6;&#x6A21;&#x5757;&#xFF0C;&#x8FD9;&#x4E2A;&#x6211;&#x4EEC;&#x4E0B;&#x9762;&#x4F1A;&#x8BB2;&#x5230;&#x3002;</p>
+<p><code>exports</code>&#x7B49;&#x4EF7;&#x4E8E;<code>module.exports</code>&#xFF0C;&#x56E0;&#x6B64;&#x672C;&#x8D28;&#x4E0A;&#x662F;&#x5229;&#x7528;<code>module</code>&#x5BF9;&#x8C61;&#x53BB;&#x6CE8;&#x5165;&#x539F;&#x59CB;&#x4EE3;&#x7801;&#xFF0C;&#x6700;&#x7EC8;&#x53D6;&#x51FA;&#x5BFC;&#x51FA;&#x7684;&#x6A21;&#x5757;&#x3002;</p>
+<h3 id="3&#x5BFC;&#x5165;&#x8DEF;&#x5F84;&#x5206;&#x6790;">3.&#x5BFC;&#x5165;&#x8DEF;&#x5F84;&#x5206;&#x6790;</h3>
+<p>&#x5F53;&#x6211;&#x4EEC;&#x5BFC;&#x5165;&#x4E00;&#x4E2A;&#x6A21;&#x5757;&#x65F6;&#xFF0C;&#x4E00;&#x822C;&#x6709;&#x4E24;&#x7C7B;&#x5199;&#x6CD5;&#xFF1A;</p>
+<pre><code>//1
+import _ from &apos;lodash&apos;; 
+
+//2
+import util from &apos;./util&apos;;
+</code></pre><p>&#x5176;&#x4E2D;1&#x7684;&#x5BFB;&#x627E;&#x89C4;&#x5219;&#x9ED8;&#x8BA4;&#x4F1A;&#x53BB;&#x9879;&#x76EE;&#x6839;&#x76EE;&#x5F55;&#x4E0B;&#x7684;<code>node_modules</code>&#x91CC;&#x5BFB;&#x627E;&#xFF1B;</p>
+<p>&#x800C;2&#x7684;&#x5BFB;&#x627E;&#x89C4;&#x5219;&#x5C31;&#x7A0D;&#x5FAE;&#x590D;&#x6742;&#x4E00;&#x70B9;&#xFF1A;</p>
+<p>&#x5F53;<code>./util</code>&#x6CA1;&#x6709;<code>package.json</code>&#x6587;&#x4EF6;&#x65F6;&#x4F1A;&#x53BB;&#x5C1D;&#x8BD5;&#x5BFB;&#x627E;<code>./util</code>;&#x5426;&#x5219;&#x4F1A;&#x67E5;&#x770B;<code>package.json</code>&#x91CC;&#x7684;<code>main</code>&#x5C5E;&#x6027;&#x4F5C;&#x4E3A;&#x5165;&#x53E3;&#x3002;</p>
+<p>&#x4EE5;&#x4E0A;&#x89C4;&#x5219;&#x7684;&#x524D;&#x63D0;&#x6CA1;&#x6709;&#x7528;&#x4EFB;&#x4F55;&#x7684;&#x6253;&#x5305;&#x5DE5;&#x5177;&#xFF0C;&#x6BD4;&#x5982;&#x7528;webpack&#x6253;&#x5305;&#x65F6;&#x8DEF;&#x5F84;&#x7684;&#x5206;&#x6790;&#x4F1A;&#x6BD4;&#x8FD9;&#x4E2A;&#x8981;&#x590D;&#x6742;&#x7684;&#x591A;&#xFF0C;&#x8FD8;&#x7275;&#x626F;&#x5230;<code>main</code>,<code>module</code>,<code>browser</code>&#x7B49;&#x7684;&#x4F18;&#x5148;&#x7EA7;&#x3002;&#x6240;&#x4EE5;&#x57FA;&#x4E8E;&#x6B64;&#xFF0C;&#x6211;&#x4EEC;&#x8FD9;&#x91CC;&#x628A;&#x89C4;&#x5219;&#x5B9A;&#x7684;&#x7B80;&#x5355;&#x70B9;&#xFF1A;</p>
+<ul>
+<li><p>1.&#x9ED8;&#x8BA4;&#x5916;&#x90E8;&#x4F9D;&#x8D56;&#x7684;&#x8DEF;&#x5F84;&#x4E3A;<code>${projectRoot}/node_modules</code></p>
+</li>
+<li><p>2.<code>./util</code> &#x7B49;&#x4EF7;&#x4E8E; <code>./util.js</code> &#x6216; <code>./util/index.js</code></p>
+</li>
+<li><p>3.&#x4EFB;&#x4F55;&#x4EE5;&#x5B57;&#x7B26;&#x5F00;&#x5934;&#x7684;&#x8DEF;&#x5F84;&#x5747;&#x4EE3;&#x8868;&#x5916;&#x90E8;&#x4F9D;&#x8D56;&#xFF08;<code>util</code>&#x7B49;&#x4EF7;&#x4E8E;<code>${projectRoot}/node_modules/util/index.js</code>)</p>
+</li>
+</ul>
+<p>&#x4E8E;&#x662F;&#x9996;&#x5148;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x628A;&#x76F8;&#x5BF9;&#x8DEF;&#x5F84;&#x8F6C;&#x5316;&#x4E3A;&#x7EDD;&#x5BF9;&#x8DEF;&#x5F84;&#xFF1A;</p>
+<pre><code>function buildPath(relativePath, dirname, config) {
+  const { entry } = config;
+  const NODE_MOUDLES_PATH = `${path.dirname(entry)}/node_modules`;
+
+  if (relativePath === entry) {
+    return relativePath;
+  }
+
+  let absPath = relativePath;
+  if (/^\./.test(relativePath)) {
+    absPath = path.join(dirname, relativePath);
+
+  } else {
+    absPath = path.join(NODE_MOUDLES_PATH, relativePath);
+  }
+
+  return revisePath(absPath);
+}
+</code></pre><p>&#x800C;&#x540E;&#xFF0C;&#x9700;&#x8981;&#x4FEE;&#x590D;&#x6587;&#x4EF6;&#x7684;&#x6700;&#x7EC8;&#x5B9A;&#x4F4D;&#xFF08;&#x81EA;&#x8EAB;&#x8FD8;&#x662F;&#x5185;&#x90E8;&#x7684;index.js)</p>
+<pre><code>function revisePath(absPath) {
+  const ext = path.extname(absPath);
+  if (ext) {
+    if (EXTENSIONS.indexOf(ext) === -1) {
+      throw new Error(`Only support bundler for (${EXTENSIONS}) file, current ext is ${ext}`)
+    }
+    if (fs.existsSync(absPath)) {
+      return absPath;
+    }  
+  }
+
+  if (ext !== &apos;.js&apos;) {
+    if (fs.existsSync(`${absPath}.js`)) {
+      return `${absPath}.js`;
+    }
+
+    if (fs.existsSync(`${absPath}/index.js`)) {
+      return `${absPath}/index.js`;
+    }
+    throw new Error(`Can not revise the path ${absPath}`)
+  }
+  //here relative path is absolute path
+  return absPath;
+}
+</code></pre><p>&#x6709;&#x4E86;&#x4E0A;&#x9762;&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x53EF;&#x4EE5;&#x8FDB;&#x5165;&#x6211;&#x4EEC;&#x7684;&#x4E3B;&#x9898;&#x4E86;&#x3002;</p>
+<h3 id="4babel">4.Babel</h3>
+<p>&#x4E0A;&#x9762;&#x5206;&#x6790;&#x4E86;&#x8FD9;&#x4E48;&#x591A;&#x5173;&#x4E8E;&#x6A21;&#x5757;&#x5BFC;&#x5165;&#x5BFC;&#x51FA;&#x7684;&#x601D;&#x8DEF;&#xFF0C;&#x5F53;&#x4E0B;&#x6446;&#x5728;&#x6211;&#x4EEC;&#x9762;&#x524D;&#x7684;&#x7B2C;&#x4E00;&#x6B65;&#x5C31;&#x662F;&#xFF1A;&#x5982;&#x4F55;&#x5728;&#x8BED;&#x6CD5;&#x4E0A;&#x8BC6;&#x522B;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x91CC;&#x6709;&#x4F9D;&#x8D56;&#xFF0C;&#x4EE5;&#x53CA;&#x4F9D;&#x8D56;&#x7684;&#x8DEF;&#x5F84;&#x662F;&#x4EC0;&#x4E48;&#x5462;&#xFF1F;</p>
+<p>&#x8FD9;&#x91CC;&#x4E0D;&#x5F97;&#x4E0D;&#x63D0;&#x4E00;&#x4E0B;Babel&#x8F6C;&#x8BD1;js&#x7684;&#x6B65;&#x9AA4;&#x3002;</p>
+<ul>
+<li><ol>
+<li>parse</li>
+</ol>
+</li>
+</ul>
+<p>parse&#x9636;&#x6BB5;&#x4F1A;&#x5C06;&#x6E90;&#x4EE3;&#x7801;&#x89E3;&#x6790;&#x4E3A;&#x62BD;&#x8C61;&#x8BED;&#x6CD5;&#x6811;(AST)&#xFF0C;AST&#x901A;&#x8FC7;&#x8BCD;&#x6CD5;&#x5206;&#x6790;&#x751F;&#x6210;&#x5BF9;&#x5E94;&#x7C7B;&#x578B;&#x7684;&#x8282;&#x70B9;&#xFF0C;&#x8BE6;&#x7EC6;&#x7684;&#x63CF;&#x8FF0;&#x4E86;&#x6BCF;&#x4E00;&#x884C;&#x4EE3;&#x7801;&#x7684;&#x5177;&#x4F53;<code>&#x7279;&#x5F81;</code>&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;</p>
+<p>source code </p>
+<pre><code>//1
+import app from &apos;./application.js&apos;;
+
+//2
+import config from &apos;./config/index.js&apos;;
+
+//3
+const { appName, version } = config;
+
+//4
+app.start(appName, version);
+</code></pre><p>after parse:</p>
+<p><img src="../images/bundler/4-1.png" alt=""></p>
+<p>&#x53EF;&#x4EE5;&#x770B;&#x5230;1,2&#x4E3A;&#x5BFC;&#x5165;&#x58F0;&#x660E;&#xFF0C;3&#x4E3A;&#x53D8;&#x91CF;&#x58F0;&#x660E;&#xFF0C;4&#x4E3A;&#x8868;&#x8FBE;&#x5F0F;&#x3002;</p>
+<p>&#x4EE5;1&#x4E3A;&#x4F8B;&#xFF0C;1&#x4E3A;ImportDeclaration&#x8868;&#x660E;&#x662F;ESM&#x7684;import&#xFF08;require&#x8BED;&#x6CD5;&#x4E0D;&#x4F1A;&#x662F;&#x8FD9;&#x79CD;&#x7C7B;&#x578B;&#x7684;Node&#xFF09;&#xFF0C;&#x4E14;source&#x91CC;&#x7684;value&#x4E3A;&#x4F9D;&#x8D56;&#x6A21;&#x5757;&#x7684;&#x76F8;&#x5BF9;&#x8DEF;&#x5F84;&#x3002;&#x4F46;&#x662F;&#x8FD9;&#x4E2A;&#x6811;&#x7684;&#x53EF;&#x80FD;&#x4F1A;&#x5F88;&#x6DF1;&#xFF0C;&#x5BFC;&#x81F4;&#x6211;&#x4EEC;&#x53D6;&#x5177;&#x4F53;&#x4FE1;&#x606F;&#x7684;&#x64CD;&#x4F5C;&#x4F1A;&#x5F88;&#x590D;&#x6742;&#xFF08;a?.b?.c?.e?....&#xFF09;&#xFF0C;&#x4E3A;&#x6B64;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x8FDB;&#x5165;Babel&#x8F6C;&#x8BD1;&#x7684;&#x7B2C;&#x4E8C;&#x4E2A;&#x9636;&#x6BB5;&#x3002;</p>
+<ul>
+<li>2.traverse</li>
+</ul>
+<p>traverse&#x53EF;&#x4EE5;&#x65B9;&#x4FBF;&#x7684;&#x64CD;&#x4F5C;AST&#xFF0C;&#x6BD4;&#x5982;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x8FD9;&#x6837;&#x904D;&#x5386;<code>ImportDeclaration</code>:</p>
+<pre><code>traverse(ast, {
+    ImportDeclaration({
+      node
+    }) {
+      const relativePath = node.source.value;
+      //record the dependency
+    }
+});
+</code></pre><p>&#x800C;&#x5BF9;&#x4E8E;<code>Commonjs</code>&#x7684;<code>require</code>&#xFF0C;&#x5728;AST&#x4E2D;&#x5B58;&#x5728;&#x4E8E;<code>CallExpression</code>&#x7684;Node&#x4E0A;(&#x7B14;&#x8005;&#x4E0B;&#x9762;&#x7684;&#x5BFB;&#x627E;&#x65B9;&#x5F0F;&#x80AF;&#x5B9A;&#x4E0D;&#x662F;&#x6700;&#x4F73;&#x7684;)&#xFF1A;</p>
+<pre><code>
+traverse(ast, {
+  CallExpression({
+    node
+  }) {
+    const {
+      callee: {
+        name
+      },
+      arguments
+    } = node;
+
+    if (name === &apos;require&apos;) {
+      const relativePath = arguments[0].value;
+      //record the dependency
+    }
+  }
+});
+</code></pre><p>&#x5728;traverse&#x7684;&#x9636;&#x6BB5;&#x6211;&#x4EEC;&#x8FD8;&#x53EF;&#x4EE5;&#x81EA;&#x5B9A;&#x4E49;&#x4E00;&#x4E9B;&#x8BED;&#x6CD5;&#x7136;&#x540E;&#x53BB;&#x5206;&#x6790;&#xFF0C;&#x6BD4;&#x5982;&#x5BF9;&#x4E8E;&#x52A8;&#x6001;&#x5BFC;&#x5165;&#x6A21;&#x5757;&#x6765;&#x8BF4;&#xFF0C;&#x4E00;&#x822C;&#x6211;&#x4EEC;&#x4F7F;&#x7528;&#x5F02;&#x6B65;import:</p>
+<pre><code>import(&apos;./util&apos;).then(...)
+</code></pre><p>&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5728;&#x5B9A;&#x4E49;&#x81EA;&#x5DF1;&#x559C;&#x6B22;&#x7684;&#x8BED;&#x6CD5;&#x7CD6;&#xFF1A;</p>
+<pre><code>dynamicImport(&apos;./api&apos;).then(
+  module =&gt; console.log(&apos;======successfully load dynamic moudle=====&apos;);
+);
+</code></pre><p>&#x5728;&#x7136;&#x540E;&#x53BB;&#x50CF;&#x4E0A;&#x9762;&#x4E00;&#x6837;&#x904D;&#x5386;&#x8BE5;&#x8BED;&#x6CD5;&#x5B58;&#x5728;&#x7684;&#x8282;&#x70B9;&#xFF1A;</p>
+<pre><code>
+traverse(ast, {
+  CallExpression({
+    node
+  }) {
+    const {
+      callee: {
+        name
+      },
+      arguments
+    } = node;
+
+    if (name === &apos;dynamicImport&apos;) {
+      const revisedPath = buildPath(relativePath, path.dirname(filename), config);
+      //record the dependency
+    }
+  }
+});
+</code></pre><p>&#x7C7B;&#x4F3C;&#x7684;&#xFF0C;&#x6211;&#x4EEC;&#x751A;&#x81F3;&#x53EF;&#x4EE5;&#x6A21;&#x62DF;ES7&#x7684;Decorator(@xxx)&#xFF0C;&#x8FD9;&#x5C31;&#x4E0D;&#x8D58;&#x8FF0;&#x4E86;&#x3002;</p>
+<ul>
+<li>3.transform</li>
+</ul>
+<p>&#x751F;&#x6210;&#x4E86;&#x8BED;&#x6CD5;&#x6811;&#xFF0C;&#x904D;&#x5386;/&#x4FEE;&#x6539;&#x4E86;&#x8BED;&#x6CD5;&#x6811;&#xFF0C;&#x6700;&#x7EC8;Babel&#x7684;&#x76EE;&#x6807;&#x662F;&#x8FD8;&#x662F;js&#x4EE3;&#x7801;&#xFF0C;transform&#x53EF;&#x4EE5;&#x5C06;&#x6211;&#x4EEC;&#x4FEE;&#x6539;&#x540E;&#x7684;AST&#x8F93;&#x51FA;&#x6700;&#x7EC8;&#x7684;&#x4EE3;&#x7801;&#x3002;</p>
+<p>&#x5728;&#x8FD9;&#x4E00;&#x8FC7;&#x7A0B;&#x4E2D;&#x4E00;&#x822C;&#x53EA;&#x9700;&#x8981;&#x914D;&#x7F6E;&#x4EE5;&#x4E0B;Babel&#x7684;<code>presets</code>&#x5373;&#x53EF;&#xFF0C;&#x6BD4;&#x5982;&#x6211;&#x4EEC;&#x5E38;&#x7528;&#x7684;<code>preset-env</code>&#x5C31;&#x662F;ES6-&gt;ES5&#xFF0C;&#x5982;&#x679C;&#x4EC0;&#x4E48;&#x90FD;&#x4E0D;&#x8BBE;&#x7F6E;&#xFF0C;&#x90A3;Babel&#x5C31;&#x4EC0;&#x4E48;&#x4E5F;&#x4E0D;&#x5E72;&#x3002;</p>
+<p>presets&#x7684;&#x89D2;&#x8272;&#x6BD4;&#x8F83;&#x4E0A;&#x5C42;&#xFF0C;&#x6216;&#x8005;&#x8BF4;&#x5B83;&#x662F;&#x4E00;&#x79CD;&#x5B8F;&#x89C2;&#x7684;&#x89C4;&#x5219;&#xFF0C;&#x5BF9;&#x4E8E;&#x4E00;&#x4E9B;&#x975E;&#x5E38;&#x5177;&#x4F53;&#x7684;&#x4EE3;&#x7801;&#x8F6C;&#x6362;&#x903B;&#x8F91;&#xFF0C;&#x5C31;&#x9700;&#x8981;plugin&#x4E86;&#x3002;&#x6BD4;&#x5982;&#x6211;&#x4EEC;&#x4E0A;&#x9762;&#x4F7F;&#x7528;&#x4E86;<code>dynamicImport</code>&#x8BED;&#x6CD5;&#xFF0C;&#x5728;traverse&#x9636;&#x6BB5;&#x6211;&#x4EEC;&#x4E5F;&#x904D;&#x5386;&#x5230;&#x4E86;&#x8BE5;&#x4FE1;&#x606F;&#xFF0C;&#x4F46;&#x662F;&#x8FD9;&#x6BD5;&#x7ADF;&#x4E0D;&#x662F;js&#x8BED;&#x6CD5;&#xFF0C;&#x6211;&#x4EEC;&#x662F;&#x9700;&#x8981;&#x5199;&#x4E00;&#x4E2A;&#x5C0F;&#x63D2;&#x4EF6;&#x6765;&#x8FDB;&#x884C;&#x8BED;&#x6CD5;&#x8F6C;&#x6362;(&#x63D2;&#x4EF6;&#x7684;&#x5199;&#x6CD5;&#x8FD9;&#x91CC;&#x5C31;&#x4E0D;&#x8D58;&#x8FF0;&#x4E86;)&#xFF1A;</p>
+<p>plugin/dynamicImport.js</p>
+<pre><code>module.exports = {
+  visitor: {
+    Identifier(path) {
+      if (path.node.name === &apos;dynamicImport&apos;) {
+        path.node.name = &apos;require&apos;;
+      }
+    }
+  }
+};
+</code></pre><p>&#x6211;&#x4EEC;&#x53C8;&#x5C06;dynamicImport&#x8F6C;&#x6362;&#x4E3A;&#x4E86;require&#xFF08;&#x5176;&#x5B9E;&#x66F4;&#x597D;&#x7684;&#x5B9E;&#x73B0;&#x5E94;&#x8BE5;&#x662F;&#x5C06;dynamicImport&#x8F6C;&#x6362;&#x4E3A;promise&#xFF0C;&#x4F46;&#x662F;&#x7B14;&#x8005;&#x8FD9;&#x91CC;&#x7528;&#x4E86;&#x53E6;&#x5916;&#x4E00;&#x79CD;&#x53D6;&#x5DE7;&#x7684;&#x65B9;&#x5F0F;&#x6765;&#x5B9E;&#x73B0;&#x5F02;&#x6B65;&#x5BFC;&#x5165;&#xFF0C;&#x4E0B;&#x9762;&#x4F1A;&#x63D0;&#x5230;&#xFF09;&#x3002;</p>
+<p>&#x7136;&#x540E;&#x5229;&#x7528;&#x81EA;&#x5DF1;&#x7684;&#x63D2;&#x4EF6;&#x4EE5;&#x53CA;&#x914D;&#x7F6E;&#x597D;&#x7684;preset&#xFF0C;&#x6700;&#x7EC8;&#x8F93;&#x51FA;&#x8F6C;&#x8BD1;&#x540E;&#x7684;&#x4EE3;&#x7801;&#x3002;</p>
+<pre><code>const { code } = babel.transformFromAstSync(
+  ast, null, {
+    plugins: [
+      dynamicImportPlugin
+    ],
+    presets,
+  }
+);
+</code></pre><p>&#x81F3;&#x6B64;&#xFF0C;Babel&#x7684;&#x529F;&#x80FD;&#x5DF2;&#x7ECF;&#x5B8C;&#x6210;&#x3002;</p>
+<h3 id="5&#x5B9E;&#x73B0;">5.&#x5B9E;&#x73B0;</h3>
+<p>&#x6211;&#x4EEC;&#x5EFA;&#x7ACB;&#x4E00;&#x4E2A;&#x5F88;&#x7B80;&#x5355;vanilla&#x9879;&#x76EE;&#xFF0C;&#x7ED3;&#x6784;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code>vanilla
+&#x2502;   main.js
+&#x2502;   constant.js    
+&#x2502;   application.js    
+&#x2514;&#x2500;&#x2500;&#x2500;utils
+&#x2502;   &#x2514;&#x2500;&#x2500;&#x2500;log.js
+&#x2514;&#x2500;&#x2500;&#x2500;config
+    &#x2514;&#x2500;&#x2500;&#x2500;index.js
+</code></pre><p><code>main.js</code></p>
+<pre><code>import app from &apos;./application.js&apos;;
+import config from &apos;./config/index.js&apos;;
+
+const { appName, version } = config;
+app.start(appName, version);
+</code></pre><p>&#x597D;&#xFF0C;&#x6211;&#x4EEC;&#x5148;&#x5F00;&#x59CB;&#x5206;&#x6790;&#x4F9D;&#x8D56;&#x3002;</p>
+<p>&#x5BF9;&#x4E8E;main.js&#xFF0C;&#x5B83;&#x662F;&#x8FD9;&#x4E2A;&#x9879;&#x76EE;&#x7684;&#x5165;&#x53E3;&#xFF0C;&#x8FD9;&#x4E2A;&#x5FC5;&#x987B;&#x7531;&#x8C03;&#x7528;&#x8005;&#x63D0;&#x4F9B;&#x3002;&#x6211;&#x4EEC;&#x671F;&#x671B;&#x4ECE;main.js&#x5206;&#x6790;&#x51FA;&#x7C7B;&#x4F3C;&#x5982;&#x4E0B;&#x4FE1;&#x606F;&#xFF1A;</p>
+<pre><code>{
+  id: String,
+  code: String,
+  filename: String,
+  dependencies: Array:
+}
+</code></pre><p>&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x628A;&#x8FD9;&#x4E2A;&#x7ED3;&#x6784;&#x79F0;&#x4F5C;&#x4E00;&#x4E2A;&#x8D44;&#x6E90;&#x6587;&#x4EF6;(<code>Asset</code>)&#x3002;main.js&#x662F;&#x4E00;&#x4E2A;&#x8D44;&#x6E90;&#xFF0C;&#x5B83;&#x7684;&#x4F9D;&#x8D56;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code>dependencies = [&apos;./application.js&apos;, &apos;./config/index.js&apos;]
+</code></pre><p>&#x540C;&#x7406;&#xFF0C;dependencies&#x91CC;&#x81EA;&#x8EAB;&#x4E5F;&#x662F;&#x4E00;&#x4E2A;Asset&#x3002;</p>
+<ul>
+<li><p>(done)&#x7EE7;&#x7EED;&#x6D4B;&#x8BD5;ESM&#x7684;&#x6253;&#x5305;&#xFF0C;&#x5305;&#x62EC;node_module&#x8DEF;&#x5F84;</p>
 </li>
 <li><p>&#x89E3;&#x51B3;CommonJS&#x65E0;&#x6CD5;&#x4ECE;AST&#x4E2D;&#x8BFB;&#x53D6;&#x4F9D;&#x8D56;&#x7684;&#x95EE;&#x9898;,&#x5305;&#x62EC;node_module&#x8DEF;&#x5F84;</p>
 <ul>
@@ -798,6 +1144,10 @@
 <li><p>jsx(babel&#x63D2;&#x4EF6;)</p>
 </li>
 </ul>
+<h3 id="6&#x53D1;&#x5E03;">6.&#x53D1;&#x5E03;</h3>
+<p>&#x591A;&#x4E2A;&#x7248;&#x672C;</p>
+<h3 id="7&#x56DE;&#x987E;">7.&#x56DE;&#x987E;</h3>
+<p>&#x6BCF;&#x4E2A;&#x73AF;&#x8282;&#x5BF9;&#x5E94;webpack&#x54EA;&#x4E2A;&#x6838;&#x5FC3;&#x6982;&#x5FF5;</p>
 
                                 
                                 </section>
@@ -837,7 +1187,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"手动打造一个bundler","level":"1.1.6.2","depth":3,"next":{"title":"Babel","level":"1.1.7","depth":2,"ref":"","articles":[{"title":"你不知道的Babel","level":"1.1.7.1","depth":3,"path":"Babel/you-dont-know-babel.md","ref":"Babel/you-dont-know-babel.md","articles":[]}]},"previous":{"title":"你不知道的Webpack","level":"1.1.6.1","depth":3,"path":"Webpack/you-dont-know-webpack.md","ref":"Webpack/you-dont-know-webpack.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Webpack/bundler.md","mtime":"2020-08-26T15:44:11.013Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-01T14:18:29.746Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"手动打造一个bundler","level":"1.1.6.2","depth":3,"next":{"title":"Babel","level":"1.1.7","depth":2,"ref":"","articles":[{"title":"你不知道的Babel","level":"1.1.7.1","depth":3,"path":"Babel/you-dont-know-babel.md","ref":"Babel/you-dont-know-babel.md","articles":[]}]},"previous":{"title":"你不知道的Webpack","level":"1.1.6.1","depth":3,"path":"Webpack/you-dont-know-webpack.md","ref":"Webpack/you-dont-know-webpack.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Webpack/bundler.md","mtime":"2020-09-06T08:23:25.738Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-06T06:04:44.791Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
