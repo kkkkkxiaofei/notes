@@ -640,7 +640,107 @@ function createAssets(filename) {
 mapping记录的是一个资源下一层（处于树中同一深度）的依赖关系保存下来，这样就可以利用路径去反查id。比如main.js的依赖里必然有`./application.js`，当我们去建立完main.js这个资源后，mapping里大致有`{"./application.js": 1}`这样的信息。这非常有用，当后面我们需要把main.js这个资源进行打包时可以利用mapping取出所有依赖的模块。
 
 
-#### 5.3 
+#### 5.3 整合所有资源
+
+- 1.实现通用导出
+
+有了asset, assets我们已经完成了一大半工作了（似乎有点长了，哈哈），为了让assets聚合在一起，我们需要把资源'拼'在一起，毕竟最后输出的是一个文件。
+
+拼接资源:
+
+```
+const modules = Object.values(assets)
+  .reduce((result, asset) => {
+      const {
+        id,
+        code,
+        mapping,
+        filename: revisedPath
+      } = asset;
+      
+      return result += `
+      ${id} : [
+        function(require, module, exports) {
+          ${code}
+        },
+        ${JSON.stringify(mapping)}
+      ],
+    `
+    }, '');
+
+```
+
+对于main.js，我们会整合为大致如下的结构：
+
+```
+  0: [
+    function (require, module, exports) {
+      // main.js here
+      "use strict";
+
+        var _application = _interopRequireDefault(require("./application.js"));
+
+        var _index = _interopRequireDefault(require("./config/index.js"));
+
+        function _interopRequireDefault(obj) {
+          return obj && obj.__esModule ? obj : { default: obj };
+        }
+
+        var appName = _index["default"].appName,
+          version = _index["default"].version;
+
+        _application["default"].start(appName, version);
+    },
+    { "./application.js": 1, "./config/index.js": 2 },
+  ],
+
+  1: [
+    function (require, module, exports) {
+      // code resource here
+    },
+    { "./utils/log.js": 4 },
+  ],
+
+  2: [
+    function (require, module, exports) {
+      // code resource here
+    },
+    { "../constant.js": 3 },
+  ],
+
+  3: [
+    function (require, module, exports) {
+      // code resource here
+    },
+    {},
+  ],
+
+  4: [
+    function (require, module, exports) {
+      // code resource here
+    },
+    {},
+  ],
+})
+```
+
+还记得上面提到的`模块导出的通用解决方案`吗？。
+
+我们为所以的源代码封装了一个factory：
+
+```
+function (require, module, exports) {
+  // code resource here
+}
+```
+
+这里我特意没有换别名，还是用了大家熟悉的变量名，但是require，module，exports都是我们自己实现的。
+
+以main.js为例（require的实现我们稍后介绍），我们注入了module和exports对象（mutable），只要main.js的factory以执行，我们就可以拿到main.js的代码。当然了，有一些文件并没有任何的导出操作（只是执行），那factory也需要执行（毕竟要执行源代码），但是module和exports都没变。
+
+- 2.实现通用导入
+
+
 
 
 
