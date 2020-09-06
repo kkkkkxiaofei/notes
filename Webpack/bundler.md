@@ -740,6 +740,61 @@ function (require, module, exports) {
 
 - 2.实现通用导入
 
+我们暂时把上一步的输出叫做`modules`，每一个module有自己的factory和mapping。modules算得上是初步的资源整合结果，我们还差一个require没有实现。继续回顾上面main.js的factory，当执行factory时，会遇到：
+
+```
+var _application = _interopRequireDefault(require("./application.js"));
+```
+其实到了这一步，`./application.js`这个资源早已经被建好了（特殊情况除外，如代码分离），只要我们哟一个全局的scope（这就是moudles呀）可以查询即可。
+
+比如`./application.js`对应的moduleId我们查询到为`1`，而`1`号模块也有自己的factory，一旦执行，不就变成了通用导出的逻辑了，依次循环，很简单。
+
+不过有一点，我们需要寻找一个起点，那肯定就是入口文件么，即0号模块，因此，我们有了以下的实现：
+
+
+```
+(function(modules) {
+    function load(id) {
+      //2
+      const [factory, mapping] = modules[id];
+      //3
+      function require(relativePath) {
+        return load(mapping[relativePath]);
+      }
+      //4
+      const module = {
+        exports: {}
+      }
+      //5
+      const result = factory(require, module, module.exports);
+      if (module.exports && Object.getOwnPropertyNames(module.exports).length === 0) {
+        return result;
+      }
+      //6
+      return module.exports;
+    }
+    //1
+    return function() {
+      return load(0);
+    }
+  })({${modules}})
+```
+
+`1`: 从根模块开始。
+
+`2`: 取出module里的factory和mapping。
+
+`3`: 自定义require方法，递归执行factory，这里闭包了2步里的mapping
+
+`4`: 自定义导出对象，期待mutabel操作。
+
+`5`: 真正执行当前模块的factory。
+
+`6`: 返回4步的对象。
+
+
+
+
 
 
 
