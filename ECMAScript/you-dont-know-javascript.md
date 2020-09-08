@@ -423,3 +423,65 @@ Object.prototype.toString.call(/\s/); // [object RegExp]
 > ps: 由于toString在原型链上，因此会被改。
 
 ```
+
+### 15. call, apply, bind polyfill
+
+`call`
+
+```
+Function.prototype._call = function(context, ...args) {
+	const sym = Symbol('');
+	context[sym] = this;
+	const result = context[sym](...args);
+	delete context[sym];
+	return result;
+}
+
+```
+
+`apply`
+
+
+```
+Function.prototype._apply = function(context, args) {
+	return this._call(context, ...args);
+}
+
+```
+
+`bind`
+
+```
+Function.prototype._bind = function(context, ...args) {
+	return function(...nextArgs) {
+		return this._call(context, ...args, ...nextArgs);
+	}
+}
+```
+
+测试：
+
+```
+var name = 'window';
+
+var obj = {
+  name: 'obj',
+  getName(prefix, suffix) {
+    return `${prefix}${this.name}${suffix}`;
+  }
+}
+
+obj.getName._call(obj, '(', ')'); // (obj)
+
+obj.getName._apply(obj, ['{', '}']); // {obj}
+
+var b1 = obj.getName.bind(obj, '(');
+
+b1(')'); // (obj)
+
+var b2 = obj.getName.bind({});
+
+b2('[', ']'); // [undefined]
+
+
+```
