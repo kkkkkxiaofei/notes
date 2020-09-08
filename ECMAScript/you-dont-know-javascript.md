@@ -393,3 +393,33 @@ JSON.stringify: 缺点是会忽略方法，只能处理基本类型。
 Object.create: 利用原型链指向需要复制的对象
 
 Object.assign: 用的最多，但语法冗余，一般可以直接用`...`展开
+
+### 14. 类型判断
+
+- Object.prototype.toString
+
+```
+
+Object.prototype.toString.call(1); // [object Number]
+
+Object.prototype.toString.call(true); // [object Boolean]
+
+Object.prototype.toString.call(Symbol('s')); // [object Symbol]
+
+Object.prototype.toString.call(null); // [object Null]
+
+Object.prototype.toString.call(undefined); // [object Undefined]
+
+Object.prototype.toString.call(''); // [object String]
+
+Object.prototype.toString.call(BigInt(1)); // [object BigInt]
+
+Object.prototype.toString.call({}); // [object Object]
+
+Object.prototype.toString.call(function() {}); // [object Function]
+
+Object.prototype.toString.call(/\s/); // [object RegExp]
+
+> ps: 由于toString在原型链上，因此会被改。
+
+```
