@@ -2,7 +2,7 @@
 
 前端自身由于缺少模块化管理，因此当我们进行模块化开发后，必须要将代码进行整合（bundle）。打包工具无非是将js, css以及其他资源文件进行合并。
 
-以webpack的startkit为例子：
+以`webpack`的start-kit为例子：
 
 ```
 
@@ -32,40 +32,36 @@ const { appName, version } = config;
 app.start(appName, version);
 ```
 
-
 `main.js`有以下特点：
 
-
 - 1.有依赖
-`./applicantion.js`和`./config/index.js`，
+`./application.js`和`./config/index.js`，
 
 - 2.使用了ESM引入依赖
  `import ...`
 
-- 3.依赖必然将自己进行了导出
- `./applicantion.js`必然有`export default`; 依赖的依赖也许还会有`export const xxx`;
+- 3.依赖也有自己的导出
+ `./application.js`必然有`export default`; 依赖的依赖也许还会有`export const xxx`;
 
 - 4.main文件自身并没有导出
 
 基于此，可以提出以下问题：
 
-- 1.怎么处理ESM导入/导出的语法，这么貌似Node.js和Browser都不认识呀？
+- 1.怎么处理ESM导入/导出的语法，貌似Node.js和Browser都不认识`import`关键字呀？
 
 - 2.假设1已经解决，怎么将依赖处理成一个模块，且支持自身导出和外部引用？
 
 - 3.如何分析依赖，以及依赖的依赖，以及。。。。
 
-
-
 ### 1.模块导入导出
 
 我们先以ESM作为讨论。
 
-#### ESM in browser
+#### 1.1 ESM in browser
 
 你也许没有关注，目前ESM在`部分`浏览器里是可以直接使用的：
 
-index.html
+`index.html`
 
 ```
 <script type="module">
@@ -75,7 +71,7 @@ index.html
 
 ```
 
-index.js
+`index.js`
 
 ```
 import { version } from './config.js';
@@ -86,13 +82,11 @@ export default () => {
 
 ```
 
-是不是很方便？
-
-但其中问题也不少：
+是不是很方便？但其中问题也不少：
 
 - 1.文件路径
 
-这里我所有的文件都必须写后缀，且路径必须是以服务器的host为相对路径，这就极大的限制了模块的路径（alias，node_modules等）
+这里我所有的文件都必须写后缀(否则报错），且路径必须是以服务器的host为相对路径，这就极大的限制了模块的路径（alias，node_modules等）
 
 - 2.http请求
 
@@ -100,13 +94,13 @@ export default () => {
 
 这首先会需要大量http请求，且隐式的需要让callback也有序，不然可能会出现f1在f2之前请求的，但却晚回来，f2却依赖了f1里的方法，那么就会跪。
 
-- 3.不支持commonjs
+- 3.不支持CJS
 
 如果我写了node环境的代码，是没办法用这种方式加载的，更别提其他模块机制了。
 
-#### ESM in Node.js
+#### 1.2 ESM in Node.js
 
-默认情况下是无法在Node.js环境下使用ES moudle的，但是自从`13.9`版本以上，可以开启flag `--experimental-modules`，并且在`package.json`里:
+默认情况下是无法在`Node.js`环境下使用`ESM`的，但是自从`13.9`版本以上，可以开启flag `--experimental-modules`，并且在`package.json`里:
 
 ```
 {
@@ -114,9 +108,9 @@ export default () => {
 }
 ```
 
-#### 从ESM 到commonjs
+#### 从ESM到CJS
 
-不难看出，单就ESM在浏览器和Node.js的切换肯定是有问题的，为了消除差异，目前主流的做法是不在浏览器里使用ESM，取而代之的是将ESM先转化为commonjs，比如上面的`main.js`，利用babel转换后如下：
+不难看出，单就`ESM`在浏览器和`Node.js`的切换就会有问题，为了消除差异，目前主流的做法是不在浏览器里使用`ESM`，取而代之的是将ESM先转化为`CJS`，比如上面的`main.js`，利用`Babel`转换后如下：
 
 ```
 "use strict";
@@ -141,8 +135,7 @@ _application.default.start(appName, version);
 
 首先1,2已经把`import`改为了`require`。
 
-其次，3处对require的实现做了一次签名包装：若moudle为ESM则具有内部属性`_esModule`，此时默认导出的模块就是自身；
-否则，默认导出的模块。
+其次，3处对require的实现做了一次签名包装：若moudle为`ESM`则具有内部属性`_esModule`，此时默认导出的模块就是自身；否则，需要封装为`{ default: obj }`。
 
 最后，由于`./application.js`和`./config/index.js`均为默认导出，所以使用时需要取出`default`，完全是按照3的标准来解析的。
 
@@ -153,9 +146,9 @@ _application.default.start(appName, version);
 
 ### 2. 模块导出的通用解决方案
 
-和上面一样，我们用babel测试以下ESM的导出转换：
+和上面一样，我们用`Babel`测试以下`ESM`的导出转换：
 
-source code from ESM:
+`source code from ESM:`
 
 ```
 export default A;
@@ -180,9 +173,9 @@ exports.name = name;
 
 很简单，默认导出`export default`转化为`exports.default`；变量导出`export const xxx`转化为`exports.xxx`。
 
-那万一需要打包的代码使用了commonjs呢？
+那万一需要打包的代码使用了`CJS`呢？
 
-source code from commonjs:
+source code from `CJS`:
 
 ```
 module.exports = A;
@@ -192,7 +185,7 @@ module.exports = {
 }
 ```
 
-after babel:
+`after babel:`
 
 ```
 module.exports = A;
@@ -205,9 +198,9 @@ module.exports = {
 
 没错，这就是目前的标准：因为浏览器端和Node.js端对ESM的支持都还不成熟，所以所谓的转译就是ES moudle转commonjs的过程。
 
-这样依赖，我们就只用处理commonjs1和commonjs2的情况就好了，即代码里模块操作只有`require`,`exports.default`,`exports.xxx`, `module.exports`。所以任意文件的代码都可以按照如下来封装：
+这样依赖，我们就只用处理`commonjs1`和`commonjs2`的情况就好了，即代码里模块操作只有`require`,`exports.default`,`exports.xxx`, `module.exports`。所以任意文件的代码都可以按照如下来封装：
 
-source.js
+`source.js`
 
 ```
 function(require, module, exports) {
@@ -215,7 +208,7 @@ function(require, module, exports) {
 }
 ```
 
-有`require`是因为有可能还需要引用其他模块，这个我们下面会讲到。
+有`require`是因为有可能还需要引用其他模块，这个我下面会讲到。
 
 `exports`等价于`module.exports`，因此本质上是利用`module`对象去注入原始代码，最终取出导出的模块。
 
@@ -238,7 +231,7 @@ import util from './util';
 
 当`./util`没有`package.json`文件时会去尝试寻找`./util`;否则会查看`package.json`里的`main`属性作为入口。
 
-以上规则的前提没有用任何的打包工具，比如用webpack打包时路径的分析会比这个要复杂的多，还牵扯到`main`,`module`,`browser`等的优先级。所以基于此，我们这里把规则定的简单点：
+以上规则的前提没有用任何的打包工具，比如用`webpack`打包时路径的分析会比这个要复杂的多，还牵扯到`main`,`module`,`browser`等的优先级。所以基于此，我们这里把规则定的简单点：
 
 - 1.默认外部依赖的路径为`${projectRoot}/node_modules`
 
@@ -310,9 +303,9 @@ function revisePath(absPath) {
 
 - 1. parse
 
-parse阶段会将源代码解析为抽象语法树(AST)，AST通过词法分析生成对应类型的节点，详细的描述了每一行代码的具体`特征`，例如：
+`parse`阶段会将源代码解析为抽象语法树(`AST`)，`AST`通过词法分析生成对应类型的节点，详细的描述了每一行代码的具体`特征`，例如：
 
-source code 
+`source code :` 
 
 ```
 //1
@@ -329,18 +322,18 @@ app.start(appName, version);
 
 ```
 
-after parse:
+`after parse:`
 
 ![](/images/bundler/4-1.png)
 
 
 可以看到1,2为导入声明，3为变量声明，4为表达式。
 
-以1为例，1为ImportDeclaration表明是ESM的import（require语法不会是这种类型的Node），且source里的value为依赖模块的相对路径。但是这个树的可能会很深，导致我们取具体信息的操作会很复杂（a?.b?.c?.e?....），为此我们可以进入Babel转译的第二个阶段。
+以1为例，1为`ImportDeclaration`, 表明是`ESM`的`import`（require语法不会是这种类型的Node），且source里的value为依赖模块的相对路径。但是这个树的可能会很深，导致我们取具体信息的操作会很复杂（a?.b?.c?.e?....），为此我们可以进入Babel转译的第二个阶段。
 
 - 2.traverse
 
-traverse可以方便的操作AST，比如我们可以这样遍历`ImportDeclaration`:
+`traverse`可以方便的操作AST，比如我们可以这样遍历`ImportDeclaration`:
 
 ```
 traverse(ast, {
@@ -378,13 +371,13 @@ traverse(ast, {
 
 ```
 
-在traverse的阶段我们还可以自定义一些语法然后去分析，比如对于动态导入模块来说，一般我们使用异步import:
+在traverse的阶段我们还可以自定义一些语法然后去分析，比如对于动态导入模块来说，一般我们使用异步`import...then`:
 
 ```
 import('./util').then(...)
 ```
 
-我们可以在定义自己喜欢的语法糖：
+我们可以再定义自己喜欢的语法糖：
 
 ```
 dynamicImport('./api').then(
@@ -416,18 +409,18 @@ traverse(ast, {
 });
 
 ```
-类似的，我们甚至可以模拟ES7的Decorator(@xxx)，这就不赘述了。
+类似的，我们甚至可以模拟`ES7`的`Decorator`(@xxx)，这就不赘述了。
 
 
 - 3.transform
 
-生成了语法树，遍历/修改了语法树，最终Babel的目标是还是js代码，transform可以将我们修改后的AST输出最终的代码。
+生成了语法树，遍历/修改了语法树，最终`Babel`的目标是还是js代码。`transform`可以将我们修改后的`AST`输出最终的代码。
 
-在这一过程中一般只需要配置以下Babel的`presets`即可，比如我们常用的`preset-env`就是ES6->ES5，如果什么都不设置，那Babel就什么也不干。
+在这一过程中一般只需要配置以下`Babel`的`presets`即可，比如我们常用的`preset-env`就是ES6->ES5，如果什么都不设置，那`Babel`就什么也不干。
 
-presets的角色比较上层，或者说它是一种宏观的规则，对于一些非常具体的代码转换逻辑，就需要plugin了。比如我们上面使用了`dynamicImport`语法，在traverse阶段我们也遍历到了该信息，但是这毕竟不是js语法，我们是需要写一个小插件来进行语法转换(插件的写法这里就不赘述了)：
+`presets`的角色比较上层，或者说它是一种宏观的规则，对于一些非常具体的代码转换逻辑，就需要`plugin`了。比如我们上面使用了`dynamicImport`语法，在traverse阶段我们也遍历到了该信息，但是这毕竟不是js语法，我们是需要写一个小插件来进行语法转换(`Babel`插件的写法这里就不赘述了)：
 
-plugin/dynamicImport.js
+`plugin/dynamicImport.js`
 
 ```
 module.exports = {
@@ -441,9 +434,7 @@ module.exports = {
 };
 ```
 
-我们又将dynamicImport转换为了require（其实更好的实现应该是将dynamicImport转换为promise，但是笔者这里用了另外一种取巧的方式来实现异步导入，下面会提到）。
-
-然后利用自己的插件以及配置好的preset，最终输出转译后的代码。
+然后利用自己的插件以及配置好的`preset`，最终输出转译后的代码。
 
 ```
 const { code } = babel.transformFromAstSync(
@@ -456,7 +447,7 @@ const { code } = babel.transformFromAstSync(
 );
 ```
 
-至此，Babel的功能已经完成。
+至此，Babel的转译js代码的流程介绍完了。
 
 ### 5.实现
 
