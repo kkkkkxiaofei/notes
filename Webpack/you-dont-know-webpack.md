@@ -209,3 +209,4 @@ webpack --profile --json > stat.json
 `moudle`: 支持ESM；发布包时一般为`es`的文件夹。
 
 `browser`: 支持browser。
+

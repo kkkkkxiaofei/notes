@@ -1067,30 +1067,30 @@ require('./api')
 
 5. 其他
 
-- (done)继续测试ESM的打包，包括node_module路径
+- 实现更复杂的路径解析
 
-- 解决CommonJS无法从AST中读取依赖的问题,包括node_module路径
-  - 排除node内置模块(http, path, fs...)
-  - node_modules里又引入了外部的node_modules,需要切换NODE_MODULE_PATH
+这里我只是实现了寻找`index.js`和补全文件后缀的简单解析逻辑，更好的方案应该支持自定义`node_modules`，自定义`alias`等等。
 
-- 解决umd打包，兼容全局注入,包括node_module路径
+- 支持json导入
 
-- 导入json文件
+对于纯文本类型的文件（.yml, .txt, .md, .json...)可以考虑后期支持。
 
-- 动态导入（jsonp）
+- 支持css/scss
 
-- 缓存
-
-- 支持css
-
-- 支持scss
-
-- jsx(babel插件)
-
+这里默认我只处理了js文件，像css，scss，甚至ts等等可以考虑支持。
 
 ### 6.发布
-多个版本
 
-### 7.回顾
+为了让这个小轮子工程化一些，笔者也发布了简单的cli：
 
-每个环节对应webpack哪个核心概念
+```
+
+npm i -g @dummmy/webpack-cli
+
+cd your-project
+
+touch pack-config.js
+
+pack
+
+```
