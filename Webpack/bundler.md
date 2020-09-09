@@ -108,9 +108,9 @@ export default () => {
 }
 ```
 
-#### 从ESM到CJS
+#### 1.3 从ESM到CJS
 
-不难看出，单就`ESM`在浏览器和`Node.js`的切换就会有问题，为了消除差异，目前主流的做法是不在浏览器里使用`ESM`，取而代之的是将ESM先转化为`CJS`，比如上面的`main.js`，利用`Babel`转换后如下：
+不难看出，单就`ESM`在浏览器和`Node.js`的切换就会有问题，为了消除差异，目前主流的做法是不在浏览器里使用`ESM`，取而代之的是将ESM先转化为`CJS`。比如上面的`main.js`，利用`Babel`转换后如下：
 
 ```
 "use strict";
@@ -135,11 +135,13 @@ _application.default.start(appName, version);
 
 首先1,2已经把`import`改为了`require`。
 
-其次，3处对require的实现做了一次签名包装：若moudle为`ESM`则具有内部属性`_esModule`，此时默认导出的模块就是自身；否则，需要封装为`{ default: obj }`。
+其次，3处对`require`的实现做了一次签名包装：若`module`为`ESM`则具有内部属性`_esModule`，此时默认导出的模块就是自身；否则，需要封装为`{ default: obj }`。
 
 最后，由于`./application.js`和`./config/index.js`均为默认导出，所以使用时需要取出`default`，完全是按照3的标准来解析的。
 
-看到这里，似乎问题已经解决了一大半了（代码已经归一化了），但还有一个问题没有解决：这个require该怎么实现？
+看到这里，似乎问题已经解决了一大半了（代码已经归一化了），但还有一个问题没有解决：
+
+这个require该怎么实现？
 
 > 这里必须澄清，require并不一定就在说Node.js的require, Node.js只是commonjs标准的一种实现。
 
@@ -148,7 +150,7 @@ _application.default.start(appName, version);
 
 和上面一样，我们用`Babel`测试以下`ESM`的导出转换：
 
-`source code from ESM:`
+`ESM:`
 
 ```
 export default A;
@@ -156,7 +158,7 @@ export default A;
 export const name = '';
 ```
 
-after babel:
+`after babel:`
 
 ```
 "use strict";
@@ -175,7 +177,7 @@ exports.name = name;
 
 那万一需要打包的代码使用了`CJS`呢？
 
-source code from `CJS`:
+`CJS:`
 
 ```
 module.exports = A;
@@ -303,7 +305,7 @@ function revisePath(absPath) {
 
 - 1. parse
 
-`parse`阶段会将源代码解析为抽象语法树(`AST`)，`AST`通过词法分析生成对应类型的节点，详细的描述了每一行代码的具体`特征`，例如：
+`parse`阶段会将源代码解析为[抽象语法树](https://astexplorer.net)(`AST`)，`AST`通过词法分析生成对应类型的节点，详细的描述了每一行代码的具体`特征`，例如：
 
 `source code :` 
 
@@ -448,6 +450,15 @@ const { code } = babel.transformFromAstSync(
 ```
 
 至此，Babel的转译js代码的流程介绍完了。
+
+参考：
+
+const parser = require('@babel/parser');
+
+const traverse = require('@babel/traverse').default;
+
+const babel = require('@babel/core');
+
 
 ### 5.实现
 
