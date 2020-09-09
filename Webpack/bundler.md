@@ -451,7 +451,7 @@ const { code } = babel.transformFromAstSync(
 
 ### 5.实现
 
-#### 5.1 生成资源文件
+#### 5.1 生成资源文件(Asset)
 
 我们建立一个很简单vanilla项目，结构如下：
 
@@ -476,9 +476,7 @@ const { appName, version } = config;
 app.start(appName, version);
 ```
 
-好，我们先开始分析依赖。
-
-对于main.js，它是这个项目的入口，这个必须由调用者提供。我们期望从main.js分析出类似如下信息：
+我们先开始分析依赖。对于main.js，它是这个项目的入口，这个必须由调用者提供，我们期望从`main.js`分析出类似如下信息：
 
 ```
 {
@@ -489,13 +487,13 @@ app.start(appName, version);
 }
 ```
 
-我们可以把这个结构称作一个资源文件(`Asset`)。main.js是一个资源，它的依赖如下：
+我们可以把这个结构称作一个资源文件(`Asset`)，它由模块标识符（id），代码（code），文件名（filename）和依赖（dependencies）组成，它的依赖示例如下：
 
 ```
 dependencies = ['./application.js', './config/index.js']
 ```
 
-同理，dependencies里自身也是一个Asset。
+同理，dependencies里的元素本身也是一个`Asset`。
 
 生成一个asset的逻辑如下：
 
@@ -509,7 +507,7 @@ dependencies = ['./application.js', './config/index.js']
 
 - 3.生成ast
 
-参考上面。
+参考上面parse阶段。
 
 - 4.遍历ast，收集依赖
 
@@ -528,11 +526,11 @@ traverse(ast, {
 });
 ```
 
-注意，依赖资源的路径是相对路径，后期使用时还需要修正。
+> 注意，依赖资源的路径是相对路径，后期使用时还需要修正。
 
 - 5.转换为源代码
 
-参考上面。
+参考上面transform阶段。
 
 最终代码大致如下：
 
@@ -593,10 +591,9 @@ function createAsset(filename) {
 
 ```
 
+#### 5.2 生成资源树(Asset[])
 
-#### 5.2 生成资源树
-
-再来回顾以下我们的项目结构，这是一个典型的以入口文件（main.js）为根资源节点的多叉树，我们采用DFS进行遍历：
+再来回顾一下我们的项目结构，这是一个典型的以入口文件（`main.js`）为根资源节点的树，我们采用DFS进行遍历：
 
 ```
 function createAssets(filename) {
@@ -626,9 +623,9 @@ function createAssets(filename) {
 
 ```
 
-上面的实现很简单，但有一点需要特别解释下，就是再1处我们给asset附加了一个mapping属性。
+上面的实现很简单，但有一点需要特别解释下，就是再1处我们给asset附加了一个`mapping`属性。
 
-mapping记录的是一个资源下一层（处于树中同一深度）的依赖关系保存下来，这样就可以利用路径去反查id。比如main.js的依赖里必然有`./application.js`，当我们去建立完main.js这个资源后，mapping里大致有`{"./application.js": 1}`这样的信息。这非常有用，当后面我们需要把main.js这个资源进行打包时可以利用mapping取出所有依赖的模块。
+`mapping`记录的是当前资源下一层（处于树中同一深度）的依赖关系，它的key为相对路径，value为模块id。这样就可以利用路径去反查id。比如`main.js`的依赖里必然有`./application.js`，当我们建立完`main.js`这个资源后，mapping里大致有`{"./application.js": 1}`这样的信息。这非常有用，当后面我们需要把`main.js`这个资源进行打包时可以利用mapping取出所有依赖的模块。
 
 
 #### 5.3 整合所有资源
@@ -661,7 +658,7 @@ const modules = Object.values(assets)
 
 ```
 
-对于main.js，我们会整合为大致如下的结构：
+对于`main.js`，我们会整合为大致如下的结构：
 
 ```
   0: [
@@ -717,7 +714,7 @@ const modules = Object.values(assets)
 
 还记得上面提到的`模块导出的通用解决方案`吗？。
 
-我们为所以的源代码封装了一个factory：
+我们为所有的源代码封装了一个factory：
 
 ```
 function (require, module, exports) {
@@ -725,22 +722,23 @@ function (require, module, exports) {
 }
 ```
 
-这里我特意没有换别名，还是用了大家熟悉的变量名，但是require，module，exports都是我们自己实现的。
+这里我特意没有换别名，还是用了大家熟悉的变量名（`require`，`module`，`exports`），区别在于这些都需要我们自己实现。
 
-以main.js为例（require的实现我们稍后介绍），我们注入了module和exports对象（mutable），只要main.js的factory以执行，我们就可以拿到main.js的代码。当然了，有一些文件并没有任何的导出操作（只是执行），那factory也需要执行（毕竟要执行源代码），但是module和exports都没变。
+以`main.js`为例（`require`的实现我们稍后介绍），我们注入了`module`和`exports`对象，只要`main.js`的factory已执行，我们就可以拿到`main.js`的代码。当然了，尽管有一些文件并没有任何的导出操作，但factory也需要执行（毕竟要执行源代码），自然`module`和`exports`会显示没有使用。
 
 - 2.实现通用导入
 
-我们暂时把上一步的输出叫做`modules`，每一个module有自己的factory和mapping。modules算得上是初步的资源整合结果，我们还差一个require没有实现。继续回顾上面main.js的factory，当执行factory时，会遇到：
+我们暂时把上一步拼接好的资源叫做`modules`，每一个`module`有自己的factory和`mapping`。`modules`算得上是初步的资源整合结果，我们还差一个`require`没有实现。继续回顾上面`main.js`的factory，当执行factory时，会遇到：
 
 ```
 var _application = _interopRequireDefault(require("./application.js"));
 ```
-其实到了这一步，`./application.js`这个资源早已经被建好了（特殊情况除外，如代码分离），只要我们哟一个全局的scope（这就是moudles呀）可以查询即可。
 
-比如`./application.js`对应的moduleId我们查询到为`1`，而`1`号模块也有自己的factory，一旦执行，不就变成了通用导出的逻辑了，依次循环，很简单。
+其实到了这一步，`./application.js`这个资源早已经被建好了（特殊情况除外，如代码分离），只要我们有一个全局的scope（这就是moudles呀）查询即可。
 
-不过有一点，我们需要寻找一个起点，那肯定就是入口文件么，即0号模块，因此，我们有了以下的实现：
+比如`./application.js`对应的模块id`1`，而`1`号模块也有自己的factory，一旦执行，不就变成了通用导出的逻辑了，依次循环，很简单。
+
+不过有一点，我们需要寻找一个起点，那肯定就是入口文件么，即`0`号模块，因此，我们有了以下实现：
 
 
 ```
@@ -775,9 +773,9 @@ var _application = _interopRequireDefault(require("./application.js"));
 
 `2`: 取出module里的factory和mapping。
 
-`3`: 自定义require方法，递归执行factory，这里闭包了2步里的mapping
+`3`: 自定义require方法，递归执行factory，这里闭包了`2`里的mapping
 
-`4`: 自定义导出对象，期待mutabel操作。
+`4`: 自定义导出对象，期待mutable操作。
 
 `5`: 真正执行当前模块的factory。
 
@@ -786,6 +784,7 @@ var _application = _interopRequireDefault(require("./application.js"));
 考虑到打包的代码量，我们用一个很小的工程作为一个测试：
 
 `main.js`
+
 ```
 const isArray = require('./util');
 
@@ -849,7 +848,7 @@ module.exports = isArray;
 
 ```
 
-在node/browser上执行:
+在Node.js或浏览器中执行结果:
 
 ```
 [1,2,3] is array: true
@@ -859,15 +858,15 @@ module.exports = isArray;
 
 ### 6. 优化
 
-一个好的打包工具是一个需要考虑很多细节以及性能问题的，虽然笔者无法做到webpack这样优秀，但是基于上面的实现，我们还是能提出一些优化的实现和建议的。
+一个好的打包工具是一定需要考虑很多细节以及性能的，虽然笔者无法做到像`webpack`这样优秀，但是基于上面的实现，我们还是能提出一些优化的建议的。
 
 - 1.缓存
 
-我们在建立资源时(createAsset)，由于不同的文件也许会导入同样的资源a1，那么我们没有必要多次创建a1，毕竟建立a1的历程还是很长的。因此我们建立一个cache对象简直就是事半功倍。
+我们在建立资源时(`createAsset`方法)，由于不同的文件也许会导入同样的资源`A`，那么我们没有必要多次创建`A`，毕竟建立`A`的历程还是很长的。因此如果有一个cache对象的话，简直就是事半功倍。
 
 ```
-...
 console.log(`Start extracting: ${revisedPath}`);
+
 if (cache[revisedPath]) {
   asset.mapping[relativePath] = cache[revisedPath].id;
 } else {
@@ -875,12 +874,11 @@ if (cache[revisedPath]) {
   cache[revisedPath] = depAsset;
   asset.mapping[relativePath] = depAsset.id;
 }
-...
 ```
 
 - 2.umd
 
-我们目前打包输出的bundle文件结构如下：
+我们目前打包输出的bundle结构如下：
 
 ```
 (function(modules) {
@@ -892,11 +890,11 @@ if (cache[revisedPath]) {
 
 ```
 
-很显然1处的`return`显得几乎毫无意义，因为没有直接的办法能够接得住这个return的结果，它就像是你在浏览器里的console里执行了一个函数`var result = do()`,这种方式叫做`var`打包。
+很显然1处的`return`显得几乎毫无意义，因为没有直接的办法能够接得住这个return的结果，它就像是你在浏览器的`console`里执行了一个函数`var result = do()`,这种方式叫做`var`打包。
 
-其实大部分情况下，你做比如react的项目，不关心这个也是没有问题的，因为chunk之间的调用关系已经被webpack组织好了，并不需要你自己去管理最终打包的返回值。
+其实大部分情况下，比如`react`的项目，不关心这个也是没有问题的，因为`chunk`之间的调用关系已经被`webpack`组织好了，并不需要你自己去管理最终打包的返回值。
 
-但是也有时候我们为了兼容其他的环境或者确实是想拿到这个打包后的结果（微前端的拆分），那我们就需要考虑更完善的兼容方案了，这是`umd`。
+但有时候我们为了兼容其他环境或者确实是想拿到这个打包后的结果（代码分离，微前端的拆分等），那我们就需要考虑更完善的兼容方案了，这是`umd`。
 
 我们只需要简单的封装一层即可：
 
@@ -919,9 +917,11 @@ if (cache[revisedPath]) {
 
 ```
 
+> ps: 笔者这里忽略了AMD。
+
 3. 配置文件
 
-有几个重要的信息还是有必要抽离出来，这里笔者模仿webpack，最基本的配置如下：
+有几个重要的信息还是有必要抽离出来，这里笔者模仿`webpack`，最基本的配置如下：
 
 ```
 module.exports = {
@@ -939,21 +939,30 @@ module.exports = {
 
 4. 代码分离
 
-上面我多次提到了`dynamicImport`这个语法，其实我这里用了一种比较偷懒的方式实现了代码分离。
+笔者多次提到了`dynamicImport`这个语法，其实我这里用了一种比较偷懒的方式实现了代码分离。
 
-首先代码分离必须配置`library`的名字，在遍历AST时，我就记录了哪些资源是需要异步加载的。
+首先代码分离必须配置`library`的名字（不用解释了吧），在遍历`AST`时，我就记录了哪些资源是需要异步加载的。
 
 ```
 const dynamicDeps = {};
-...
 
 if (name === 'dynamicImport') {
   const revisedPath = buildPath(relativePath, path.dirname(filename), config);
   dynamicDeps[revisedPath] = '';
 }
+
+traverse(ast, {
+  ...
+  if (name === 'dynamicImport') {
+    const revisedPath = buildPath(relativePath, path.dirname(filename), config);
+    dynamicDeps[revisedPath] = '';
+  }
+  ...
+});
+
 ```
 
-`dynamicDeps`里的key就表明这个路径的资源是异步模块，由于我还需要在最终阶段修改它，所以暂时没办法设置它的value。
+`dynamicDeps`里的key就表明这个路径的资源是异步模块，由于我还需要在最终阶段修改它，所以暂时没设置它的value。
 
 ```
 const {
@@ -1006,7 +1015,7 @@ buildDynamicFactory: function (id, code) {
 
 只要异步模块被调到，它的factory就会被注册到全局`jsonpArray`对象上，key为模块的id，value为模块的factory。
 
-但在这之前还需要告诉你的代码如何寻找对应的异步模块，回忆上面的load函数，我需要有如下改造：
+但在这之前还需要知道如何寻找对应的异步模块，回忆上面的load函数，我需要有如下改造：
 
 ```
 
@@ -1036,7 +1045,7 @@ function load(id) {
 }
 
 ```
-请求到异步模块后，它自己会完成注册，我只需要异步返回下factory执行后的结果即可。
+当在`modules`里找不到对应模块时，该模块就是异步模块，我会封装一个promise，当请求到异步模块后，它自己会完成注册，我只需要异步返回下factory执行后的结果即可。
 
 比如，我源代码如果为：
 
@@ -1045,22 +1054,22 @@ dynamicImport('./api')
     .then(res => console.log(`dynamic module response: ${JSON.stringify(res.default())}`));
 ```
 
-会被我转译为：
+会被转译为：
 
 ```
 require('./api')
     .then(res => console.log(`dynamic module response: ${JSON.stringify(res.default())}`));
 ```
 
-注意：这个require返回的是一个promise。
+注意：这个require返回的是一个promise（参考上面的load函数的修改）。
 
-你可能见惯了`import('xxx').then`的写法，觉得笔者这样很怪异，但我想说，语法还不就是人定的么，你都自己写打包了，自己怎么舒服怎么来嘛。
+你可能见惯了`import('xxx').then`的写法，觉得笔者这样改造很怪异，但我想说，语法还不就是人定的么，自己怎么舒服怎么来嘛。
 
 5. 其他
 
 - 实现更复杂的路径解析
 
-这里我只是实现了寻找`index.js`和补全文件后缀的简单解析逻辑，更好的方案应该支持自定义`node_modules`，自定义`alias`等等。
+这里笔者只是实现了寻找`index.js`和补全文件后缀的简单解析逻辑，更好的方案应该支持自定义`node_modules`，自定义`alias`等等。
 
 - 支持json导入
 
