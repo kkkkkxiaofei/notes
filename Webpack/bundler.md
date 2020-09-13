@@ -330,7 +330,7 @@ app.start(appName, version);
 
 `After parse:`
 
-![](/images/bundler/4-1.png)
+![](http://flypursue.com/notes/images/bundler/4-1.png)
 
 
 可以看到1,2为导入声明，3为变量声明，4为表达式。
