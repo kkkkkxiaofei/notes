@@ -1109,7 +1109,7 @@ npm i -g @dummmy/pack-cli
 
 cd your-project
 
-touch pack-config.js
+touch pack.config.js
 
 pack
 
