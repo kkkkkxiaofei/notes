@@ -366,12 +366,12 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.1.6.1" data-path="../Webpack/you-dont-know-webpack.html">
+        <li class="chapter " data-level="1.1.6.1" data-path="../Webpack/bundler.html">
             
-                <a href="../Webpack/you-dont-know-webpack.html">
+                <a href="../Webpack/bundler.html">
             
                     
-                    你不知道的Webpack
+                    一个入门级别的前端打包工具
             
                 </a>
             
@@ -379,12 +379,12 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.6.2" data-path="../Webpack/bundler.html">
+        <li class="chapter " data-level="1.1.6.2" data-path="../Webpack/you-dont-know-webpack.html">
             
-                <a href="../Webpack/bundler.html">
+                <a href="../Webpack/you-dont-know-webpack.html">
             
                     
-                    手动打造一个bundler
+                    你不知道的Webpack
             
                 </a>
             
@@ -1035,7 +1035,73 @@ const add2 = add(2);
 </ul>
 <p>Object.create: &#x5229;&#x7528;&#x539F;&#x578B;&#x94FE;&#x6307;&#x5411;&#x9700;&#x8981;&#x590D;&#x5236;&#x7684;&#x5BF9;&#x8C61;</p>
 <p>Object.assign: &#x7528;&#x7684;&#x6700;&#x591A;&#xFF0C;&#x4F46;&#x8BED;&#x6CD5;&#x5197;&#x4F59;&#xFF0C;&#x4E00;&#x822C;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x7528;<code>...</code>&#x5C55;&#x5F00;</p>
+<h3 id="14-&#x7C7B;&#x578B;&#x5224;&#x65AD;">14. &#x7C7B;&#x578B;&#x5224;&#x65AD;</h3>
+<ul>
+<li>Object.prototype.toString</li>
+</ul>
+<pre><code>
+Object.prototype.toString.call(1); // [object Number]
 
+Object.prototype.toString.call(true); // [object Boolean]
+
+Object.prototype.toString.call(Symbol(&apos;s&apos;)); // [object Symbol]
+
+Object.prototype.toString.call(null); // [object Null]
+
+Object.prototype.toString.call(undefined); // [object Undefined]
+
+Object.prototype.toString.call(&apos;&apos;); // [object String]
+
+Object.prototype.toString.call(BigInt(1)); // [object BigInt]
+
+Object.prototype.toString.call({}); // [object Object]
+
+Object.prototype.toString.call(function() {}); // [object Function]
+
+Object.prototype.toString.call(/\s/); // [object RegExp]
+
+&gt; ps: &#x7531;&#x4E8E;toString&#x5728;&#x539F;&#x578B;&#x94FE;&#x4E0A;&#xFF0C;&#x56E0;&#x6B64;&#x4F1A;&#x88AB;&#x6539;&#x3002;
+</code></pre><h3 id="15-call-apply-bind-polyfill">15. call, apply, bind polyfill</h3>
+<p><code>call</code></p>
+<pre><code>Function.prototype._call = function(context, ...args) {
+    const sym = Symbol(&apos;&apos;);
+    context[sym] = this;
+    const result = context[sym](...args);
+    delete context[sym];
+    return result;
+}
+</code></pre><p><code>apply</code></p>
+<pre><code>Function.prototype._apply = function(context, args) {
+    return this._call(context, ...args);
+}
+</code></pre><p><code>bind</code></p>
+<pre><code>Function.prototype._bind = function(context, ...args) {
+    return function(...nextArgs) {
+        return this._call(context, ...args, ...nextArgs);
+    }
+}
+</code></pre><p>&#x6D4B;&#x8BD5;&#xFF1A;</p>
+<pre><code>var name = &apos;window&apos;;
+
+var obj = {
+  name: &apos;obj&apos;,
+  getName(prefix, suffix) {
+    return `${prefix}${this.name}${suffix}`;
+  }
+}
+
+obj.getName._call(obj, &apos;(&apos;, &apos;)&apos;); // (obj)
+
+obj.getName._apply(obj, [&apos;{&apos;, &apos;}&apos;]); // {obj}
+
+var b1 = obj.getName.bind(obj, &apos;(&apos;);
+
+b1(&apos;)&apos;); // (obj)
+
+var b2 = obj.getName.bind({});
+
+b2(&apos;[&apos;, &apos;]&apos;); // [undefined]
+</code></pre>
                                 
                                 </section>
                             
@@ -1074,7 +1140,7 @@ const add2 = add(2);
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"你不知道的JavaScript","level":"1.1.1.2","depth":3,"next":{"title":"Browser","level":"1.1.2","depth":2,"ref":"","articles":[{"title":"性能分析","level":"1.1.2.1","depth":3,"path":"Browser/performance.md","ref":"Browser/performance.md","articles":[]}]},"previous":{"title":"ECMAScript","level":"1.1.1.1","depth":3,"path":"ECMAScript/ES2016 and ES2017.md","ref":"ECMAScript/ES2016 and ES2017.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"ECMAScript/you-dont-know-javascript.md","mtime":"2020-09-01T15:02:33.275Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-06T06:04:44.791Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"你不知道的JavaScript","level":"1.1.1.2","depth":3,"next":{"title":"Browser","level":"1.1.2","depth":2,"ref":"","articles":[{"title":"性能分析","level":"1.1.2.1","depth":3,"path":"Browser/performance.md","ref":"Browser/performance.md","articles":[]}]},"previous":{"title":"ECMAScript","level":"1.1.1.1","depth":3,"path":"ECMAScript/ES2016 and ES2017.md","ref":"ECMAScript/ES2016 and ES2017.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"ECMAScript/you-dont-know-javascript.md","mtime":"2020-09-08T15:02:13.261Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-13T14:35:34.132Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
