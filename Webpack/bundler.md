@@ -57,7 +57,7 @@ app.start(appName, version);
 
 - 3.如何分析依赖，以及依赖的依赖，以及。。。。
 
-### 1.模块导入导出
+### 1 模块导入导出
 
 我们先以ESM作为讨论。
 
@@ -150,7 +150,7 @@ _application.default.start(appName, version);
 > 这里必须澄清，require并不一定就在说Node.js的require, Node.js只是commonjs标准的一种实现。
 
 
-### 2. 模块导出的通用解决方案
+### 2 模块导出的通用解决方案
 
 和上面一样，我们用`Babel`测试以下`ESM`的导出转换：
 
@@ -219,7 +219,7 @@ function(require, module, exports) {
 `exports`等价于`module.exports`，因此本质上是利用`module`对象去注入原始代码，最终取出导出的模块。
 
 
-### 3.导入路径分析
+### 3 导入路径分析
 
 当我们导入一个模块时，一般有两类写法：
 
@@ -301,13 +301,13 @@ function revisePath(absPath) {
 
 有了上面的概念，我们就可以进入我们的主题了。
 
-### 4.Babel
+### 4 Babel
 
 上面分析了这么多关于模块导入导出的思路，当下摆在我们面前的第一步就是：如何在语法上识别一个文件里有依赖，以及依赖的路径是什么呢？
 
 这里不得不提一下Babel转译js的步骤。
 
-- 1. parse
+#### 4.1 parse
 
 `parse`阶段会将源代码解析为[抽象语法树](https://astexplorer.net)(`AST`)，`AST`通过词法分析生成对应类型的节点，详细的描述了每一行代码的具体`特征`，例如：
 
@@ -337,7 +337,7 @@ app.start(appName, version);
 
 以1为例，1为`ImportDeclaration`, 表明是`ESM`的`import`（require语法不会是这种类型的Node），且source里的value为依赖模块的相对路径。但是这个树的可能会很深，导致我们取具体信息的操作会很复杂（a?.b?.c?.e?....），为此我们可以进入Babel转译的第二个阶段。
 
-- 2.traverse
+#### 4.2 traverse
 
 `traverse`可以方便的操作AST，比如我们可以这样遍历`ImportDeclaration`:
 
@@ -418,7 +418,7 @@ traverse(ast, {
 类似的，我们甚至可以模拟`ES7`的`Decorator`(@xxx)，这就不赘述了。
 
 
-- 3.transform
+#### 4.3 transform
 
 生成了语法树，遍历/修改了语法树，最终`Babel`的目标是还是js代码。`transform`可以将我们修改后的`AST`输出最终的代码。
 
@@ -464,11 +464,11 @@ const traverse = require('@babel/traverse').default;
 const babel = require('@babel/core');
 
 
-### 5.实现
+### 5 实现
 
 #### 5.1 生成资源文件(Asset)
 
-我们建立一个很简单vanilla项目，结构如下：
+我们建立一个很简单`vanilla`项目，结构如下：
 
 ```
 vanilla
@@ -502,15 +502,15 @@ app.start(appName, version);
 }
 ```
 
-我们可以把这个结构称作一个资源文件(`Asset`)，它由模块标识符（id），代码（code），文件名（filename）和依赖（dependencies）组成，它的依赖示例如下：
+我们可以把这个结构称作一个资源文件(`Asset`)，它由模块标识符（`id`），代码（`code`），文件名（`filename`）和依赖（`dependencies`）组成，它的依赖示例如下：
 
 ```
 dependencies = ['./application.js', './config/index.js']
 ```
 
-同理，dependencies里的元素本身也是一个`Asset`。
+同理，`dependencies`里的元素本身也是一个`Asset`。
 
-生成一个asset的逻辑如下：
+生成一个`asset`的逻辑如下：
 
 - 1.生成资源id
 
@@ -522,11 +522,11 @@ dependencies = ['./application.js', './config/index.js']
 
 - 3.生成ast
 
-参考上面parse阶段。
+[参考上面parse阶段](#41-parse)。
 
 - 4.遍历ast，收集依赖
 
-遍历ast不再赘述。收集依赖只是将依赖添加到队列中：
+收集依赖只是将依赖添加到队列中([遍历ast不再赘述](#42-traverse))：
 
 ```
 const dependencies = [];
@@ -545,7 +545,7 @@ traverse(ast, {
 
 - 5.转换为源代码
 
-参考上面transform阶段。
+[参考上面transform阶段](#43-transform)
 
 最终代码大致如下：
 
@@ -647,7 +647,7 @@ function createAssets(filename) {
 
 - 1.实现通用导出
 
-有了asset, assets我们已经完成了一大半工作了（似乎有点长了，哈哈），为了让assets聚合在一起，我们需要把资源'拼'在一起，毕竟最后输出的是一个文件。
+有了`asset`, `assets`我们已经完成了一大半工作了（似乎有点长了，哈哈），为了让`assets`聚合在一起，我们需要把资源`‘拼’`在一起，毕竟最后输出的是一个文件。
 
 拼接资源:
 
@@ -727,7 +727,7 @@ const modules = Object.values(assets)
 })
 ```
 
-还记得上面提到的`模块导出的通用解决方案`吗？。
+还记得上面提到的[模块导出的通用解决方案](#2-模块导出的通用解决方案)吗？。
 
 我们为所有的源代码封装了一个factory：
 
@@ -753,7 +753,7 @@ var _application = _interopRequireDefault(require("./application.js"));
 
 比如`./application.js`对应的模块id`1`，而`1`号模块也有自己的factory，一旦执行，不就变成了通用导出的逻辑了，依次循环，很简单。
 
-不过有一点，我们需要寻找一个起点，那肯定就是入口文件么，即`0`号模块，因此，我们有了以下实现：
+不过有一点，我们需要寻找一个起点，那肯定就是入口文件么，即`0`号模块，因此，有了以下实现：
 
 
 ```
@@ -796,7 +796,7 @@ var _application = _interopRequireDefault(require("./application.js"));
 
 `6`: 返回4步的对象。
 
-考虑到打包的代码量，我们用一个很小的工程作为一个测试：
+考虑到打包的代码量，我们用一个很小的工程作为测试：
 
 `main.js`
 
@@ -871,7 +871,7 @@ module.exports = isArray;
 
 至此，我们已经可以打包一个小型的纯js项目了，尽管它还有非常多的问题（@_@)
 
-### 6. 优化
+### 6 优化
 
 一个好的打包工具是一定需要考虑很多细节以及性能的，虽然笔者无法做到像`webpack`这样优秀，但是基于上面的实现，我们还是能提出一些优化的建议的。
 
@@ -1094,13 +1094,13 @@ require('./api')
 
 这里默认我只处理了js文件，像css，scss，甚至ts等等可以考虑支持。
 
-### 6.发布
+### 7 发布
 
 为了让这个小轮子工程化一些，笔者也发布了简单的cli：
 
 ```
 
-npm i -g @dummmy/webpack-cli
+npm i -g @dummmy/pack-cli
 
 cd your-project
 
@@ -1109,3 +1109,7 @@ touch pack-config.js
 pack
 
 ```
+
+### 8 源码
+
+[源码请戳这里](https://github.com/kkkkkxiaofei/dummy-playground/tree/master/pack)
