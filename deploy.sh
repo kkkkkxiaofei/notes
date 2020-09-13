@@ -6,6 +6,6 @@ read version
 date_time=`date +'%m%d'`
 git add .
 git ci -am "deploy@${date_time}-${version}"
-git push origin gh-pages
+git push -f origin gh-pages
 rm -rf ~/Desktop/_book
 git co master
