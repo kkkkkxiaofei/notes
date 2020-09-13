@@ -19,8 +19,8 @@
     - [react-redux源码解析](redux/react-redux-source.md)
     - [react-redux最小实现](redux/mini-react-redux.md)
   - Webpack
+    - [一个入门级别的前端打包工具](Webpack/bundler.md)
     - [你不知道的Webpack](Webpack/you-dont-know-webpack.md)
-    - [手动打造一个bundler](Webpack/bundler.md)
   - Babel
     - [你不知道的Babel](Babel/you-dont-know-babel.md)
   - Algorithm
