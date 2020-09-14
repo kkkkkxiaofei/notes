@@ -14,12 +14,19 @@
 缓存验证：
 
 - Expires
+
   若max-age没设，则会查看该值，优先级次之。
+
 - Last-Modified
+
   若max-age和Expires都没有，会查看该值，优先级较低，常常与`If-Modified-Since`一起使用。
+
 - ETags
+
   如果请求响应头里有这个属性（值一般是资源hash），则下次请求时，客户端可以带上`If-Non-Match`。
+
 - If-Non-Match
+
   该属性会和`Etags`一起使用，若服务端没有能够找到任何资源与Etags的值相等，则返回200。
 
 ### 2.xss vs csrf
@@ -248,14 +255,14 @@ If-None-Match: "xxx1"
 
 4. server -> client
 
-若`200`:
+若`304`:
 
 ```
 HTTP/1.1 304 Not Modified
 ```
 这里虽然也有一次请求，但只是一次试探，远比请求资源要代价小的多。
 
-若`304`:
+若`200`:
 
 ```
 HTTP/1.1 200
