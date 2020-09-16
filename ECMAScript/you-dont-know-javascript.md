@@ -123,6 +123,92 @@ js运行时，首先会分析js代码片段，生成调用栈，栈描述了函�
 
 > PS: setTimeout里的时间只是表明多久后会被加入到event queue里面。
 
+`task vs micro-task`
+
+如下demo:
+
+```
+<script type="text/javascript">
+    	
+	const parent = document.querySelector('.parent');
+	const child = document.querySelector('.child');
+
+	//1
+	const onClick = () => {
+		//2
+		console.log('click callback start');
+
+		//3
+		setTimeout(() => {
+			console.log('setTimeout');
+		}, 0);
+
+		//4
+		Promise.resolve()
+			.then(() => console.log('promise'))
+
+		//5
+		console.log('click callback end');
+	}
+
+	child.addEventListener('click', onClick);
+	parent.addEventListener('click', onClick);
+
+</script>
+```
+
+点击child后输出：
+
+```
+click callback start
+click callback end
+promise
+click callback start
+click callback end
+promise
+setTimeout
+setTimeout
+```
+
+分析：
+
+a)点击child后会进入事件回调1处，2处直接入栈执行,3为异步调用入tasks队列，4处是特殊的异步进入micro-tasks队列，5和1类似，直接输出。
+
+b)第一次的onClick代码执行完毕，栈空。取出micro-tasks里的promise callback入栈，执行后出栈，栈空。
+
+c)此时child的点击导致了冒泡，冒泡的callback回来了，再次执行a),b)
+
+d)第二次的onClick完成后，栈空，此时tasks队列里仍然有两个setTimeout没有执行，入栈执行，完毕。
+
+
+若把上面例子里的setTimeout改为:
+
+```
+setTimeout(() => {
+	console.log('setTimeout');
+	Promise.resolve()
+		.then(() => console.log('promise1'))    			
+}, 0);
+```
+
+那么里面的promise一定是跟着对应的setTimeout按顺序输出：
+
+```
+setTimeout
+promise1
+setTimeout
+promise1
+```
+
+总结：
+
+1.setTimeout, setInterval等属于task（宏任务）
+2.promise,async属于（微任务）
+3.每当栈空后会从tasks队列里取出宏任务执行，每次执行完一个宏任务，都会去执行微任务。
+4.事件callback比较特殊，微任务也会在其之后执行。
+
+[参考](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/)
+
 
 - Node.js中的事件循环(todo)
 
