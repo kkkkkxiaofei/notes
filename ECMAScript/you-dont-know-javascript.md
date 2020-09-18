@@ -571,3 +571,45 @@ b2('[', ']'); // [undefined]
 
 
 ```
+
+### 16. 继承的最佳方案
+
+```
+
+function Person(name) {
+  this.name = name;
+}
+
+Person.prototype.sayName = function() {
+  console.log(this.name);
+}
+
+function Man(name) {
+	//1
+  Person.call(this, name);
+}
+
+//2
+Man.prototype = Object.create(Person.prototype, {
+  constructor: {
+    value: Man,
+    writable: true,
+    configturable: true,
+  }
+})
+
+//3
+Man.__proto__ = Person;
+
+var man = new Man('kelvin');
+
+console.log(man instanceof Man); // true
+console.log(man instanceof Person); // true
+man.sayName(); // kelvin
+```
+
+分析：
+
+`1`: 利用子类的this，设置与父类相同的实例属性（不含原型属性）。
+`2`: 弥补原型属性没有继承的漏洞，且维护子类原型对象指向父类原型对象，因而instanceof成立。
+`3`: 根据Babel解析ES6 class的标准实现，设置构造器的关系。
