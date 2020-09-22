@@ -336,17 +336,61 @@ function B(name) {
 ```
 B.prototype = Object.create(A.prototype);
 ```
-这里可得: `b.__proto__` -> B.prototype -> B.prototype.__proto__ -> `A.prototype`
+这里可得: `b.__proto__` -> `B.prototype` -> `B.prototype.__proto__` -> `A.prototype`
 
 因此 `b instanceof A` 成立
 
 - 3.恢复b的构造器
 
-new B()时，默认会找寻B.prototype.constrcutor作为b的构造器，很显然已经被2步更改了，需要重置一下，使得`b instanceof B`也成立（这是底线哪@_@）
+`new B()`时，默认会找寻`B.prototype.constrcutor`作为b的构造器，很显然已经被2步更改了，需要重置一下，使得`b instanceof B`也成立（这是底线哪@_@）
 
 ```
 B.prototype.constructor = B;
 ```
+
+- 基于以上提炼继承的最佳方案：
+
+
+```
+function Person(name) {
+  this.name = name;
+}
+
+Person.prototype.sayName = function() {
+  console.log(this.name);
+}
+
+function Man(name) {
+	//1
+  Person.call(this, name);
+}
+
+//2
+Man.prototype = Object.create(Person.prototype, {
+  constructor: {
+    value: Man,
+    writable: true,
+    configturable: true,
+  }
+})
+
+//3
+Man.__proto__ = Person;
+
+var man = new Man('kelvin');
+
+console.log(man instanceof Man); // true
+console.log(man instanceof Person); // true
+man.sayName(); // kelvin
+```
+
+分析：
+
+`1`: 利用子类的this，设置与父类相同的实例属性（不含原型属性）。
+`2`: 弥补原型属性没有继承的漏洞，且维护子类原型对象指向父类原型对象，因而instanceof成立。
+`3`: 根据Babel解析ES6 class的标准实现，设置构造器的关系。
+
+> 为了使子类规范调用，也可以加上this指向的判断。
 
 ### 10. this指向问题
 
@@ -579,47 +623,3 @@ b2('[', ']'); // [undefined]
 
 
 ```
-
-### 16. 继承的最佳方案
-
-```
-
-function Person(name) {
-  this.name = name;
-}
-
-Person.prototype.sayName = function() {
-  console.log(this.name);
-}
-
-function Man(name) {
-	//1
-  Person.call(this, name);
-}
-
-//2
-Man.prototype = Object.create(Person.prototype, {
-  constructor: {
-    value: Man,
-    writable: true,
-    configturable: true,
-  }
-})
-
-//3
-Man.__proto__ = Person;
-
-var man = new Man('kelvin');
-
-console.log(man instanceof Man); // true
-console.log(man instanceof Person); // true
-man.sayName(); // kelvin
-```
-
-分析：
-
-`1`: 利用子类的this，设置与父类相同的实例属性（不含原型属性）。
-`2`: 弥补原型属性没有继承的漏洞，且维护子类原型对象指向父类原型对象，因而instanceof成立。
-`3`: 根据Babel解析ES6 class的标准实现，设置构造器的关系。
-
-> 为了使子类规范调用，也可以加上this指向的判断。
