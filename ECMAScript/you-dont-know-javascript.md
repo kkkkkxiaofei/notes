@@ -534,10 +534,17 @@ Object.assign: 用的最多，但语法冗余，一般可以直接用`...`展开
 
 ### 14. 类型判断
 
+- typeof
+
+js目前有7种原始类型: `Null`, `Undefined`, `BigInt`, `Number`, `Boolean`, `String`, `Symbol`；引用类型为`Object`,`Object`的子类有: `Array`, `RegExg`, `Function`.
+
+对于原始类型，除了`Null`返回`object`之外，其他都能用`typeof`获得类型；对于引用类型除了`Function`之外其他都返回`object`.
+
+所以`typeof`并不准确。
+
 - Object.prototype.toString
 
 ```
-
 Object.prototype.toString.call(1); // [object Number]
 
 Object.prototype.toString.call(true); // [object Boolean]
@@ -558,9 +565,44 @@ Object.prototype.toString.call(function() {}); // [object Function]
 
 Object.prototype.toString.call(/\s/); // [object RegExp]
 
-> ps: 由于toString在原型链上，因此会被改。
+`toString`几乎是万能的类型检查工具，但由于它在原型链上，因此还是会有被篡改的风险。
 
 ```
+
+- instanceof
+
+如果我们已经知道构造函数，那么`instanceof`很有用，它需要检查当前构造器是否存在于实例的原型链上，但这只对引用类型有用。如果想让原始生效，需要用到`Symbol.hasInstance`:
+
+```
+class NumberType {
+	static [Symbol.hasInstance](instance) {
+		return typeof instance === 'number';
+	}
+}
+```
+```
+111 instanceof Number; // false
+
+111 instanceof NumberType; // true
+```
+
+因此我们可以修改任意构造函数的`[Symbol.hasInstance]`，从而改变`instanceof`的逻辑，上面的代码使用了静态类型，`Babel`转译后其实就是构造函数的属性：
+
+```
+function NumberType() {}
+
+Object.defineProperty(NumberType, Symbol.hasInstance, {
+	configurable: true,
+	writable: true, // here just for test, maybe sometime don't allow to change
+	value: function (instance) {
+		return typeof instance === 'number';
+	}
+})
+
+111 instanceof NumberType; // true
+
+```
+
 
 ### 15. call, apply, bind polyfill
 
