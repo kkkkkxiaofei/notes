@@ -547,6 +547,10 @@ js目前有7种原始类型: `Null`, `Undefined`, `BigInt`, `Number`, `Boolean`,
 ```
 Object.prototype.toString.call(1); // [object Number]
 
+Object.prototype.toString.call(NaN); // [object Number]
+
+Object.prototype.toString.call(Infinity); // [object Number]
+
 Object.prototype.toString.call(true); // [object Boolean]
 
 Object.prototype.toString.call(Symbol('s')); // [object Symbol]
@@ -571,7 +575,7 @@ Object.prototype.toString.call(/\s/); // [object RegExp]
 
 - instanceof
 
-如果我们已经知道构造函数，那么`instanceof`很有用，它需要检查当前构造器是否存在于实例的原型链上，但这只对引用类型有用。如果想让原始生效，需要用到`Symbol.hasInstance`:
+如果我们已经知道构造函数，那么`instanceof`很有用，它需要检查当前构造器的原型对象是否存在于实例的原型链上，但这只对引用类型有用。如果想让原始生效，需要用到`Symbol.hasInstance`:
 
 ```
 class NumberType {
@@ -603,6 +607,27 @@ Object.defineProperty(NumberType, Symbol.hasInstance, {
 
 ```
 
+** instanceof手动实现？ **
+
+```
+function iof(instance, Parent) {
+	if (typeof instance !== 'object' || instance === null)
+		return false
+	let proto = Object.getPrototypeOf(instance);
+
+	while(proto !== null) {
+		if (proto === Object.getPrototypeOf(instance)) 
+			return true;
+		proto = Object.getPrototypeOf(proto);
+	}
+
+	return false;
+}
+```
+使用循环向上找是考虑到了A->B->C的
+
+
+todo: 各种类型判断的手写，参考lodash
 
 ### 15. call, apply, bind polyfill
 
