@@ -630,8 +630,57 @@ function iof(instance, Parent) {
 ```
 使用循环向上找是考虑到了A->B->C的情况。
 
+** 实战灵魂拷问之常用类型判断(参考lodash) **
 
-todo: 各种类型判断的手写，参考lodash
+`isFunction`
+
+```
+function isFunction(value) {
+	return typeof fn === 'function';
+}
+```
+
+`isString`
+
+暴力写法：
+```
+function isString(value) {
+	return Object.prototype.toString.call(value) === '[object String]';
+}
+```
+
+考虑到原型链的安全性，lodash的优化：
+
+```
+function isString(value) {
+  const type = typeof value
+  return type === 'string' || 
+	(type === 'object' && value != null && !Array.isArray(value) && Object.prototype.toString.call(value) === '[object String]')
+}
+```
+
+`isObject`
+
+```
+function isObject(value) {
+	//1
+	if (Object.prototype.toString.call(value) !== '[object Object]')
+		return false
+	
+	//2 Object.create(null)
+	if (Object.getPrototypeOf(value) === null) 
+		return true;
+
+	//3
+	let proto = value;
+	while(Object.getPrototypeOf(proto) !== null) {
+		proto = Object.getPrototypeOf(proto);
+	}
+	return proto === Object.getPrototypeOf(value);
+}
+
+```
+这里的`isObject`对应lodash的`isPlainObject`，大部分情况我们需要判断是对象的场景就是`Plain Object`的场景，所以3处处理了类似继承或者arrary的衍生对象（总之就是必须直接继承Object)。
 
 ### 15. call, apply, bind polyfill
 
