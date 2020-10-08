@@ -123,7 +123,7 @@ js运行时，首先会分析js代码片段，生成调用栈，栈描述了函�
 
 > PS: setTimeout里的时间只是表明多久后会被加入到event queue里面。
 
-`task vs micro-task`
+** task vs micro-task **
 
 如下demo:
 
@@ -203,8 +203,11 @@ promise1
 总结：
 
 1.setTimeout, setInterval等属于task（宏任务）
+
 2.promise,async属于（微任务）
+
 3.每当栈空后会从tasks队列里取出宏任务执行，每次执行完一个宏任务，都会去执行微任务。
+
 4.事件callback比较特殊，微任务也会在其之后执行。
 
 [参考](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/)
@@ -338,11 +341,11 @@ B.prototype = Object.create(A.prototype);
 ```
 这里可得: `b.__proto__` -> `B.prototype` -> `B.prototype.__proto__` -> `A.prototype`
 
-因此 `b instanceof A` 成立
+因此 `b instanceof A` 成立。
 
 - 3.恢复b的构造器
 
-`new B()`时，默认会找寻`B.prototype.constrcutor`作为b的构造器，很显然已经被2步更改了，需要重置一下，使得`b instanceof B`也成立（这是底线哪@_@）
+`B.prototype`原本内部是有`constructor`属性（指向Man)，第2步修改原型链时把`constructor`属性给覆盖了，所以需要重置(注：constructor的修改不会影响instanceof的结果)。
 
 ```
 B.prototype.constructor = B;
@@ -387,7 +390,9 @@ man.sayName(); // kelvin
 分析：
 
 `1`: 利用子类的this，设置与父类相同的实例属性（不含原型属性）。
+
 `2`: 弥补原型属性没有继承的漏洞，且维护子类原型对象指向父类原型对象，因而instanceof成立。
+
 `3`: 根据Babel解析ES6 class的标准实现，设置构造器的关系。
 
 > 为了使子类规范调用，也可以加上this指向的判断。
@@ -569,9 +574,8 @@ Object.prototype.toString.call(function() {}); // [object Function]
 
 Object.prototype.toString.call(/\s/); // [object RegExp]
 
-`toString`几乎是万能的类型检查工具，但由于它在原型链上，因此还是会有被篡改的风险。
-
 ```
+`toString` 几乎是万能的类型检查工具，但由于它在原型链上，因此还是会有被篡改的风险。
 
 - instanceof
 
@@ -616,7 +620,7 @@ function iof(instance, Parent) {
 	let proto = Object.getPrototypeOf(instance);
 
 	while(proto !== null) {
-		if (proto === Object.getPrototypeOf(instance)) 
+		if (proto === Parent.prototype) 
 			return true;
 		proto = Object.getPrototypeOf(proto);
 	}
@@ -624,7 +628,7 @@ function iof(instance, Parent) {
 	return false;
 }
 ```
-使用循环向上找是考虑到了A->B->C的
+使用循环向上找是考虑到了A->B->C的情况。
 
 
 todo: 各种类型判断的手写，参考lodash
