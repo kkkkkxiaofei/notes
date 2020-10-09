@@ -518,8 +518,49 @@ function debounce(fn, ms) {
 }
 ```
 
-
 缺点：内存泄漏
+
+- 4.利用闭包和作用域的角度重新分析下面的经典代码
+
+```
+for (var i=0;i<10;i++) {
+	//1
+	setTimeout(function() {
+	//2
+		console.log(i);
+	}, 0)
+}
+```
+var具有函数作用域，setTimout执行之前必须让主线程把for执行完，此时i还具有作用域（i为10）；当执行setTimeout时，回调里（2处）没有i的作用域，于是向上（1处）寻找，发现i为10，于是全部输出10。
+
+`角度1`: 改变var的作用域，使用let不解释。
+
+`角度2`: 利用setTimeout的第三参数。
+
+```
+for (var i=0;i<10;i++) {
+	setTimeout(function(j) {
+		console.log(j);
+	}, 0, i)
+}
+```
+
+缺点是兼容性（IE9不支持）。
+
+`角度3`: IIFE
+
+```
+for (var i=0;i<10;i++) {
+	(function(j) {
+		//1
+		setTimeout(function() {
+		//2
+			console.log(j);
+		}, 0)
+	})(i)
+}
+```
+IIFE函数创建了新的函数作用域（1处）。
 
 
 ### 13. 浅拷贝和深拷贝
