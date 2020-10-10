@@ -432,7 +432,7 @@ fn();
 //Promise {<fulfilled>: "async fn"}
 ```
 
-可以得出：async会返回一个promise，这个promise的结果就是await的结果，所以就算是await里抛了异常，那外部依然可以接住。
+可以得出：async会返回一个promise，这个promise的结果箭头函数返回的结果。
 
 - await后面的代码
 
@@ -453,9 +453,9 @@ fn();
 let getData = () => Promise.resolve('res');//1
 ```
 
-则可以输出log
+则可以输出log。
 
-可是我一不小心手误，将1处写为
+可是我一不小心手误，将1处写为：
 
 ```
 let getData = () => { Promise.reject('res') };//1
@@ -471,7 +471,7 @@ fn();
 
 可见对于await来说它会解析promise(async也是prmomise)，如果await后面不是promise，则正常执行。
 
-> ps:需要注意的是，尽管await会处理promise，但是如果没有在await之前显式的调用return，那么外部是无法获取到await的结果的。
+> ps:需要注意的是，aysnc里的函数必须有返回值，不然外部调用aysync函数（无论是否用await）都无法拿到结果。
 
 ### 12. Closure
 
