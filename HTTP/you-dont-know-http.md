@@ -46,6 +46,8 @@ csrf一般指A网站里有B网站的广告（第三方），正常情况下，A�
 
 > ps: 只有后端设置`Access-Control-Allow-Credentials: true` 且前端请求时header里`credentials: include`才可以把cookie发送到服务器。
 
+[csrf方案by美团](https://tech.meituan.com/2018/10/11/fe-security-csrf.html)
+
 ### 3. Cookie
 
 常见属性：
