@@ -79,3 +79,25 @@ Component.prototype.forceUpdate = function(callback) { ... };
 我们最常用的就是前两个参数，至于`updater`后续笔记在补充说明。
 
 `PureComponent`最大的区别就是在原型对象上设置了`isPureReactComponent = true`。
+
+### React.memo
+
+```
+export function memo<Props>(
+  type: React$ElementType,
+  compare?: (oldProps: Props, newProps: Props) => boolean,
+) {
+  ...
+
+  const elementType = {
+    $$typeof: REACT_MEMO_TYPE,
+    type,
+    compare: compare === undefined ? null : compare,
+  };
+
+  ...
+
+  return elementType;
+```
+
+`memo`只是对`type`(组件签名)的一种封装，它提供了自定义的比较器，若没有传默认为空，但是在后期使用该组件时会设置`shallowEqual`。
