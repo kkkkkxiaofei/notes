@@ -57,5 +57,25 @@ JSX语法经过bable后会转译为`createElement`,即组件其实是一个简�
 }
 ```
 
+### Component
 
+Class Component的源码如下：
 
+```
+function Component(props, context, updater) {
+  this.props = props;
+  this.context = context;
+  this.refs = emptyObject;
+  this.updater = updater || ReactNoopUpdateQueue;
+}
+
+Component.prototype.isReactComponent = {};
+
+Component.prototype.setState = function(partialState, callback) { ... }
+
+Component.prototype.forceUpdate = function(callback) { ... };
+```
+
+我们最常用的就是前两个参数，至于`updater`后续笔记在补充说明。
+
+`PureComponent`最大的区别就是在原型对象上设置了`isPureReactComponent = true`。
