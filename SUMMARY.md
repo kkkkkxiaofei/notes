@@ -9,7 +9,7 @@
   - HTML/CSS
     - [你不知道的HTML/CSS](HTML-CSS/you-dont-know-html-css.md)
   - React
-    - [JSX](React/jsx.md)
+    - [核心API](React/api.md)
     - [Reconciler](React/reconciler.md)
     - [Hook](React/hook.md)
     - [你不知道的React](React/you-dont-know-react.md)
