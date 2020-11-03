@@ -224,12 +224,12 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.1.4.1" data-path="../React/jsx.html">
+        <li class="chapter " data-level="1.1.4.1" data-path="../React/api.html">
             
-                <a href="../React/jsx.html">
+                <a href="../React/api.html">
             
                     
-                    JSX
+                    核心API
             
                 </a>
             
@@ -857,6 +857,66 @@ function foo() {
 <blockquote>
 <p>PS: setTimeout&#x91CC;&#x7684;&#x65F6;&#x95F4;&#x53EA;&#x662F;&#x8868;&#x660E;&#x591A;&#x4E45;&#x540E;&#x4F1A;&#x88AB;&#x52A0;&#x5165;&#x5230;event queue&#x91CC;&#x9762;&#x3002;</p>
 </blockquote>
+<p><strong> task vs micro-task </strong></p>
+<p>&#x5982;&#x4E0B;demo:</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+
+    const parent = document.querySelector(&apos;.parent&apos;);
+    const child = document.querySelector(&apos;.child&apos;);
+
+    //1
+    const onClick = () =&gt; {
+        //2
+        console.log(&apos;click callback start&apos;);
+
+        //3
+        setTimeout(() =&gt; {
+            console.log(&apos;setTimeout&apos;);
+        }, 0);
+
+        //4
+        Promise.resolve()
+            .then(() =&gt; console.log(&apos;promise&apos;))
+
+        //5
+        console.log(&apos;click callback end&apos;);
+    }
+
+    child.addEventListener(&apos;click&apos;, onClick);
+    parent.addEventListener(&apos;click&apos;, onClick);
+
+&lt;/script&gt;
+</code></pre><p>&#x70B9;&#x51FB;child&#x540E;&#x8F93;&#x51FA;&#xFF1A;</p>
+<pre><code>click callback start
+click callback end
+promise
+click callback start
+click callback end
+promise
+setTimeout
+setTimeout
+</code></pre><p>&#x5206;&#x6790;&#xFF1A;</p>
+<p>a)&#x70B9;&#x51FB;child&#x540E;&#x4F1A;&#x8FDB;&#x5165;&#x4E8B;&#x4EF6;&#x56DE;&#x8C03;1&#x5904;&#xFF0C;2&#x5904;&#x76F4;&#x63A5;&#x5165;&#x6808;&#x6267;&#x884C;,3&#x4E3A;&#x5F02;&#x6B65;&#x8C03;&#x7528;&#x5165;tasks&#x961F;&#x5217;&#xFF0C;4&#x5904;&#x662F;&#x7279;&#x6B8A;&#x7684;&#x5F02;&#x6B65;&#x8FDB;&#x5165;micro-tasks&#x961F;&#x5217;&#xFF0C;5&#x548C;1&#x7C7B;&#x4F3C;&#xFF0C;&#x76F4;&#x63A5;&#x8F93;&#x51FA;&#x3002;</p>
+<p>b)&#x7B2C;&#x4E00;&#x6B21;&#x7684;onClick&#x4EE3;&#x7801;&#x6267;&#x884C;&#x5B8C;&#x6BD5;&#xFF0C;&#x6808;&#x7A7A;&#x3002;&#x53D6;&#x51FA;micro-tasks&#x91CC;&#x7684;promise callback&#x5165;&#x6808;&#xFF0C;&#x6267;&#x884C;&#x540E;&#x51FA;&#x6808;&#xFF0C;&#x6808;&#x7A7A;&#x3002;</p>
+<p>c)&#x6B64;&#x65F6;child&#x7684;&#x70B9;&#x51FB;&#x5BFC;&#x81F4;&#x4E86;&#x5192;&#x6CE1;&#xFF0C;&#x5192;&#x6CE1;&#x7684;callback&#x56DE;&#x6765;&#x4E86;&#xFF0C;&#x518D;&#x6B21;&#x6267;&#x884C;a),b)</p>
+<p>d)&#x7B2C;&#x4E8C;&#x6B21;&#x7684;onClick&#x5B8C;&#x6210;&#x540E;&#xFF0C;&#x6808;&#x7A7A;&#xFF0C;&#x6B64;&#x65F6;tasks&#x961F;&#x5217;&#x91CC;&#x4ECD;&#x7136;&#x6709;&#x4E24;&#x4E2A;setTimeout&#x6CA1;&#x6709;&#x6267;&#x884C;&#xFF0C;&#x5165;&#x6808;&#x6267;&#x884C;&#xFF0C;&#x5B8C;&#x6BD5;&#x3002;</p>
+<p>&#x82E5;&#x628A;&#x4E0A;&#x9762;&#x4F8B;&#x5B50;&#x91CC;&#x7684;setTimeout&#x6539;&#x4E3A;:</p>
+<pre><code>setTimeout(() =&gt; {
+    console.log(&apos;setTimeout&apos;);
+    Promise.resolve()
+        .then(() =&gt; console.log(&apos;promise1&apos;))                
+}, 0);
+</code></pre><p>&#x90A3;&#x4E48;&#x91CC;&#x9762;&#x7684;promise&#x4E00;&#x5B9A;&#x662F;&#x8DDF;&#x7740;&#x5BF9;&#x5E94;&#x7684;setTimeout&#x6309;&#x987A;&#x5E8F;&#x8F93;&#x51FA;&#xFF1A;</p>
+<pre><code>setTimeout
+promise1
+setTimeout
+promise1
+</code></pre><p>&#x603B;&#x7ED3;&#xFF1A;</p>
+<p>1.setTimeout, setInterval&#x7B49;&#x5C5E;&#x4E8E;task&#xFF08;&#x5B8F;&#x4EFB;&#x52A1;&#xFF09;</p>
+<p>2.promise,async&#x5C5E;&#x4E8E;&#xFF08;&#x5FAE;&#x4EFB;&#x52A1;&#xFF09;</p>
+<p>3.&#x6BCF;&#x5F53;&#x6808;&#x7A7A;&#x540E;&#x4F1A;&#x4ECE;tasks&#x961F;&#x5217;&#x91CC;&#x53D6;&#x51FA;&#x5B8F;&#x4EFB;&#x52A1;&#x6267;&#x884C;&#xFF0C;&#x6BCF;&#x6B21;&#x6267;&#x884C;&#x5B8C;&#x4E00;&#x4E2A;&#x5B8F;&#x4EFB;&#x52A1;&#xFF0C;&#x90FD;&#x4F1A;&#x53BB;&#x6267;&#x884C;&#x5FAE;&#x4EFB;&#x52A1;&#x3002;</p>
+<p>4.&#x4E8B;&#x4EF6;callback&#x6BD4;&#x8F83;&#x7279;&#x6B8A;&#xFF0C;&#x5FAE;&#x4EFB;&#x52A1;&#x4E5F;&#x4F1A;&#x5728;&#x5176;&#x4E4B;&#x540E;&#x6267;&#x884C;&#x3002;</p>
+<p><a href="https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/" target="_blank">&#x53C2;&#x8003;</a></p>
 <ul>
 <li>Node.js&#x4E2D;&#x7684;&#x4E8B;&#x4EF6;&#x5FAA;&#x73AF;(todo)</li>
 </ul>
@@ -877,8 +937,18 @@ let a1 = new A(&apos;Kelvin1&apos;);
 let a2 = A(&apos;Kelvin2&apos;);
 
 console.log(a1, a2);
-</code></pre><p>&#x5BF9;&#x4E8E;a1: new&#x5173;&#x952E;&#x5B57;&#x4F1A;&#x5BFB;&#x627E;&#x6784;&#x9020;&#x51FD;&#x6570;&#x4E0A;&#x539F;&#x578B;&#x5BF9;&#x8C61;&#x91CC;&#x7684;constructor&#x5C5E;&#x6027;&#x8FDB;&#x884C;&#x6784;&#x5EFA;&#x5F53;&#x524D;&#x5B9E;&#x4F8B;&#xFF0C;&#x5E76;&#x628A;&#x5F53;&#x524D;&#x5BF9;&#x8C61;&#x6307;&#x5411;this&#xFF0C;&#x82E5;&#x4E0D;&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x5219;&#x9ED8;&#x8BA4;&#x8FD4;&#x56DE;this&#x3002;&#x6B64;&#x5916;<code>a1 instanceof A</code>&#x8FD4;&#x56DE;true&#xFF0C;&#x56E0;&#x4E3A;a1&#x7684;&#x539F;&#x578B;&#x94FE;&#x6307;&#x5411;A&#x7684;&#x539F;&#x578B;&#x5BF9;&#x8C61;&#x3002;</p>
-<p>&#x5BF9;&#x4E8E;a2: &#x5FC5;&#x987B;&#x663E;&#x5F0F;&#x7684;<code>return this</code>&#xFF0C;&#x5426;&#x5219;&#x8FD4;&#x56DE;undefined;&#x6B64;&#x5916;&#x7531;&#x4E8E;&#x5728;&#x5916;&#x90E8;&#x8C03;&#x7528;&#xFF0C;&#x5219;this&#x9ED8;&#x8BA4;&#x6307;&#x5411;window(browser)/global(node)&#xFF0C;a2&#x4E0E;A&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x5173;&#x7CFB;&#xFF0C;&#x5FC5;&#x7136;&#x4E5F;&#x4E0D;&#x662F;&#x5176;&#x5B9E;&#x4F8B;, &#x5B83;&#x7684;&#x539F;&#x578B;&#x94FE;&#x76F4;&#x63A5;&#x6307;&#x5411;&#x4E86;Object&#x7684;&#x539F;&#x578B;&#xFF1B;</p>
+</code></pre><p><code>&#x5BF9;&#x4E8E;a1</code>: new&#x5173;&#x952E;&#x5B57;&#x4F1A;&#x5BFB;&#x627E;&#x6784;&#x9020;&#x51FD;&#x6570;&#x4E0A;&#x539F;&#x578B;&#x5BF9;&#x8C61;&#x91CC;&#x7684;constructor&#x5C5E;&#x6027;&#x8FDB;&#x884C;&#x6784;&#x5EFA;&#x5F53;&#x524D;&#x5B9E;&#x4F8B;&#xFF0C;&#x5E76;&#x628A;&#x5F53;&#x524D;&#x5BF9;&#x8C61;&#x6307;&#x5411;this&#xFF0C;&#x82E5;&#x4E0D;&#x8FD4;&#x56DE;&#x7ED3;&#x679C;&#x5219;&#x9ED8;&#x8BA4;&#x8FD4;&#x56DE;this&#x3002;&#x6B64;&#x5916;<code>a1 instanceof A</code>&#x8FD4;&#x56DE;true&#xFF0C;&#x56E0;&#x4E3A;a1&#x7684;&#x539F;&#x578B;&#x94FE;&#x6307;&#x5411;A&#x7684;&#x539F;&#x578B;&#x5BF9;&#x8C61;&#x3002;</p>
+<p>new&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x5B9E;&#x9645;&#x4E0A;&#x5E72;&#x4E86;&#x4E09;&#x4EF6;&#x4E8B;:</p>
+<pre><code>var obj = {};
+A.apply(obj, arguments);
+obj.__proto__ = A.prototype;
+
+// var obj = Object.create(A.prototype);
+// A.apply(obj, arguments);
+</code></pre><blockquote>
+<p>ps: &#x8FD9;&#x91CC;&#x5FFD;&#x7565;&#x4E86;&#x8FD4;&#x56DE;&#x503C;&#x7684;&#x5904;&#x7406;&#xFF0C;&#x82E5;&#x65E0;&#x8FD4;&#x56DE;&#x503C;&#x5E94;&#x8BE5;&#x8FD4;&#x56DE;this&#xFF08;&#x4E0A;&#x9762;&#x7684;obj&#xFF09;&#x3002;</p>
+</blockquote>
+<p><code>&#x5BF9;&#x4E8E;a2</code>: &#x5FC5;&#x987B;&#x663E;&#x5F0F;&#x7684;<code>return this</code>&#xFF0C;&#x5426;&#x5219;&#x8FD4;&#x56DE;undefined;&#x6B64;&#x5916;&#x7531;&#x4E8E;&#x5728;&#x5916;&#x90E8;&#x8C03;&#x7528;&#xFF0C;&#x5219;this&#x9ED8;&#x8BA4;&#x6307;&#x5411;window(browser)/global(node)&#xFF0C;a2&#x4E0E;A&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x5173;&#x7CFB;&#xFF0C;&#x5FC5;&#x7136;&#x4E5F;&#x4E0D;&#x662F;&#x5176;&#x5B9E;&#x4F8B;, &#x5B83;&#x7684;&#x539F;&#x578B;&#x94FE;&#x76F4;&#x63A5;&#x6307;&#x5411;&#x4E86;Object&#x7684;&#x539F;&#x578B;&#xFF1B;</p>
 <p>&#x90A3;&#x4E48;&#x5982;&#x679C;&#x600E;&#x4E48;&#x8BA9;a2&#x6210;&#x4E3A;&#x771F;&#x6B63;&#x7684;A&#x7684;&#x5B9E;&#x4F8B;&#x5462;&#xFF1A;</p>
 <pre><code>let a2 = A.call({}, &apos;reall a2&apos;);
 a2.__prop__ = A.proptotype;
@@ -930,18 +1000,58 @@ a2.__prop__ = A.proptotype;
 <li>2.&#x8BA9;A&#x7684;&#x539F;&#x578B;&#x5BF9;&#x8C61;&#x51FA;&#x73B0;&#x5728;b&#x7684;&#x539F;&#x578B;&#x94FE;&#x4E0A;</li>
 </ul>
 <pre><code>B.prototype = Object.create(A.prototype);
-</code></pre><p>&#x8FD9;&#x91CC;&#x53EF;&#x5F97;: <code>b.__proto__</code> -&gt; B.prototype -&gt; B.prototype.<strong>proto</strong> -&gt; <code>A.prototype</code></p>
-<p>&#x56E0;&#x6B64; <code>b instanceof A</code> &#x6210;&#x7ACB;</p>
+</code></pre><p>&#x8FD9;&#x91CC;&#x53EF;&#x5F97;: <code>b.__proto__</code> -&gt; <code>B.prototype</code> -&gt; <code>B.prototype.__proto__</code> -&gt; <code>A.prototype</code></p>
+<p>&#x56E0;&#x6B64; <code>b instanceof A</code> &#x6210;&#x7ACB;&#x3002;</p>
 <ul>
 <li>3.&#x6062;&#x590D;b&#x7684;&#x6784;&#x9020;&#x5668;</li>
 </ul>
-<p>new B()&#x65F6;&#xFF0C;&#x9ED8;&#x8BA4;&#x4F1A;&#x627E;&#x5BFB;B.prototype.constrcutor&#x4F5C;&#x4E3A;b&#x7684;&#x6784;&#x9020;&#x5668;&#xFF0C;&#x5F88;&#x663E;&#x7136;&#x5DF2;&#x7ECF;&#x88AB;2&#x6B65;&#x66F4;&#x6539;&#x4E86;&#xFF0C;&#x9700;&#x8981;&#x91CD;&#x7F6E;&#x4E00;&#x4E0B;&#xFF0C;&#x4F7F;&#x5F97;<code>b instanceof B</code>&#x4E5F;&#x6210;&#x7ACB;&#xFF08;&#x8FD9;&#x662F;&#x5E95;&#x7EBF;&#x54EA;@_@&#xFF09;</p>
+<p><code>B.prototype</code>&#x539F;&#x672C;&#x5185;&#x90E8;&#x662F;&#x6709;<code>constructor</code>&#x5C5E;&#x6027;&#xFF08;&#x6307;&#x5411;Man)&#xFF0C;&#x7B2C;2&#x6B65;&#x4FEE;&#x6539;&#x539F;&#x578B;&#x94FE;&#x65F6;&#x628A;<code>constructor</code>&#x5C5E;&#x6027;&#x7ED9;&#x8986;&#x76D6;&#x4E86;&#xFF0C;&#x6240;&#x4EE5;&#x9700;&#x8981;&#x91CD;&#x7F6E;(&#x6CE8;&#xFF1A;constructor&#x7684;&#x4FEE;&#x6539;&#x4E0D;&#x4F1A;&#x5F71;&#x54CD;instanceof&#x7684;&#x7ED3;&#x679C;)&#x3002;</p>
 <pre><code>B.prototype.constructor = B;
-</code></pre><h3 id="10-this&#x6307;&#x5411;&#x95EE;&#x9898;">10. this&#x6307;&#x5411;&#x95EE;&#x9898;</h3>
+</code></pre><ul>
+<li>&#x57FA;&#x4E8E;&#x4EE5;&#x4E0A;&#x63D0;&#x70BC;&#x7EE7;&#x627F;&#x7684;&#x6700;&#x4F73;&#x65B9;&#x6848;&#xFF1A;</li>
+</ul>
+<pre><code>function Person(name) {
+  this.name = name;
+}
+
+Person.prototype.sayName = function() {
+  console.log(this.name);
+}
+
+function Man(name) {
+    //1
+  Person.call(this, name);
+}
+
+//2
+Man.prototype = Object.create(Person.prototype, {
+  constructor: {
+    value: Man,
+    writable: true,
+    configturable: true,
+  }
+})
+
+//3
+Man.__proto__ = Person;
+
+var man = new Man(&apos;kelvin&apos;);
+
+console.log(man instanceof Man); // true
+console.log(man instanceof Person); // true
+man.sayName(); // kelvin
+</code></pre><p>&#x5206;&#x6790;&#xFF1A;</p>
+<p><code>1</code>: &#x5229;&#x7528;&#x5B50;&#x7C7B;&#x7684;this&#xFF0C;&#x8BBE;&#x7F6E;&#x4E0E;&#x7236;&#x7C7B;&#x76F8;&#x540C;&#x7684;&#x5B9E;&#x4F8B;&#x5C5E;&#x6027;&#xFF08;&#x4E0D;&#x542B;&#x539F;&#x578B;&#x5C5E;&#x6027;&#xFF09;&#x3002;</p>
+<p><code>2</code>: &#x5F25;&#x8865;&#x539F;&#x578B;&#x5C5E;&#x6027;&#x6CA1;&#x6709;&#x7EE7;&#x627F;&#x7684;&#x6F0F;&#x6D1E;&#xFF0C;&#x4E14;&#x7EF4;&#x62A4;&#x5B50;&#x7C7B;&#x539F;&#x578B;&#x5BF9;&#x8C61;&#x6307;&#x5411;&#x7236;&#x7C7B;&#x539F;&#x578B;&#x5BF9;&#x8C61;&#xFF0C;&#x56E0;&#x800C;instanceof&#x6210;&#x7ACB;&#x3002;</p>
+<p><code>3</code>: &#x6839;&#x636E;Babel&#x89E3;&#x6790;ES6 class&#x7684;&#x6807;&#x51C6;&#x5B9E;&#x73B0;&#xFF0C;&#x8BBE;&#x7F6E;&#x6784;&#x9020;&#x5668;&#x7684;&#x5173;&#x7CFB;&#x3002;</p>
+<blockquote>
+<p>&#x4E3A;&#x4E86;&#x4F7F;&#x5B50;&#x7C7B;&#x89C4;&#x8303;&#x8C03;&#x7528;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x52A0;&#x4E0A;this&#x6307;&#x5411;&#x7684;&#x5224;&#x65AD;&#x3002;</p>
+</blockquote>
+<h3 id="10-this&#x6307;&#x5411;&#x95EE;&#x9898;">10. this&#x6307;&#x5411;&#x95EE;&#x9898;</h3>
 <p>&#x76F4;&#x63A5;&#x8C03;&#x7528;&#x51FD;&#x6570;: &#x975E;strict&#x6A21;&#x5F0F;&#x4E0B;&#x662F;window;strict&#x6A21;&#x5F0F;&#x4E0B;&#x4E3A;undefined&#x3002;</p>
 <p>&#x5BF9;&#x8C61;&#x4E0A;&#x8C03;&#x7528;: &#x8C03;&#x7528;&#x5BF9;&#x8C61;</p>
 <p>call/apply/bind: &#x82E5;&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x4E3A;null&#xFF0C;&#x5728;strict&#x7684;&#x6A21;&#x5F0F;&#x4E0B;&#x4E3A;undefined&#xFF0C;&#x975E;strict&#x6A21;&#x5F0F;&#x4E0B;&#x4F1A;&#x662F;window</p>
-<p>&#x7BAD;&#x5934;&#x51FD;&#x6570;&#xFF1A;&#x5728;&#x8C03;&#x7528;&#x5904;&#x5411;&#x4E0A;&#x5BFB;&#x627E;&#x4F5C;&#x7528;&#x57DF;&#xFF0C;&#x82E5;&#x627E;&#x4E0D;&#x5230;&#x5219;&#x8FD4;&#x56DE;window</p>
+<p>&#x7BAD;&#x5934;&#x51FD;&#x6570;&#xFF1A;&#x5728;&#x8C03;&#x7528;&#x5904;&#x5411;&#x4E0A;&#x5BFB;&#x627E;&#x4F5C;&#x7528;&#x57DF;(&#x975E;&#x7BAD;&#x5934;&#x51FD;&#x6570;&#xFF09;&#xFF0C;&#x82E5;&#x627E;&#x4E0D;&#x5230;&#x5219;&#x8FD4;&#x56DE;window(&#x4E25;&#x683C;&#x6A21;&#x5F0F;&#x4E3A;undefined)</p>
 <p>&#x4E8B;&#x4EF6;&#xFF1A;this&#x6307;&#x5411;&#x4E8B;&#x4EF6;&#x7ED1;&#x5B9A;&#x5143;&#x7D20;(target&#x4E3A;&#x4E8B;&#x4EF6;&#x89E6;&#x53D1;&#x5143;&#x7D20;&#xFF0C;currentTarget&#x624D;&#x662F;&#x4E8B;&#x4EF6;&#x7ED1;&#x5B9A;&#x5143;&#x7D20;);setTimeout&#x4F9D;&#x7136;&#x9075;&#x5FAA;&#x4E8B;&#x4EF6;&#x7ED1;&#x5B9A;&#xFF0C;&#x4E3A;&#x5168;&#x5C40;&#x7ED1;&#x5B9A;&#x3002;</p>
 <h3 id="11-async-vs-promise">11. async vs Promise</h3>
 <p>&#x82E5;&#x5728;&#x4E00;&#x4E2A;&#x65B9;&#x6CD5;&#x5185;&#x8C03;&#x7528;<code>await</code>&#xFF0C;&#x5219;&#x5FC5;&#x987B;&#x663E;&#x5F0F;&#x7684;&#x6807;&#x6CE8;&#x8BE5;&#x65B9;&#x6CD5;&#x4E3A;<code>aysnc</code>&#xFF0C;&#x8FD9;&#x662F;&#x6700;&#x57FA;&#x672C;&#x7684;&#x7528;&#x6CD5;&#x3002;</p>
@@ -960,7 +1070,7 @@ fn();
 fn();
 
 //Promise {&lt;fulfilled&gt;: &quot;async fn&quot;}
-</code></pre><p>&#x53EF;&#x4EE5;&#x5F97;&#x51FA;&#xFF1A;async&#x4F1A;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;promise&#xFF0C;&#x8FD9;&#x4E2A;promise&#x7684;&#x7ED3;&#x679C;&#x5C31;&#x662F;await&#x7684;&#x7ED3;&#x679C;&#xFF0C;&#x6240;&#x4EE5;&#x5C31;&#x7B97;&#x662F;await&#x91CC;&#x629B;&#x4E86;&#x5F02;&#x5E38;&#xFF0C;&#x90A3;&#x5916;&#x90E8;&#x4F9D;&#x7136;&#x53EF;&#x4EE5;&#x63A5;&#x4F4F;&#x3002;</p>
+</code></pre><p>&#x53EF;&#x4EE5;&#x5F97;&#x51FA;&#xFF1A;async&#x4F1A;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;promise&#xFF0C;&#x8FD9;&#x4E2A;promise&#x7684;&#x7ED3;&#x679C;&#x7BAD;&#x5934;&#x51FD;&#x6570;&#x8FD4;&#x56DE;&#x7684;&#x7ED3;&#x679C;&#x3002;</p>
 <ul>
 <li>await&#x540E;&#x9762;&#x7684;&#x4EE3;&#x7801;</li>
 </ul>
@@ -973,8 +1083,8 @@ fn();
 </code></pre><p>&#x6B64;&#x4EE3;&#x7801;2&#x5904;&#x5E76;&#x4E0D;&#x4F1A;&#x6253;&#x5370;&#xFF0C;&#x56E0;&#x4E3A;await&#x89E3;&#x6790;&#x51FA;&#x6765;&#x7684;promise&#x6709;&#x5F02;&#x5E38;&#x3002;</p>
 <p>&#x82E5;1&#x5904;&#x6539;&#x4E3A;&#xFF1A;</p>
 <pre><code>let getData = () =&gt; Promise.resolve(&apos;res&apos;);//1
-</code></pre><p>&#x5219;&#x53EF;&#x4EE5;&#x8F93;&#x51FA;log</p>
-<p>&#x53EF;&#x662F;&#x6211;&#x4E00;&#x4E0D;&#x5C0F;&#x5FC3;&#x624B;&#x8BEF;&#xFF0C;&#x5C06;1&#x5904;&#x5199;&#x4E3A;</p>
+</code></pre><p>&#x5219;&#x53EF;&#x4EE5;&#x8F93;&#x51FA;log&#x3002;</p>
+<p>&#x53EF;&#x662F;&#x6211;&#x4E00;&#x4E0D;&#x5C0F;&#x5FC3;&#x624B;&#x8BEF;&#xFF0C;&#x5C06;1&#x5904;&#x5199;&#x4E3A;&#xFF1A;</p>
 <pre><code>let getData = () =&gt; { Promise.reject(&apos;res&apos;) };//1
 let fn = async () =&gt; {
     await getData();
@@ -985,7 +1095,7 @@ fn();
 <p>&#x663E;&#x5F0F;return&#x51FA;&#x53BB;&#x7684;&#x8BDD;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x7B49;&#x540C;&#x4E8E;&#x4E0A;&#x4E00;&#x4E2A;&#x4F8B;&#x5B50;&#x3002;</p>
 <p>&#x53EF;&#x89C1;&#x5BF9;&#x4E8E;await&#x6765;&#x8BF4;&#x5B83;&#x4F1A;&#x89E3;&#x6790;promise(async&#x4E5F;&#x662F;prmomise)&#xFF0C;&#x5982;&#x679C;await&#x540E;&#x9762;&#x4E0D;&#x662F;promise&#xFF0C;&#x5219;&#x6B63;&#x5E38;&#x6267;&#x884C;&#x3002;</p>
 <blockquote>
-<p>ps:&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;&#x5C3D;&#x7BA1;await&#x4F1A;&#x5904;&#x7406;promise&#xFF0C;&#x4F46;&#x662F;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x5728;await&#x4E4B;&#x524D;&#x663E;&#x5F0F;&#x7684;&#x8C03;&#x7528;return&#xFF0C;&#x90A3;&#x4E48;&#x5916;&#x90E8;&#x662F;&#x65E0;&#x6CD5;&#x83B7;&#x53D6;&#x5230;await&#x7684;&#x7ED3;&#x679C;&#x7684;&#x3002;</p>
+<p>ps:&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;aysnc&#x91CC;&#x7684;&#x51FD;&#x6570;&#x5FC5;&#x987B;&#x6709;&#x8FD4;&#x56DE;&#x503C;&#xFF0C;&#x4E0D;&#x7136;&#x5916;&#x90E8;&#x8C03;&#x7528;aysync&#x51FD;&#x6570;&#xFF08;&#x65E0;&#x8BBA;&#x662F;&#x5426;&#x7528;await&#xFF09;&#x90FD;&#x65E0;&#x6CD5;&#x62FF;&#x5230;&#x7ED3;&#x679C;&#x3002;</p>
 </blockquote>
 <h3 id="12-closure">12. Closure</h3>
 <p>&#x95ED;&#x5305;&#xFF1A;&#x5F53;&#x524D;&#x51FD;&#x6570;f&#x548C;&#x5176;&#x5468;&#x56F4;&#x6B64;&#x6CD5;&#x4F5C;&#x7528;&#x57DF;&#x5F62;&#x6210;&#x4F9D;&#x8D56;&#x5173;&#x7CFB;&#xFF0C;&#x5BFC;&#x81F4;f&#x53EF;&#x4EE5;&#x8BBF;&#x95EE;&#x5230;&#x5916;&#x90E8;&#x53D8;&#x91CF;&#xFF0C;&#x56E0;&#x6B64;&#x5F62;&#x95ED;&#x5305;&#x3002;</p>
@@ -1024,6 +1134,36 @@ const add2 = add(2);
     }
 }
 </code></pre><p>&#x7F3A;&#x70B9;&#xFF1A;&#x5185;&#x5B58;&#x6CC4;&#x6F0F;</p>
+<ul>
+<li>4.&#x5229;&#x7528;&#x95ED;&#x5305;&#x548C;&#x4F5C;&#x7528;&#x57DF;&#x7684;&#x89D2;&#x5EA6;&#x91CD;&#x65B0;&#x5206;&#x6790;&#x4E0B;&#x9762;&#x7684;&#x7ECF;&#x5178;&#x4EE3;&#x7801;</li>
+</ul>
+<pre><code>for (var i=0;i&lt;10;i++) {
+    //1
+    setTimeout(function() {
+    //2
+        console.log(i);
+    }, 0)
+}
+</code></pre><p>var&#x5177;&#x6709;&#x51FD;&#x6570;&#x4F5C;&#x7528;&#x57DF;&#xFF0C;setTimout&#x6267;&#x884C;&#x4E4B;&#x524D;&#x5FC5;&#x987B;&#x8BA9;&#x4E3B;&#x7EBF;&#x7A0B;&#x628A;for&#x6267;&#x884C;&#x5B8C;&#xFF0C;&#x6B64;&#x65F6;i&#x8FD8;&#x5177;&#x6709;&#x4F5C;&#x7528;&#x57DF;&#xFF08;i&#x4E3A;10&#xFF09;&#xFF1B;&#x5F53;&#x6267;&#x884C;setTimeout&#x65F6;&#xFF0C;&#x56DE;&#x8C03;&#x91CC;&#xFF08;2&#x5904;&#xFF09;&#x6CA1;&#x6709;i&#x7684;&#x4F5C;&#x7528;&#x57DF;&#xFF0C;&#x4E8E;&#x662F;&#x5411;&#x4E0A;&#xFF08;1&#x5904;&#xFF09;&#x5BFB;&#x627E;&#xFF0C;&#x53D1;&#x73B0;i&#x4E3A;10&#xFF0C;&#x4E8E;&#x662F;&#x5168;&#x90E8;&#x8F93;&#x51FA;10&#x3002;</p>
+<p><code>&#x89D2;&#x5EA6;1</code>: &#x6539;&#x53D8;var&#x7684;&#x4F5C;&#x7528;&#x57DF;&#xFF0C;&#x4F7F;&#x7528;let&#x4E0D;&#x89E3;&#x91CA;&#x3002;</p>
+<p><code>&#x89D2;&#x5EA6;2</code>: &#x5229;&#x7528;setTimeout&#x7684;&#x7B2C;&#x4E09;&#x53C2;&#x6570;&#x3002;</p>
+<pre><code>for (var i=0;i&lt;10;i++) {
+    setTimeout(function(j) {
+        console.log(j);
+    }, 0, i)
+}
+</code></pre><p>&#x7F3A;&#x70B9;&#x662F;&#x517C;&#x5BB9;&#x6027;&#xFF08;IE9&#x4E0D;&#x652F;&#x6301;&#xFF09;&#x3002;</p>
+<p><code>&#x89D2;&#x5EA6;3</code>: IIFE</p>
+<pre><code>for (var i=0;i&lt;10;i++) {
+    (function(j) {
+        //1
+        setTimeout(function() {
+        //2
+            console.log(j);
+        }, 0)
+    })(i)
+}
+</code></pre><p>IIFE&#x51FD;&#x6570;&#x521B;&#x5EFA;&#x4E86;&#x65B0;&#x7684;&#x51FD;&#x6570;&#x4F5C;&#x7528;&#x57DF;&#xFF08;1&#x5904;&#xFF09;&#x3002;</p>
 <h3 id="13-&#x6D45;&#x62F7;&#x8D1D;&#x548C;&#x6DF1;&#x62F7;&#x8D1D;">13. &#x6D45;&#x62F7;&#x8D1D;&#x548C;&#x6DF1;&#x62F7;&#x8D1D;</h3>
 <ul>
 <li>&#x6DF1;&#x62F7;&#x8D1D;&#xFF1A;</li>
@@ -1037,10 +1177,19 @@ const add2 = add(2);
 <p>Object.assign: &#x7528;&#x7684;&#x6700;&#x591A;&#xFF0C;&#x4F46;&#x8BED;&#x6CD5;&#x5197;&#x4F59;&#xFF0C;&#x4E00;&#x822C;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x7528;<code>...</code>&#x5C55;&#x5F00;</p>
 <h3 id="14-&#x7C7B;&#x578B;&#x5224;&#x65AD;">14. &#x7C7B;&#x578B;&#x5224;&#x65AD;</h3>
 <ul>
+<li>typeof</li>
+</ul>
+<p>js&#x76EE;&#x524D;&#x6709;7&#x79CD;&#x539F;&#x59CB;&#x7C7B;&#x578B;: <code>Null</code>, <code>Undefined</code>, <code>BigInt</code>, <code>Number</code>, <code>Boolean</code>, <code>String</code>, <code>Symbol</code>&#xFF1B;&#x5F15;&#x7528;&#x7C7B;&#x578B;&#x4E3A;<code>Object</code>,<code>Object</code>&#x7684;&#x5B50;&#x7C7B;&#x6709;: <code>Array</code>, <code>RegExg</code>, <code>Function</code>.</p>
+<p>&#x5BF9;&#x4E8E;&#x539F;&#x59CB;&#x7C7B;&#x578B;&#xFF0C;&#x9664;&#x4E86;<code>Null</code>&#x8FD4;&#x56DE;<code>object</code>&#x4E4B;&#x5916;&#xFF0C;&#x5176;&#x4ED6;&#x90FD;&#x80FD;&#x7528;<code>typeof</code>&#x83B7;&#x5F97;&#x7C7B;&#x578B;&#xFF1B;&#x5BF9;&#x4E8E;&#x5F15;&#x7528;&#x7C7B;&#x578B;&#x9664;&#x4E86;<code>Function</code>&#x4E4B;&#x5916;&#x5176;&#x4ED6;&#x90FD;&#x8FD4;&#x56DE;<code>object</code>.</p>
+<p>&#x6240;&#x4EE5;<code>typeof</code>&#x5E76;&#x4E0D;&#x51C6;&#x786E;&#x3002;</p>
+<ul>
 <li>Object.prototype.toString</li>
 </ul>
-<pre><code>
-Object.prototype.toString.call(1); // [object Number]
+<pre><code>Object.prototype.toString.call(1); // [object Number]
+
+Object.prototype.toString.call(NaN); // [object Number]
+
+Object.prototype.toString.call(Infinity); // [object Number]
 
 Object.prototype.toString.call(true); // [object Boolean]
 
@@ -1059,9 +1208,81 @@ Object.prototype.toString.call({}); // [object Object]
 Object.prototype.toString.call(function() {}); // [object Function]
 
 Object.prototype.toString.call(/\s/); // [object RegExp]
+</code></pre><p><code>toString</code> &#x51E0;&#x4E4E;&#x662F;&#x4E07;&#x80FD;&#x7684;&#x7C7B;&#x578B;&#x68C0;&#x67E5;&#x5DE5;&#x5177;&#xFF0C;&#x4F46;&#x7531;&#x4E8E;&#x5B83;&#x5728;&#x539F;&#x578B;&#x94FE;&#x4E0A;&#xFF0C;&#x56E0;&#x6B64;&#x8FD8;&#x662F;&#x4F1A;&#x6709;&#x88AB;&#x7BE1;&#x6539;&#x7684;&#x98CE;&#x9669;&#x3002;</p>
+<ul>
+<li>instanceof</li>
+</ul>
+<p>&#x5982;&#x679C;&#x6211;&#x4EEC;&#x5DF2;&#x7ECF;&#x77E5;&#x9053;&#x6784;&#x9020;&#x51FD;&#x6570;&#xFF0C;&#x90A3;&#x4E48;<code>instanceof</code>&#x5F88;&#x6709;&#x7528;&#xFF0C;&#x5B83;&#x9700;&#x8981;&#x68C0;&#x67E5;&#x5F53;&#x524D;&#x6784;&#x9020;&#x5668;&#x7684;&#x539F;&#x578B;&#x5BF9;&#x8C61;&#x662F;&#x5426;&#x5B58;&#x5728;&#x4E8E;&#x5B9E;&#x4F8B;&#x7684;&#x539F;&#x578B;&#x94FE;&#x4E0A;&#xFF0C;&#x4F46;&#x8FD9;&#x53EA;&#x5BF9;&#x5F15;&#x7528;&#x7C7B;&#x578B;&#x6709;&#x7528;&#x3002;&#x5982;&#x679C;&#x60F3;&#x8BA9;&#x539F;&#x59CB;&#x751F;&#x6548;&#xFF0C;&#x9700;&#x8981;&#x7528;&#x5230;<code>Symbol.hasInstance</code>:</p>
+<pre><code>class NumberType {
+    static [Symbol.hasInstance](instance) {
+        return typeof instance === &apos;number&apos;;
+    }
+}
+</code></pre><pre><code>111 instanceof Number; // false
 
-&gt; ps: &#x7531;&#x4E8E;toString&#x5728;&#x539F;&#x578B;&#x94FE;&#x4E0A;&#xFF0C;&#x56E0;&#x6B64;&#x4F1A;&#x88AB;&#x6539;&#x3002;
-</code></pre><h3 id="15-call-apply-bind-polyfill">15. call, apply, bind polyfill</h3>
+111 instanceof NumberType; // true
+</code></pre><p>&#x56E0;&#x6B64;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x4FEE;&#x6539;&#x4EFB;&#x610F;&#x6784;&#x9020;&#x51FD;&#x6570;&#x7684;<code>[Symbol.hasInstance]</code>&#xFF0C;&#x4ECE;&#x800C;&#x6539;&#x53D8;<code>instanceof</code>&#x7684;&#x903B;&#x8F91;&#xFF0C;&#x4E0A;&#x9762;&#x7684;&#x4EE3;&#x7801;&#x4F7F;&#x7528;&#x4E86;&#x9759;&#x6001;&#x7C7B;&#x578B;&#xFF0C;<code>Babel</code>&#x8F6C;&#x8BD1;&#x540E;&#x5176;&#x5B9E;&#x5C31;&#x662F;&#x6784;&#x9020;&#x51FD;&#x6570;&#x7684;&#x5C5E;&#x6027;&#xFF1A;</p>
+<pre><code>function NumberType() {}
+
+Object.defineProperty(NumberType, Symbol.hasInstance, {
+    configurable: true,
+    writable: true, // here just for test, maybe sometime don&apos;t allow to change
+    value: function (instance) {
+        return typeof instance === &apos;number&apos;;
+    }
+})
+
+111 instanceof NumberType; // true
+</code></pre><p><strong> instanceof&#x624B;&#x52A8;&#x5B9E;&#x73B0;&#xFF1F; </strong></p>
+<pre><code>function iof(instance, Parent) {
+    if (typeof instance !== &apos;object&apos; || instance === null)
+        return false
+    let proto = Object.getPrototypeOf(instance);
+
+    while(proto !== null) {
+        if (proto === Parent.prototype) 
+            return true;
+        proto = Object.getPrototypeOf(proto);
+    }
+
+    return false;
+}
+</code></pre><p>&#x4F7F;&#x7528;&#x5FAA;&#x73AF;&#x5411;&#x4E0A;&#x627E;&#x662F;&#x8003;&#x8651;&#x5230;&#x4E86;A-&gt;B-&gt;C&#x7684;&#x60C5;&#x51B5;&#x3002;</p>
+<p><strong> &#x5B9E;&#x6218;&#x7075;&#x9B42;&#x62F7;&#x95EE;&#x4E4B;&#x5E38;&#x7528;&#x7C7B;&#x578B;&#x5224;&#x65AD;(&#x53C2;&#x8003;lodash) </strong></p>
+<p><code>isFunction</code></p>
+<pre><code>function isFunction(value) {
+    return typeof fn === &apos;function&apos;;
+}
+</code></pre><p><code>isString</code></p>
+<p>&#x66B4;&#x529B;&#x5199;&#x6CD5;&#xFF1A;</p>
+<pre><code>function isString(value) {
+    return Object.prototype.toString.call(value) === &apos;[object String]&apos;;
+}
+</code></pre><p>&#x8003;&#x8651;&#x5230;&#x539F;&#x578B;&#x94FE;&#x7684;&#x5B89;&#x5168;&#x6027;&#xFF0C;lodash&#x7684;&#x4F18;&#x5316;&#xFF1A;</p>
+<pre><code>function isString(value) {
+  const type = typeof value
+  return type === &apos;string&apos; || 
+    (type === &apos;object&apos; &amp;&amp; value != null &amp;&amp; !Array.isArray(value) &amp;&amp; Object.prototype.toString.call(value) === &apos;[object String]&apos;)
+}
+</code></pre><p><code>isObject</code></p>
+<pre><code>function isObject(value) {
+    //1
+    if (Object.prototype.toString.call(value) !== &apos;[object Object]&apos;)
+        return false
+
+    //2 Object.create(null)
+    if (Object.getPrototypeOf(value) === null) 
+        return true;
+
+    //3
+    let proto = value;
+    while(Object.getPrototypeOf(proto) !== null) {
+        proto = Object.getPrototypeOf(proto);
+    }
+    return proto === Object.getPrototypeOf(value);
+}
+</code></pre><p>&#x8FD9;&#x91CC;&#x7684;<code>isObject</code>&#x5BF9;&#x5E94;lodash&#x7684;<code>isPlainObject</code>&#xFF0C;&#x5927;&#x90E8;&#x5206;&#x60C5;&#x51B5;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x5224;&#x65AD;&#x662F;&#x5BF9;&#x8C61;&#x7684;&#x573A;&#x666F;&#x5C31;&#x662F;<code>Plain Object</code>&#x7684;&#x573A;&#x666F;&#xFF0C;&#x6240;&#x4EE5;3&#x5904;&#x5904;&#x7406;&#x4E86;&#x7C7B;&#x4F3C;&#x7EE7;&#x627F;&#x6216;&#x8005;arrary&#x7684;&#x884D;&#x751F;&#x5BF9;&#x8C61;&#xFF08;&#x603B;&#x4E4B;&#x5C31;&#x662F;&#x5FC5;&#x987B;&#x76F4;&#x63A5;&#x7EE7;&#x627F;Object)&#x3002;</p>
+<h3 id="15-call-apply-bind-polyfill">15. call, apply, bind polyfill</h3>
 <p><code>call</code></p>
 <pre><code>Function.prototype._call = function(context, ...args) {
     const sym = Symbol(&apos;&apos;);
@@ -1140,7 +1361,7 @@ b2(&apos;[&apos;, &apos;]&apos;); // [undefined]
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"你不知道的JavaScript","level":"1.1.1.2","depth":3,"next":{"title":"Browser","level":"1.1.2","depth":2,"ref":"","articles":[{"title":"性能分析","level":"1.1.2.1","depth":3,"path":"Browser/performance.md","ref":"Browser/performance.md","articles":[]}]},"previous":{"title":"ECMAScript","level":"1.1.1.1","depth":3,"path":"ECMAScript/ES2016 and ES2017.md","ref":"ECMAScript/ES2016 and ES2017.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"ECMAScript/you-dont-know-javascript.md","mtime":"2020-09-08T15:02:13.261Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-13T14:35:34.132Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"你不知道的JavaScript","level":"1.1.1.2","depth":3,"next":{"title":"Browser","level":"1.1.2","depth":2,"ref":"","articles":[{"title":"性能分析","level":"1.1.2.1","depth":3,"path":"Browser/performance.md","ref":"Browser/performance.md","articles":[]}]},"previous":{"title":"ECMAScript","level":"1.1.1.1","depth":3,"path":"ECMAScript/ES2016 and ES2017.md","ref":"ECMAScript/ES2016 and ES2017.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"ECMAScript/you-dont-know-javascript.md","mtime":"2020-10-10T13:07:17.372Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-10-09T14:00:07.159Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
