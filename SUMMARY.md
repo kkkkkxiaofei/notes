@@ -12,7 +12,7 @@
     - [核心API](React/api.md)
     - [Reconciler](React/reconciler.md)
     - [Hook](React/hook.md)
-    - [你不知道的React](React/you-dont-know-react.md)
+    - [React最小实现](React/mini-react.md)
   - Redux
     - [redux源码解析](redux/redux-source.md)
     - [redux的最小实现](redux/mini-redux.md)
