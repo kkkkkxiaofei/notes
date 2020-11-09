@@ -170,10 +170,86 @@ if (isFunction(type)) {
 }
 ```
 
-这里我们提到了`Component.render`，接下来我们开始实现`Component`。
+这里我们提到了`Component.render`（稍后会实现），接下来我们开始实现`Component`。
 
+### 3. Component
 
+`Component`的签名如下：
 
+```
+class Component {
+  constructor(props) {
+    this.props = props
+  }
+
+  componentWillReceiveProps(nextProps) {}
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.props !== nextProps || this.state !== nextState
+  }
+
+  componentWillUpdate(nextProps, nextState) {}
+
+  componentDidUpdate() {} 
+
+  componentWillMount() {}
+
+  componentWillUnmount() {}
+
+  componentDidMount() {}
+
+  static render(vdom, parentNode, render, update) {}
+
+  static update(oldNode, newVdom, parentNode, update, render) {}
+
+  setState(nextState) {}
+}
+
+```
+
+这里为了简单起见，我们只实现`props`的构造器（忽略context）。`Component`由生命周期，`render`，`setState`和`update`构成。
+
+#### 3.1 render
+
+`render`函数不同于组件实例（instance）的render，后者返回的是终态的`vdom`，而它能够处理`vdom`里有组件构造器的情况，并且在此过程可以管理组件的部分生命周期。
+
+```
+static render(vdom, parentNode, render, update) {
+  const { type, props, children } = vdom
+  const instance = new type({ ...props, children })
+  instance.componentWillMount()
+  console.log(instance.render())
+  const node = render(instance.render())
+  parentNode && parentNode.appendChild(node)
+  instance.componentDidMount()
+  instance._render = render
+  instance._update = update
+  node._parentNode = parentNode
+  node._instance = instance
+  instance._node = node
+  return node
+}
+```
+过程很简单：由于`type`为组件构造器，首先可以获取组件`instance`，此时进入`准备挂载阶段(componentWillMount)`，而后在`instance`上调用实例方法`render`获取终态的`vdom`，再挂载到父节点上，此时进入`已经挂载阶段(componentDidMount)`，最后记录节点信息。
+
+#### 3.2 setState
+
+`setState`可以说是唯一能够更新组件状态的方法了，它的大致实现如下： 
+
+```
+if (this.shouldComponentUpdate(nextState, this.props)) {
+  this.componentWillUpdate(nextState, this.props)
+  this.state = { ...nextState }
+  const newVdom = this.render()
+  const oldNode = this._node
+  this._update(oldNode, newVdom, oldNode._parentNode)
+  this.componentDidUpdate()
+}
+```
+
+若组件需要更新（`shouldComponentUpdate`）,则进入`即将更新阶段(componentWillUpdate)`,而后调用组件实例上的`render`方法获取最新的`vdom`，最后更新组件，进入`更新完毕阶段(componentDidUpdate)`。
+
+除了`update`外，`Component`的基本功能已经实现，`update`我们涉及`react`的`diff`算法，我们放到下一篇章。
 
 
 
