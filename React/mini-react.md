@@ -1,8 +1,10 @@
+[源码](https://github.com/kkkkkxiaofei/dummy-playground/tree/master/react)
+
 ### 1. JSX
 
 #### 1.1 JSX的结构
 
-`Vitrual DOM`(vdom)本质上就是`Plain Object`，为了方便开发者编写`vdom`，于是`JSX`诞生。
+`Vitrual DOM`(vdom)本质上就是`Plain Object`，为了方便编写结构化的`vdom`，于是`JSX`语法诞生。
 
 一段简单的`jsx`如下：
 
@@ -76,7 +78,7 @@ const App = ({ name }) => <div>{name}</div>
 
 如果你熟悉[前端打包工具的原理](http://flypursue.com/notes/Webpack/bundler.html)的话，那么自然对`AST`以及`Babel Plugin`不陌生。
 
-`jsx`其实就是一个`babel plugin`，这里我们没必要再去造这个轮子，会因为`react jsx`官方的插件是提供别名的，比如我们的`babel.rc`配置如下：
+`jsx`其实就是一个`babel plugin`，这里我们没必要再去造这个轮子，因为`react jsx`官方的插件是提供别名功能的，比如我们的`babel.rc`配置如下：
 
 ```
 {
@@ -90,7 +92,7 @@ const App = ({ name }) => <div>{name}</div>
 
 此配置表明，当遇到任何`jsx`闭合标签时，会编译为`DummyReact.createElement`的函数调用。
 
-这其实也解释了为什么你写的任何`react`组件都需要`import React from 'react'`，但仔细找却发现没有显式调用，其实它是需要结合`jsx`插件使用的。
+这其实也解释了为什么你写的每一个`react`组件都需要`import React from 'react'`，但仔细找却发现没有显式调用，其实它是需要结合`jsx`插件使用的。
 
 `jsx`只负责语法转化，所以`DummyReact.createElement`还只是一个签名，代码自然还需要我们自己实现：
 
@@ -110,7 +112,7 @@ export { createElement }
 
 但，最终我们需要的还是浏览器才能够认识的dom。
 
-> ps: 如果只讨论操作dom这一层面的话，vdom绝对性能极佳；但在做例如diff的操作时，vdom由于层级较深，所以比较起来也是相当耗时，这就不一定孰好孰坏了(取决于算法喽)。所以vdom一定比dom高效吗，此处保留观点。
+> ps: 如果只讨论操作dom这一层面的话，vdom绝对性能极佳；但在做例如diff的操作时，vdom由于层级较深，所以比较起来也肯定相当耗时，这就不一定孰好孰坏了(取决于算法喽)。所以vdom一定比dom高效吗，此处保留观点。
 
 #### 2.1 从一般vdom的到dom
 
@@ -120,7 +122,7 @@ export { createElement }
 - props为简单对象
 - children为一组element
 
-由于标签名是天然的html标签，因此可以直接创建dom节点(`document.createElement(type)`)。props携带了当前dom节点以及其子孙的属性，一般情况下（除过一些特殊的key名），我们可以直接`setAttribute`。children就更加简单了，递归是必须的了。
+由于标签名是天然的`html`标签，因此可以直接创建`dom`节点(`document.createElement(type)`)。`props`携带了当前`dom`节点以及其子孙的属性，一般情况下（除过一些特殊的key名），我们可以直接`setAttribute`。children就更加简单了，递归是必须的了。
 
 因此，我们有了一个初步实现：
 
@@ -154,6 +156,39 @@ export const render = (vdom, parentNode) => {
 ```
 
 这里我们无论是函数名还是参数，都保持和`ReactDom`的render一致。
+
+`setAttribute`
+
+```
+const setAttribute = (node, key, value) => {
+  if (key === 'ref' && isFunction(value)) {
+    value(node)
+  } else if (isFunction(value) && key.startsWith('on')) {
+    node._handlers = node._handlers || {}
+    const eventType = key.slice(2).toLowerCase()
+    node.removeEventListener(eventType, node._handlers[eventType])
+    node._handlers[eventType] = value
+    node.addEventListener(eventType, node._handlers[eventType])
+  } else {
+    let realKey = key, realValue = value
+    if (key === 'className') {
+      realKey = 'class'
+    }
+
+    if (key === 'disabled') {
+      if (value !== true) {
+        return 
+      } 
+      realValue = ''
+    }
+
+    if (key === 'key') {
+      realKey = '_key'
+    }
+    node.setAttribute(realKey, realValue)
+  }
+}
+```
 
 #### 2.2 从组件的vdom到dom
 
@@ -207,11 +242,11 @@ class Component {
 
 ```
 
-这里为了简单起见，我们只实现`props`的构造器（忽略context）。`Component`由生命周期，`render`，`setState`和`update`构成。
+这里为了简单起见，我们只实现含有`props`的构造器（忽略context）。`Component`由生命周期，`render`，`setState`和`update`构成。
 
 #### 3.1 render
 
-`render`函数不同于组件实例（instance）的render，后者返回的是终态的`vdom`，而它能够处理`vdom`里有组件构造器的情况，并且在此过程可以管理组件的部分生命周期。
+`render`函数不同于组件实例（instance）的`render`，后者返回的是终态的`vdom`，而它能够处理`vdom`里有组件构造器的情况，并且在此过程可以管理组件的部分生命周期。
 
 ```
 static render(vdom, parentNode, render, update) {
@@ -230,6 +265,7 @@ static render(vdom, parentNode, render, update) {
   return node
 }
 ```
+
 过程很简单：由于`type`为组件构造器，首先可以获取组件`instance`，此时进入`准备挂载阶段(componentWillMount)`，而后在`instance`上调用实例方法`render`获取终态的`vdom`，再挂载到父节点上，此时进入`已经挂载阶段(componentDidMount)`，最后记录节点信息。
 
 #### 3.2 setState
@@ -247,25 +283,39 @@ if (this.shouldComponentUpdate(nextState, this.props)) {
 }
 ```
 
-若组件需要更新（`shouldComponentUpdate`）,则进入`即将更新阶段(componentWillUpdate)`,而后调用组件实例上的`render`方法获取最新的`vdom`，最后更新组件，进入`更新完毕阶段(componentDidUpdate)`。
+若组件需要更新（`shouldComponentUpdate`），则进入`即将更新阶段(componentWillUpdate)`,而后调用组件实例上的`render`方法获取最新的`vdom`，最后更新组件，进入`更新完毕阶段(componentDidUpdate)`。
 
-除了`update`外，`Component`的基本功能已经实现，`update`我们涉及`react`的`diff`算法，我们放到下一篇章。
+读完这个过程，你会对组件和组件实例有一个清晰的认识，例如:
+
+```
+const App = () => (<div>Hello</div>)
+```
+
+`App`: 组件构造器。
+`<App />`: 我们常说的组件，其实终态是`vdom`。
+`new App(props)`: 组件实例，平时代码里是无法涉及的，但是底层实现时具有相当重要的地位。
+
+至此，除了`update`外，`Component`的基本功能已经实现，`update`涉及`diff`算法，我们放到下一篇章。
 
 ### 4. 组件更新（diff）
 
-`setState`触发入参为最新的`vdom`，为了更新到父节点上，最暴力的方法就是直接把整个`vdom`转换为`dom`，然后`replace`父节点所有的`children`。但这样就和操作`real dom`没有区别了，也失去了使用`vdom`的意义。
+`setState`的入参为最新的`vdom`，为了更新到父节点上，最暴力的方法就是直接把整个`vdom`转换为`dom`，然后`replace`父节点所有的`children`。但这样就和操作`real dom`没有区别了，也失去了使用`vdom`的意义。
 
-因此我们需要将最新的`vdom`与`real dom`做比较，找出差异节点，只有有差异时才更新对应的节点。可是根据`react`官方的介绍，在不取巧的方式下，用一个树（vdom树）和另一个树（real dom树）做比较，将会是噩梦般的时间复杂度，因此我们必须要取巧。
+因此我们需要将最新的`vdom`与`real dom`做比较，找出差异节点，只有有差异时才更新对应的节点。可是根据`react`官方的介绍，在不取巧的方式下，用一棵树（vdom树）和另一棵树（real dom树）做比较，将会是噩梦般的时间复杂度，因此我们必须要取巧。
 
-这里我们也可以仿照`react`的思路，每一个`vdom`和`real dom`都有唯一的`key`，代表两者是可以进行`diff`的，否者将进行暴力更新。具体的`diff`逻辑大致如下：
+这里我们可以仿照`react`的思路，每一个`vdom`和`real dom`都有唯一的`key`，代表两者是统一节点的不同状态，可以进行转换（需要diff），否者将进行暴力更新。具体的`diff`逻辑大致如下：
 
-- 1. `vdom`为字符串或者数字, 且`real dom`是`TEXT_NODE`时， 需要diff。若`vdom`和`textContent`一致，则不更新，否者创建新的`TEXT_NODE`节点。
+- `vdom`为字符串或者数字, 且`real dom`是`TEXT_NODE`时， 需要diff。若`vdom`和`textContent`一致，则不更新，否者创建新的`TEXT_NODE`节点。
 
-- 2. `vdom`是对象，且`vdom`的类型为函数，无需diff，若为组件则递归无脑创建。
+- `vdom`是对象，且`vdom`的类型为函数，无需diff，将其视为组件，无脑递归创建。
 
-- 3. `vdom`是对象，且`vdom`的类型与`real dom`的节点类型一致，需要diff。
+- `vdom`是对象，且`vdom`的类型与`real dom`的节点类型一致，需要diff。
 
 此种情况较为复杂，需要分别对比`vdom`和`real dom`子节点的`key`，若可以匹配则递归的进行diff算法，否者将利用`childVdom`重新生成子节点。对于没有匹配的子节点，将会进入`即将卸载阶段（componentWillUnmount）`。
+
+> ps: 这也就是为什么`react`一致要强调`key`的规范使用和带来的性能问题了
+
+
 
 实现参考：
 
