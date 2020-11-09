@@ -251,7 +251,80 @@ if (this.shouldComponentUpdate(nextState, this.props)) {
 
 除了`update`外，`Component`的基本功能已经实现，`update`我们涉及`react`的`diff`算法，我们放到下一篇章。
 
+### 4. 组件更新（diff）
 
+`setState`触发入参为最新的`vdom`，为了更新到父节点上，最暴力的方法就是直接把整个`vdom`转换为`dom`，然后`replace`父节点所有的`children`。但这样就和操作`real dom`没有区别了，也失去了使用`vdom`的意义。
+
+因此我们需要将最新的`vdom`与`real dom`做比较，找出差异节点，只有有差异时才更新对应的节点。可是根据`react`官方的介绍，在不取巧的方式下，用一个树（vdom树）和另一个树（real dom树）做比较，将会是噩梦般的时间复杂度，因此我们必须要取巧。
+
+这里我们也可以仿照`react`的思路，每一个`vdom`和`real dom`都有唯一的`key`，代表两者是可以进行`diff`的，否者将进行暴力更新。具体的`diff`逻辑大致如下：
+
+- 1. `vdom`为字符串或者数字, 且`real dom`是`TEXT_NODE`时， 需要diff。若`vdom`和`textContent`一致，则不更新，否者创建新的`TEXT_NODE`节点。
+
+- 2. `vdom`是对象，且`vdom`的类型为函数，无需diff，若为组件则递归无脑创建。
+
+- 3. `vdom`是对象，且`vdom`的类型与`real dom`的节点类型一致，需要diff。
+
+此种情况较为复杂，需要分别对比`vdom`和`real dom`子节点的`key`，若可以匹配则递归的进行diff算法，否者将利用`childVdom`重新生成子节点。对于没有匹配的子节点，将会进入`即将卸载阶段（componentWillUnmount）`。
+
+实现参考：
+
+```
+const deepUnmount = instance => {
+  if (instance) {
+    instance.componentWillUnmount()
+    if (instance._node && instance._node.childNodes.length > 0) {
+      instance._node.childNodes.forEach(node => {
+        deepUnmount(node._instance)
+      })
+    }
+  }
+}
+
+
+const update = (oldNode, newVdom, parentNode=oldNode.parentNode) => {
+  if ((isString(newVdom) || isNumber(newVdom)) && oldNode instanceof Text) {
+     oldNode.textContent != newVdom && parentNode.replaceChild(document.createTextNode(newVdom), oldNode)
+  } else if (isObject(newVdom) && newVdom.type !== oldNode.nodeName.toLowerCase()) {
+    if (isFunction(newVdom.type)) {
+      Component.update(oldNode, newVdom, parentNode, update, render)
+    } else {
+      deepUnmount(oldNode._instance)
+      parentNode.replaceChild(render(newVdom), oldNode)
+    }
+  } else if (isObject(newVdom) && newVdom.type === oldNode.nodeName.toLowerCase()) {
+
+      const existingChildNodes = {};
+      [...oldNode.childNodes].forEach((childNode, index) => {
+          const key = childNode._key || `__index_${index}`;
+          existingChildNodes[key] = childNode;
+      });
+      [...newVdom.children]
+        .flat()
+        .filter($ => !isBoolean($))
+        .forEach((childVdom, index) => {
+            const key = childVdom.props && childVdom.props.key || `__index_${index}`;
+            if (existingChildNodes[key]) {
+              update(existingChildNodes[key], childVdom)
+            } else {
+              render(childVdom, oldNode)
+            }
+            delete existingChildNodes[key];
+        });
+      for (const key in existingChildNodes) {
+          const instance = existingChildNodes[key]._instance;
+          if (instance) deepUnmount(instance);
+          existingChildNodes[key].remove();
+      }
+      for (const attr of oldNode.attributes) oldNode.removeAttribute(attr.name);
+      for (const prop in newVdom.props) setAttribute(oldNode, prop, newVdom.props[prop]);
+
+  } else {
+    console.log('can not update', newVdom, oldNode.nodeName)
+  }
+}
+
+```
 
 
 参考：
