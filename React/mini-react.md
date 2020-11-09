@@ -43,8 +43,6 @@ const App = ({ name }) => <div>{name}</div>
 }
 ```
 
-可以看到，即使对于最简单的原生`html`标签，`type`为`nodeName`(DIV),而`children`则为字符串。
-
 但有一种情况比较特殊：
 
 ```
@@ -72,7 +70,7 @@ const App = ({ name }) => <div>{name}</div>
 }
 ```
 
-`type`变成了`function`，这个特殊之处很明显。但是它离终态还是有一定距离，这就涉及到了`vdom`的再次转换（稍后我们细说）。
+`type`变成了`function`，这个特殊之处很明显，稍后我们细说。
 
 #### 1.2 JSX的实现
 
@@ -108,19 +106,74 @@ export { createElement }
 
 ### 2. vdom to dom
 
-使用`jsx`创建`vdom`，就是因为`vdom`是纯`js`对象，用描述性的结构在操作`vdom`自然很方便和快捷，这样就避免了大量`real dom`的操作（这是极其耗能的）。
+使用`jsx`创建`vdom`，就是因为`vdom`是纯`js`对象，用描述性的结构操作`vdom`自然方便和快捷，这样就避免了大量`real dom`的操作（这是极其耗能的）。
 
 但，最终我们需要的还是浏览器才能够认识的dom。
 
-#### 2.1 从一般的jsx到dom
-
-通过观察不难发现，一般的jsx
-
-#### 2.2 从组件的jsx到dom
-
-上面提到，在生成组件的
-
 > ps: 如果只讨论操作dom这一层面的话，vdom绝对性能极佳；但在做例如diff的操作时，vdom由于层级较深，所以比较起来也是相当耗时，这就不一定孰好孰坏了(取决于算法喽)。所以vdom一定比dom高效吗，此处保留观点。
+
+#### 2.1 从一般vdom的到dom
+
+通过观察不难发现，一般的`vdom`满足以下条件：
+
+- type为jsx标签名，且为字符串
+- props为简单对象
+- children为一组element
+
+由于标签名是天然的html标签，因此可以直接创建dom节点(`document.createElement(type)`)。props携带了当前dom节点以及其子孙的属性，一般情况下（除过一些特殊的key名），我们可以直接`setAttribute`。children就更加简单了，递归是必须的了。
+
+因此，我们有了一个初步实现：
+
+```
+export const render = (vdom, parentNode) => {
+  const { type, props = {}, children } = vdom
+  let node;
+
+  if (isString(vdom) || isNumber(vdom)) {
+    node = document.createTextNode(vdom)
+  }
+
+  if (isArray(vdom)) {
+    vdom.forEach(_vdom => render(_vdom, parentNode))
+    return parentNode
+  }
+
+  if (isObject(vdom)) {
+    if (isString(type)) {
+      const _parentNode = document.createElement(type)
+      children.forEach(childVdom => render(childVdom, _parentNode))
+      Object.entries(props || {}).forEach(([key, value]) => setAttribute(_parentNode, key, value))
+      node = _parentNode
+    }
+  }
+  
+  const result = parentNode ? parentNode.appendChild(node) && node : node
+  return result
+}
+
+```
+
+这里我们无论是函数名还是参数，都保持和`ReactDom`的render一致。
+
+#### 2.2 从组件的vdom到dom
+
+上面提到，一般的`vdom`里`type`是`html`标签名，组件的`vdom`最大的区别就是`type`是组件的构造器。组件的真正`vdom`是其自身`render`后的结果，这里就要分`function component`和`class component`了。
+
+```
+if (isFunction(type)) {
+  //class component
+  if (Object.getPrototypeOf(type) === Component) {
+    return Component.render(vdom, parentNode, render, update)
+  } 
+  //function component
+  return render(type({ ...props, children }), parentNode)
+}
+```
+
+这里我们提到了`Component.render`，接下来我们开始实现`Component`。
+
+
+
 
 
 
