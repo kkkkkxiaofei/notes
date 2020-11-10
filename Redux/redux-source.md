@@ -70,6 +70,61 @@ export default (reducersMap: ReducerMap): Reducer => {
 
 
 ### 4. store
+ 
+`store`和`state`最容易混淆，`redux`所做的一切都是为了更好的管理`state`，`store`也不例外。
+
+```
+const store: Store = {
+  dispatch,
+  getState,
+  subscribe,
+  replaceReducer
+}
+
+```
+
+- dispatch
+
+dispach会分发一个action，根据action的类型进入不同的子reducer进行处理，而后产生最新的state，最后在广播所有的回调。
+
+```
+const dispatch = (action: Action): void => {
+  if (action) {
+
+    if (action.type === INIT) {
+      state = currentReducer(initState, { type: INIT });
+      return;
+    }
+
+    // include @@REPLACE 
+    state = currentReducer(state, action);
+    
+    listeners.forEach(listener => listener());
+  }
+}
+```
+
+> ps: 如果你仔细观察`devtools`的话，会发现在首次会有一个INIT的action，正是用来初始化状态树的。
+
+- getState
+
+这个就再简单不过了，完完全全的getter。但有一点需要注意，仔细看上面的实现，state其实是闭包的。因此只能由getState拿到。
+
+```
+const getState: StateGetter = () => state;
+```
+
+- subscribe
+
+subscribe只是注册监听器到监听列表，为后续dispatch时调用而使用。其实这个函数的作用非常隐晦，以至于80%以上的情况下你都不会（甚至是没见过）去使用它，但是它却在`react`生态里具有非常重要的作用。试想想，我们发送action，用reducer处理变化，最终的新state该怎么通知你的应用呢？答案必然是重新render，所以对于react应用来说，监听器往往就是组件forceRender的逻辑，关于这一方面，笔者会在`react-redux`里进行详细解释。
+
+```
+const subscribe = (listener: Listener) => {
+  listeners.push(listener);
+  //unsubsribe
+  return () => listeners.splice(listeners.indexOf(listener), 1);
+}
+```
 
 ### 5. middleware
 
