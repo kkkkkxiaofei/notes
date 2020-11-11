@@ -128,3 +128,130 @@ const subscribe = (listener: Listener) => {
 
 ### 5. middleware
 
+终于到了最有意思的部分了，redux的中间件可能是最有意思的部分了，缺了这部分，想必action的灵活度是不会被广大开发者使用的。所以说我觉得`Dan`还是很理性的，他并没有赋予`redux`某种天然的能力，而是开放了这个思路任由大家来发挥奇思妙想（比如redux-thunk,redux-saga等)。
+
+一个小的功能来说明中间件的思路：有一台打印机printer，它具有打印，复印查询历史记录等功能，每一个功能都是一个指令，打印机对外只暴露了exec方法，参数为指令码，因此它可以这样执行:
+
+```
+printer.exec(code)
+```
+
+我们赋予它日志功能：
+
+```
+const execWithLog = (printer, code) => {
+  console.log('start exec: ', code)
+  let result = printer.exec(code)
+  console.log('end exec: ', code)
+  return result
+}
+
+```
+功能是有了，可完全是hard-coding，那还不如用monkey-patching呢。
+
+```
+let originExec = printer.exec
+const execWithLog = (code) => {
+  console.log('start exec: ', code)
+  let result = originExec(code)
+  console.log('end exec: ', code)
+  return result
+}
+printer.exec = execWithLog
+```
+
+这样我就就可以抽一个方法了:
+
+```
+const enhancePrinterWithLog = printer => {
+  let originExec = printer.exec
+  const execWithLog = (code) => {
+    console.log('start exec: ', code)
+    let result = originExec(code)
+    console.log('end exec: ', code)
+    return result
+  }
+  printer.exec = execWithLog
+}
+```
+
+同理可以有很多的enhancer, 如`enhancePrinterWithXXX`。
+
+```
+enhancePrinterWithLog(printer)
+enhancePrinterWithXXX1(printer)
+enhancePrinterWithXXX2(printer)
+...
+
+```
+
+到了这一步似乎好很多了，但是enhancer之间没有连贯性，这样穷举的调用实在不友好，我们试着把他们串起来。
+
+```
+const logMiddleware = printer => {
+  let next = printer.exec
+  const execWithLog = (code) => {
+    console.log('start exec: ', code)
+    let result = next(code)
+    console.log('end exec: ', code)
+    return result
+  }
+  return execWithLog
+}
+
+const enhancePrinter = (printer, ...middlewares) => {
+  middleares.reverse().reducer((result, md) => {
+    result = md(printer)
+  }, printer.exec)
+}
+
+enhancePrinter(printer, logMiddleware, ...otherMiddlewares)
+```
+
+> ps:之前我们称作`originExec`是因为只有一个日志功能，现在我们已经把他们串起来了，就是next（下一个的wrapper）
+
+这看起来优雅了一些。但有一个问题，我们这样封装后的中间件只能从开始（第一个）一路不停的执行到结束（最后一个），因为每个中间件调用的exec方法都是下一个中间件的wrapper,类似于：
+
+```
+---md3  start---
+  ---md2  start---
+    ---md1  start---
+    ---md1 finish---
+  ---md2 finish---
+---md3 finish---
+```
+
+试想想我们在`react`中经常dispatch一个promise，而redux天然只接受类型为Object的action，这个action隐藏在promise成功后的回调。针对这个case，比如我们第一个中间件是日志log，它是无法处理promise的，我们可以写一个中间件处理promise，可问题是请求回来后，我们发出去的action只能继续往下走，但正确的做法应该是重新在走一边所有的中间件，不然日志就会丢失。
+
+比如md1,md2,md3...mdn中md2是可以处理promise的，但是按照上面我们封装的结果来看，md2就算同步等待结果，之后也只能往下走。正确的流程应该是md2请求结果后是需要再一次经过md1才对的，因此我们把上面的实现进行再次优化，让它不仅可以往下执行，也可以从头执行。
+
+```
+const logMiddleware = printer => next => code => {
+  console.log('start exec: ', code)
+  let result = next(code)
+  console.log('end exec: ', code)
+  return result
+}
+
+```
+
+我们提炼了这个三阶函数，其中next为下面未执行的所有middleware的wrapper，而printer.exec可以让调用链重新开始，这样一来每个中间件就可以选择是否继续还是重新开始，这一点非常重要。
+
+接下来如何应用这些中间件也需要改动：
+
+```
+const applyMiddlewares = (printer, middlewares) => {
+  const nexters = middlewares.reverse().map(md => md(printer))
+  const composedNexter = nexters.reduce((f, g) => (...args) => f(g(args)))
+  return {
+    ...printer,
+    exec: composedNexter(printer.exec)
+  }
+}
+```
+
+至此，这个打印机就可以接纳各种中间件实现特殊的需求了。
+
+如果我们把pirnter看到store, 把exec(code)看做dispatch(action)，你就会发现，这就是redux中间件的核心实现。
+
+> ps: 有一些签名和方法与源码不太一致，笔者在此只为总结核心思路。
