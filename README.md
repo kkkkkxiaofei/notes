@@ -1,3 +1,6 @@
-# 程序员的自我修养
+<div style="text-align: center">
+  <img src="assets/images/new-cover.png" />
+</div> 
 
-![](assets/images/cover.jpg)
+
+
