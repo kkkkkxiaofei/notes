@@ -122,9 +122,9 @@ function foo() {
 js运行时，首先会分析js代码片段，生成调用栈，栈描述了函数调用顺序，程序每执行一步就会进行一次入栈。
 但是异步方法，promise和事件等，他们的回调函数不会立刻入栈，具体来讲：
 
-- 1. 事件和异步方法的回调属于宏任务，会首先放入到message queue里
+*** 1. 事件和异步方法的回调属于宏任务，会首先放入到message queue里 ***
 
-- 2. promise产生的回调属于微任务，会进入job queue里
+*** 2. promise产生的回调属于微任务，会进入job queue里 ***
 
 在栈之外会有一个线程，它会轮训调用栈，当栈为空时（当前代码执行完毕），会从`job queue`里优先取出回调放入栈中执行，这个轮训机制成为浏览器的事件循环。
 
@@ -220,7 +220,13 @@ promise1
 [参考](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/)
 
 
-- Node.js中的事件循环(todo)
+- Node.js中的事件循环
+
+事件循环在`Node.js`中有些不一样，主要体现在两个新的API:
+
+*** 1. nextTick ***
+
+*** 2. setImmediate ***
 
 ### 3.substr vs substring
 
