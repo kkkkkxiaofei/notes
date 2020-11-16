@@ -119,9 +119,16 @@ function foo() {
 
 当前javascript运行在v8引擎中，v8里面有方法执行栈，有内存堆，还有web api，其中web api就包含了DOM, ajax，setTimeout等等。
 
-js运行时，首先会分析js代码片段，生成调用栈，栈描述了函数调用顺序，异步调用不会放在栈中，首先会放在event table里，而后根据event table里的事件来分析谁应该先放到event queue里，这还会有一个event loop，它主要是用来监测调用栈，当发现调用栈为空时则会去event queue里取一个事件放入栈中执行.
+js运行时，首先会分析js代码片段，生成调用栈，栈描述了函数调用顺序，程序每执行一步就会进行一次入栈。
+但是异步方法，promise和事件等，他们的回调函数不会立刻入栈，具体来讲：
 
-> PS: setTimeout里的时间只是表明多久后会被加入到event queue里面。
+- 1. 事件和异步方法的回调属于宏任务，会首先放入到message queue里
+
+- 2. promise产生的回调属于微任务，会进入job queue里
+
+在栈之外会有一个线程，它会轮训调用栈，当栈为空时（当前代码执行完毕），会从`job queue`里优先取出回调放入栈中执行，这个轮训机制成为浏览器的事件循环。
+
+所以setTimeout参数里的时间只是表明该回调多久后会被放入到`message queue`里，而具体什么时候入栈去执行，这就要看具体情况了。
 
 ** task vs micro-task **
 
@@ -208,7 +215,7 @@ promise1
 
 3.每当栈空后会从tasks队列里取出宏任务执行，每次执行完一个宏任务，都会去执行微任务。
 
-4.事件callback比较特殊，微任务也会在其之后执行。
+4.每个宏任务之后，会立即执行微任务队列中的所有任务，然后再执行其他的宏任务，或渲染，或进行其他任何操作，用以确保微任务之间的环境一致（新网络数据等）
 
 [参考](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/)
 
