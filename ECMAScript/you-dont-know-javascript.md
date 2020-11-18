@@ -113,22 +113,23 @@ function foo() {
 
 ### 2. Event Loop
 
-- 浏览器中的事件循环
+#### 2.1 浏览器中的事件循环
 
 这要从`js为什么是单线程而ajax又是异步`的说起。
 
-当前javascript运行在v8引擎中，v8里面有方法执行栈，有内存堆，还有web api，其中web api就包含了DOM, ajax，setTimeout等等。
+当前`javascript`运行在`v8`引擎中，`v8`里面有方法执行栈，有内存堆，还有web api，其中web api就包含了DOM, ajax，setTimeout等等。
 
-js运行时，首先会分析js代码片段，生成调用栈，栈描述了函数调用顺序，程序每执行一步就会进行一次入栈。
-但是异步方法，promise和事件等，他们的回调函数不会立刻入栈，具体来讲：
+众所周知，`js`是单线程的，那它是怎么支持异步非阻塞的代码运行的呢？这就得靠`Event Loop`(事件循环)。
 
-*** 1. 事件和异步方法的回调属于宏任务，会首先放入到message queue里 ***
+`Event Loop`具体来讲是一个`v8`引擎里的一个任务调度算法：
 
-*** 2. promise产生的回调属于微任务，会进入job queue里 ***
+`js`运行时，会生成方法栈和`Event Loop`（每个`worker`都有独立的`Event Loop`），栈描述了函数调用顺序，程序每执行一步就会进行一次入栈。`Event Loop`会一直轮训检测方法栈内是否有任务，若栈空，则会从`task queue`里取出最早的任务放入方法栈内执行，每个`task`执行后会去执行所有在`job task`里的任务，当`task queue`里没有任务时，则会进入等待。
 
-在栈之外会有一个线程，它会轮训调用栈，当栈为空时（当前代码执行完毕），会从`job queue`里优先取出回调放入栈中执行，这个轮训机制成为浏览器的事件循环。
+`macrotask`: `宏任务`/`task queue`/`message queue`，例如事件回调，定时器回调，I/O回调等都会进入该队列。
 
-所以setTimeout参数里的时间只是表明该回调多久后会被放入到`message queue`里，而具体什么时候入栈去执行，这就要看具体情况了。
+`microtask`: `微任务`/`job task`，产生于ES6时代，promise的回调会进入该队列。
+
+所以`setTimeout`参数里的时间只代表多久以后该回调会进入`macrotask`列表，而具体什么时候入栈去执行，这就要看具体情况了。若有任务在长时间执行，那么就会阻塞`Event Loop`，从而影响其他任务的执行，甚至导致UI假死现象，总之`setTimeout`的时间是不可靠的，但它一定不会比你设置的时间早执行。
 
 ** task vs micro-task **
 
@@ -179,48 +180,31 @@ setTimeout
 
 分析：
 
-a)点击child后会进入事件回调1处，2处直接入栈执行,3为异步调用入tasks队列，4处是特殊的异步进入micro-tasks队列，5和1类似，直接输出。
+a)点击child后会进入事件回调1处，2处直接入栈执行,3为异步调用，它的回调会进入`macrotasks`队列，4处是特殊的异步，回调则会进入`microtasks`队列，5和1类似，直接输出。
 
-b)第一次的onClick代码执行完毕，栈空。取出micro-tasks里的promise callback入栈，执行后出栈，栈空。
+b)第一次的`onClick`代码执行完毕，栈空。取出`promise then`入栈，执行后出栈，栈空。
 
-c)此时child的点击导致了冒泡，冒泡的callback回来了，再次执行a),b)
+c)此时child的点击导致了冒泡，冒泡的`callback`回来了，再次执行a),b)
 
-d)第二次的onClick完成后，栈空，此时tasks队列里仍然有两个setTimeout没有执行，入栈执行，完毕。
-
-
-若把上面例子里的setTimeout改为:
-
-```
-setTimeout(() => {
-	console.log('setTimeout');
-	Promise.resolve()
-		.then(() => console.log('promise1'))    			
-}, 0);
-```
-
-那么里面的promise一定是跟着对应的setTimeout按顺序输出：
-
-```
-setTimeout
-promise1
-setTimeout
-promise1
-```
+d)第二次的`onClick`完成后，栈空，此时`macrotasks`队列里仍然有两个`setTimeout`没有执行，入栈执行，完毕。
 
 总结：
 
-1.setTimeout, setInterval等属于task（宏任务）
+1.setTimeout,setInterval等属于宏任务
 
-2.promise,async属于（微任务）
+2.promise,async属于微任务
 
-3.每当栈空后会从tasks队列里取出宏任务执行，每次执行完一个宏任务，都会去执行微任务。
+3.每当栈空后会从`macrotasks`队列里取出宏任务执行，每次执行完一个宏任务，都会去执行微任务。
 
 4.每个宏任务之后，会立即执行微任务队列中的所有任务，然后再执行其他的宏任务，或渲染，或进行其他任何操作，用以确保微任务之间的环境一致（新网络数据等）
 
-[参考](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/)
+[参考1  blog of jakearchibald](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/)
 
+[参考2  JS.INFO Event loop](https://javascript.info/event-loop#use-case-3-doing-something-after-the-event)
 
-- Node.js中的事件循环
+[参考3  Node.js Event loop](https://nodejs.dev/learn/the-nodejs-event-loop)
+
+#### 2.2 Node.js中的事件循环
 
 事件循环在`Node.js`中有些不一样，主要体现在两个新的API:
 
