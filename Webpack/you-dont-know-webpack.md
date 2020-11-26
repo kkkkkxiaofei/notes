@@ -72,6 +72,12 @@ const traverse = require('@babel/traverse').default;
 })(window, factory)
 ```
 
+`es module`和`commonjs`最主要的区别体现在以下两个方面：
+
+1. 前者为编译时加载，后者是运行时加载；因此你只能在顶部使用`import`，但`require`却可以在写任意地方。
+
+2. 前者为引用输出，后者为对象的浅拷贝；因此对于`commonjs`，假若导出的是一个对象，那么你修改该对象的第一层的任何属性都不会影响原始对象，且每次`require`都会从缓存里取。
+
 ### 2. output
 
 最常用的output属性是`filename`，这个不多说，以下几个也很重要：
