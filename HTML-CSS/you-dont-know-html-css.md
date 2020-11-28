@@ -45,7 +45,7 @@ div1
 
 #### 4.1 css里的1px不等于一个像素
 
-css里的px是一个虚拟的概念，它不是能代表设备的物理像素，但是我们可以查看`window.devicePixelRatio`，该比例是设备像素/独立像素，测试mac下的retina屏幕，该值为2，表明1px代表真是的2个物理像素。
+css里的px是一个虚拟的概念，它不是能代表设备的物理像素，但是我们可以查看`window.devicePixelRatio`(dpr)，该比例是设备像素/css像素，测试mac下的retina屏幕，该值为2，表明1px的css像素等于2px的物理像素。
 
 #### 4.2 三种视窗
 
