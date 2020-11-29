@@ -118,3 +118,48 @@ ppi(iphone7) = 分辨率/尺寸 = 750/2.3 = 1334/4.1 = 326
 ```
 
 [参考](https://www.cnblogs.com/2050/p/3877280.html)
+
+### 5. flex
+
+`block`默认占父元素宽度，一行一个，高度可设置；`inline`元素，如img，span等无法设置高度，高度完全有内容撑开，但兄弟节点会按照一行排列。
+
+因此出现了`inline-block`，既能设置高度，又可排列在一行。
+
+`flex`和`inline-flex`也是如此，他们唯一的区别就是后者做为flex的容器，在兄弟节点上是行内元素的效果，即排列成一行。
+
+#### 5.1 基本属性
+
+- flex容器的属性
+
+`flex-direction`: 默认为`row`，方向决定了主轴的方向。
+
+`flex-wrap`: 默认为`nowrap`，即所有item会一直会挤在一行内。
+
+`flex-flow` `flex-direction`和`flex-wrap`的缩写，默认为`row nowrap`
+
+`justify-content`: 主轴方向item的对齐方式。
+
+`align-items`:辅轴方向item的对齐方式。
+
+`align-content`: 又多个轴线时（多个flex容器），它们做为整体，在***辅轴***上的对齐方式。
+
+- item子项的属性
+
+`order`: 默认为0，数值越小优先级越大。
+
+`flex-grow`: 放大比例（若有剩余空间），默认为0，即不放大。
+
+`flex-shrink`: 缩小比例（若空间不足），默认为1。
+
+`flex-basis`: 定义主轴的大小，默认为auto，即继承自父元素的宽度（若主轴方向为row的话），自然它也决定了是否shrink/grow。
+
+`flex`: `flex-grow flex-shrink? flex-basis`，默认值为`0 1 auto`。
+
+`align-self`: 覆盖容器的`align-item`排列，说明子项有自定义的对齐方式。
+
+#### 5.2 兼容性
+
+全浏览器兼容，IE下版本要求较高。
+
+
+
