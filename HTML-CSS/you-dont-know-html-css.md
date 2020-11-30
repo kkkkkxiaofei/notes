@@ -151,11 +151,39 @@ ppi(iphone7) = 分辨率/尺寸 = 750/2.3 = 1334/4.1 = 326
 
 `flex-shrink`: 缩小比例（若空间不足），默认为1。
 
-`flex-basis`: 定义主轴的大小，默认为auto，即继承自父元素的宽度（若主轴方向为row的话），自然它也决定了是否shrink/grow。
+`flex-basis`: 定义子项目的初始主轴大小，默认为auto。默认下，子项的主轴大小是容器的大小，这样根据grow/shrink的值就能计算出该子项的最终大小。
 
 `flex`: `flex-grow flex-shrink? flex-basis`，默认值为`0 1 auto`。
 
 `align-self`: 覆盖容器的`align-item`排列，说明子项有自定义的对齐方式。
+
+九宫格例子：
+
+```
+<div class="flex-container">
+  <div class="flex-item">1</div>
+  <div class="flex-item">2</div>
+  <div class="flex-item">3</div>
+  <div class="flex-item">4</div>
+  <div class="flex-item">5</div>
+  <div class="flex-item">6</div>
+  <div class="flex-item">7</div>
+  <div class="flex-item">8</div>
+  <div class="flex-item">9</div>
+</div>
+
+.flex-container {
+  display: flex;
+  justify-content: center;
+  flex-flow: wrap-reverse;
+}
+
+.flex-item {
+  flex: 0 0 33%;
+  background: #ccc;
+  text-align: center;
+}
+```
 
 #### 5.2 兼容性
 
