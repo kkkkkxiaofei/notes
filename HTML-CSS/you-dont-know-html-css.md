@@ -189,5 +189,33 @@ ppi(iphone7) = 分辨率/尺寸 = 750/2.3 = 1334/4.1 = 326
 
 全浏览器兼容，IE下版本要求较高。
 
+### 6. grid
+
+`flex`是一纬的，基本都是针对主轴的设置；`grid`则是二纬的，有了行和列之分，因此布局上会有单元格的概念，适合较为复杂的页面主题布局。
+
+#### 6.1 容器属性
+
+`display`: `grid`和`inline-grid`，不解释，区别与`flex/inline-flex`类似。
+
+`grid-template-columns/rows`: 定义列模版，使用较为灵活，如下。
+
+```
+grid-template-columns: 100px 1fr;
+grid-template-columns: 100px 100px 100px;
+grid-template-columns: repeat(10, 1fr);
+grid-template-columns: repeat(auto-fill, 100px);
+
+```
+
+ps: 这里`auto-fill`类似`flex-basis`。
+
+`grid-gap`: 其实是 `<grid-row-gap> | <grid-column-gap>`的缩写。
+
+`justify-content`: 与`flex`的`justify-content`类似，代表子项作为整体，在容器内水平方向的对其方式。
+
+`align-content`: 与`flex`的`align-items`类似，代表子项作为整体，在容器内垂直方向的对其方式。
+
+
+
 
 
