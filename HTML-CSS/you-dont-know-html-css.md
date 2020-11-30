@@ -215,6 +215,43 @@ ps: 这里`auto-fill`类似`flex-basis`。
 
 `align-content`: 与`flex`的`align-items`类似，代表子项作为整体，在容器内垂直方向的对其方式。
 
+#### 6.2 子项属性
+
+`grid-column-start`：左边框所在的垂直网格线
+`grid-column-end`：右边框所在的垂直网格线
+`grid-row-start`：上边框所在的水平网格线
+`grid-row-end`：下边框所在的水平网格线
+
+这里借用了阮老师的描述，觉得很好记。
+
+`grid-column`: `<start-line> / <end-line>`
+`grid-row`: `<start-line> / <end-line>`
+
+确定了start的位置后，其实更为方便的是使用`span`。
+
+```
+grid-column: 1 / span 2;
+```
+相当于
+
+```
+grid-column: 1 / 3;
+```
+
+`grid-area`: 这可能算是神器了，它能够描述子项在那个区域里，小到一个单元格，大到任意区域。语法： `<row-start> / <column-start> / <row-end> / <column-end>`
+
+`justify-self`: 子项在单元格的水平对齐方式，这点与`flex`有很大区别，`flex`的子项没有这个属性。
+
+`align-self`: 子项在单元格的垂直对齐方式。
+
+为什么要把flex和grid的常用用法在总结一遍呢？就是年纪大了老忘，好记性不如烂笔头。
+
+参考：
+
+[MDN flex](https://developer.mozilla.org/zh-CN/docs/Web/CSS/flex)
+[MDN grid](https://developer.mozilla.org/zh-CN/docs/Web/CSS/grid)
+[阮老师flex](https://www.ruanyifeng.com/blog/2015/07/flex-examples.html)
+[阮老师grid](https://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html)
 
 
 
