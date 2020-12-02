@@ -2,7 +2,7 @@
 
 先考虑以下代码(case1-1)：
 
-```
+```js
 a = 1;
 var a;
 console.log(a);
@@ -12,7 +12,7 @@ console.log(a);
 
 再考虑以下代码(case1-2)：
 
-```
+```js
 console.log(a);
 var a = 1;
 ```
@@ -23,14 +23,14 @@ var a = 1;
 
 对于变量的声明和赋值是在不同阶段进行的，前者是在编译期，而后者是在运行期，于是case1-1就变成了：
 
-```
+```js
 var a;
 a = 1;
 console.log(a);
 ```
 而case1-2可以看作：
 
-```
+```js
 var a;
 console.log(a);
 a = 1;
@@ -40,7 +40,7 @@ a = 1;
 
 case1-3:
 
-```
+```js
 foo();
 
 function foo() {
@@ -50,7 +50,7 @@ function foo() {
 ```
 通过前两个case，我们知道变量提升在前，可以具体提升多前呢？其实它是在当前作用域进行顶端提升，如当前`var a = 2`是在方法的花括号呢，属于该该方法的作用域，并且提升时在当前作用域的最顶端，即：
 
-```
+```js
 foo();
 
 function foo() {
@@ -62,7 +62,7 @@ function foo() {
 
 case1-4:
 
-```
+```js
 foo();
 
 var foo;
@@ -78,7 +78,7 @@ foo = function() {
 
 一般变量需要提升，方法也算是变量，而且提升在最前面：
 
-```
+```js
 function foo() {
 	console.log(1);
 }
@@ -93,7 +93,7 @@ foo = function() {
 
 case1-5:
 
-```
+```js
 foo();
 
 function foo() {
@@ -135,7 +135,7 @@ function foo() {
 
 如下demo:
 
-```
+```js
 <script type="text/javascript">
     	
 	const parent = document.querySelector('.parent');
@@ -229,7 +229,7 @@ d)第二次的`onClick`完成后，栈空，此时`macrotasks`队列里仍然有
 
 ### 5. new A() vs A()
 
-```
+```js
 function A(name) {
   this.name = name;
 	return this;
@@ -245,7 +245,7 @@ console.log(a1, a2);
 
 new一个对象实际上干了三件事:
 
-```
+```js
 var obj = {};
 A.apply(obj, arguments);
 obj.__proto__ = A.prototype;
@@ -260,7 +260,7 @@ obj.__proto__ = A.prototype;
 
 那么如果怎么让a2成为真正的A的实例呢：
 
-```
+```js
 let a2 = A.call({}, 'reall a2');
 a2.__prop__ = A.proptotype;
 ```
@@ -269,7 +269,7 @@ a2.__prop__ = A.proptotype;
 
 Object.create会将新创建的对象的原型链指向obj，所以可以这样实现
 
-```
+```js
 function create(obj) {
 	function T() {}
 	T.prototype = obj;
@@ -279,7 +279,7 @@ function create(obj) {
 
 因此，Object.create常常用在组合继承的方式里，类似
 
-```
+```js
 Man.prototype = Object.create(Person.prototype);
 ```
 
@@ -295,7 +295,7 @@ Man.prototype = Object.create(Person.prototype);
 
 防抖（debounce）：多次连续行为，只执行最后一次（即t时间内没有下一次）。
 
-```
+```js
 function debounce(fn, ms) {
 	var timer;
 	return function(...args) {
@@ -309,7 +309,7 @@ function debounce(fn, ms) {
 
 节流（throttle）：t时间内连续行为只会执行第一次。
 
-```
+```js
 function throttle(fn, ms) {
 	var timer;
 	return function(...args) {
@@ -330,7 +330,7 @@ function throttle(fn, ms) {
 
 - 1.b获取super的属性
 
-```
+```js
 function B(name) {
 	A.apply(this, arguments)
 }
@@ -338,7 +338,7 @@ function B(name) {
 
 - 2.让A的原型对象出现在b的原型链上
 
-```
+```js
 B.prototype = Object.create(A.prototype);
 ```
 这里可得: `b.__proto__` -> `B.prototype` -> `B.prototype.__proto__` -> `A.prototype`
@@ -349,14 +349,14 @@ B.prototype = Object.create(A.prototype);
 
 `B.prototype`原本内部是有`constructor`属性（指向Man)，第2步修改原型链时把`constructor`属性给覆盖了，所以需要重置(注：constructor的修改不会影响instanceof的结果)。
 
-```
+```js
 B.prototype.constructor = B;
 ```
 
 - 基于以上提炼继承的最佳方案：
 
 
-```
+```js
 function Person(name) {
   this.name = name;
 }
@@ -418,7 +418,7 @@ call/apply/bind: 若第一个参数为null，在strict的模式下为undefined�
 
 - 但执行异步方法时可以直接调用
 
-```
+```js
 let getData = () => Promise.reject('res');
 let fn = async () => await getData();
 fn();
@@ -427,7 +427,7 @@ fn();
 ```
 - 如果不在async里await呢
 
-```
+```js
 let fn = async () => 'async fn';
 fn();
 
@@ -438,7 +438,7 @@ fn();
 
 - await后面的代码
 
-```
+```js
 let getData = () => Promise.reject('res');//1
 let fn = async () => {
 	await getData();
@@ -451,7 +451,7 @@ fn();
 
 若1处改为：
 
-```
+```js
 let getData = () => Promise.resolve('res');//1
 ```
 
@@ -459,7 +459,7 @@ let getData = () => Promise.resolve('res');//1
 
 可是我一不小心手误，将1处写为：
 
-```
+```js
 let getData = () => { Promise.reject('res') };//1
 let fn = async () => {
 	await getData();
@@ -483,7 +483,7 @@ fn();
 
 - 1.私有变量
 
-```
+```js
 function Person() {
 	var name = 'Kelvin'
 	this.getName = function() {
@@ -494,7 +494,7 @@ function Person() {
 
 - 2.柯里化
 
-```
+```js
 function add(x) {
 	return function(y) {
 		return x + y;
@@ -506,7 +506,7 @@ const add2 = add(2);
 
 - 3.缓存(持久化)
 
-```
+```js
 function debounce(fn, ms) {
 	var timer;
 	return function(...args) {
@@ -524,7 +524,7 @@ function debounce(fn, ms) {
 
 - 4.利用闭包和作用域的角度重新分析下面的经典代码
 
-```
+```js
 for (var i=0;i<10;i++) {
 	//1
 	setTimeout(function() {
@@ -539,7 +539,7 @@ var具有函数作用域，setTimout执行之前必须让主线程把for执行�
 
 `角度2`: 利用setTimeout的第三参数。
 
-```
+```js
 for (var i=0;i<10;i++) {
 	setTimeout(function(j) {
 		console.log(j);
@@ -551,7 +551,7 @@ for (var i=0;i<10;i++) {
 
 `角度3`: IIFE
 
-```
+```js
 for (var i=0;i<10;i++) {
 	(function(j) {
 		//1
@@ -592,7 +592,7 @@ js目前有7种原始类型: `Null`, `Undefined`, `BigInt`, `Number`, `Boolean`,
 
 - Object.prototype.toString
 
-```
+```js
 Object.prototype.toString.call(1); // [object Number]
 
 Object.prototype.toString.call(NaN); // [object Number]
@@ -624,14 +624,14 @@ Object.prototype.toString.call(/\s/); // [object RegExp]
 
 如果我们已经知道构造函数，那么`instanceof`很有用，它需要检查当前构造器的原型对象是否存在于实例的原型链上，但这只对引用类型有用。如果想让原始生效，需要用到`Symbol.hasInstance`:
 
-```
+```js
 class NumberType {
 	static [Symbol.hasInstance](instance) {
 		return typeof instance === 'number';
 	}
 }
 ```
-```
+```js
 111 instanceof Number; // false
 
 111 instanceof NumberType; // true
@@ -639,7 +639,7 @@ class NumberType {
 
 因此我们可以修改任意构造函数的`[Symbol.hasInstance]`，从而改变`instanceof`的逻辑，上面的代码使用了静态类型，`Babel`转译后其实就是构造函数的属性：
 
-```
+```js
 function NumberType() {}
 
 Object.defineProperty(NumberType, Symbol.hasInstance, {
@@ -656,7 +656,7 @@ Object.defineProperty(NumberType, Symbol.hasInstance, {
 
 ** instanceof手动实现？ **
 
-```
+```js
 function iof(instance, Parent) {
 	if (typeof instance !== 'object' || instance === null)
 		return false
@@ -677,7 +677,7 @@ function iof(instance, Parent) {
 
 `isFunction`
 
-```
+```js
 function isFunction(value) {
 	return typeof fn === 'function';
 }
@@ -686,7 +686,7 @@ function isFunction(value) {
 `isString`
 
 暴力写法：
-```
+```js
 function isString(value) {
 	return Object.prototype.toString.call(value) === '[object String]';
 }
@@ -694,7 +694,7 @@ function isString(value) {
 
 考虑到原型链的安全性，lodash的优化：
 
-```
+```js
 function isString(value) {
   const type = typeof value
   return type === 'string' || 
@@ -704,7 +704,7 @@ function isString(value) {
 
 `isObject`
 
-```
+```js
 function isObject(value) {
 	//1
 	if (Object.prototype.toString.call(value) !== '[object Object]')
@@ -729,7 +729,7 @@ function isObject(value) {
 
 `call`
 
-```
+```js
 Function.prototype._call = function(context, ...args) {
 	const sym = Symbol('');
 	context[sym] = this;
@@ -743,7 +743,7 @@ Function.prototype._call = function(context, ...args) {
 `apply`
 
 
-```
+```js
 Function.prototype._apply = function(context, args) {
 	return this._call(context, ...args);
 }
@@ -752,7 +752,7 @@ Function.prototype._apply = function(context, args) {
 
 `bind`
 
-```
+```js
 Function.prototype._bind = function(context, ...args) {
 	return function(...nextArgs) {
 		return this._call(context, ...args, ...nextArgs);
@@ -762,7 +762,7 @@ Function.prototype._bind = function(context, ...args) {
 
 测试：
 
-```
+```js
 var name = 'window';
 
 var obj = {
