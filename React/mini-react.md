@@ -376,6 +376,12 @@ const update = (oldNode, newVdom, parentNode=oldNode.parentNode) => {
 
 ```
 
+### 5. 总结
+
+以上的实现思路类似React16以前（当然差距还很大），但不难看出，在获取新vdom之前的所有操作均是递归完成，且无法停止，React16以后引入了Fiber Node，在render之前的生命周期会不安全，因为有可能多次进入同一生命周期，而只有commit阶段才代表相对可靠的生命周期，最新的生命周期图已经没有了`componentWillReceiveProps`,`shouldComponentUpdate`等不安全的api，如下：
+
+![](/images/react/react-lifecycle.png)
+
 
 参考：
 
