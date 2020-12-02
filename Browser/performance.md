@@ -13,65 +13,7 @@
 有defer属性时，脚本的下载不阻塞html解析，当解析完毕后再去执行脚本
 ![](/images/css/4.png)
 
-
-### 2.页面渲染
-
-- 1.首先根据url请求html并且进行解析，参考（3）
-  
-- 2.根据html和css生成DOM和CSSOM
-
-  生成DOM为`Parse HTML`, 生成CSSOM为`Recalculate style`。
-
-  当正在解析html时，若遇到script标签，则会停止构建DOM，开始下载并且交由js引擎（默认不加defer/async时）去执行，完成后才会恢复DOM构建。
-
-  在执行js脚本时，js是可以修改DOM和CSSOM（比如改样式）的，此时浏览器会阻塞js的执行，直到CSSOM构建完成（外部样式还需要下载）才会恢复js的执行。
-
-  一旦DOM构建成功，就会触发`DOMContentLoaded`事件，该事件不会像`load`事件那样需要等待style/image等外部资源后才会触发。因为在构建DOM时已经被js阻塞过了，能够触发`DOMContentLoaded`就表明后面就算有外部资源也不会影响DOM，因此这个事件在绝大多数情况下是可以替换`load`事件的。
-
-  > ps: `DOMContentLoaded`事件本身并不会被外部style阻塞，但是如果有外部script的话，就需要先等待外部style，然后再恢复js执行（此时style和js匀阻塞）。
-
-//DOM
-
-```
-html {
-  head,
-  body {
-
-  }
-}
-```
-
-//CSSOM
-
-```
-html {
-  backgourd: blue;
-  body {
-    font-size: 16px
-  }
-  ...
-}
-```
-
-- 3.生成渲染树(render tree)
-
-  对于`visibility: hidden`和`display: none`来说：后者是不会出现在render tree上的，但是在DOM tree上是有的。
-
-- 4.重排（layout)
-
-  在devtools里为`Layout`
-
-计算各个对象的精确位置，布局，大小等等。
-
-- 5.重绘（paint)
-
-在devtools里为`Paint`
-
-将像素，颜色等填充至屏幕。
-
-因此应当避免一次操作大量DOM或者频繁更改窗口大小，均会导致页面重排。重排也必然会重绘。
-
-### 3. 关键路径分析
+### 2. 关键路径分析
 
 `DCL`: DOMContentLoaded事件，DOM构建完成就会触发。
 
@@ -200,6 +142,58 @@ performance：
 
 很明显，async可以让js脚本不阻塞DOM构建，因此DCL在L之前。
 
+### 3.页面渲染
+
+- 1.首先根据url请求html并且进行解析，参考（2）
+  
+- 2.根据html和css生成DOM和CSSOM
+
+  生成DOM为`Parse HTML`, 生成CSSOM为`Recalculate style`。
+
+  当正在解析html时，若遇到script标签，则会停止构建DOM，开始下载并且交由js引擎（默认不加defer/async时）去执行，完成后才会恢复DOM构建。
+
+  在执行js脚本时，js是可以修改DOM和CSSOM（比如改样式）的，此时浏览器会阻塞js的执行，直到CSSOM构建完成（外部样式还需要下载）才会恢复js的执行。
+
+  一旦DOM构建成功，就会触发`DOMContentLoaded`事件，该事件不会像`load`事件那样需要等待style/image等外部资源后才会触发。因为在构建DOM时已经被js阻塞过了，能够触发`DOMContentLoaded`就表明后面就算有外部资源也不会影响DOM，因此这个事件在绝大多数情况下是可以替换`load`事件的。
+
+  > ps: `DOMContentLoaded`事件本身并不会被外部style阻塞，但是如果有外部script的话，就需要先等待外部style，然后再恢复js执行（此时style和js匀阻塞）。
+
+//DOM
+
+```
+html {
+  head,
+  body {
+
+  }
+}
+```
+
+//CSSOM
+
+```
+html {
+  backgourd: blue;
+  body {
+    font-size: 16px
+  }
+  ...
+}
+```
+
+- 3.生成渲染树(render tree)
+
+  对于`visibility: hidden`和`display: none`来说：后者是不会出现在render tree上的，但是在DOM tree上是有的。
+
+- 4.重排（layout)
+
+  在devtools里为`Layout`，这个阶段会计算各个对象的精确位置，布局，大小等等。
+
+- 5.重绘（paint)
+
+  在devtools里为`Paint`，该阶段会将像素，颜色等填充至屏幕。
+
+  因此应当避免一次操作大量DOM或者频繁更改窗口大小，均会导致页面重排。重排也必然会重绘。
 
 
 ### 4. transform
