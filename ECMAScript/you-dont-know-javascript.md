@@ -407,7 +407,7 @@ man.sayName(); // kelvin
 
 call/apply/bind: 若第一个参数为null，在strict的模式下为undefined，非strict模式下会是window
 
-箭头函数：在调用处向上寻找作用域(非箭头函数），若找不到则返回window(严格模式为undefined)
+箭头函数：没有this，必须在调用处向上依次寻找作用域(非箭头函数），若找不到则返回window(严格模式为undefined)
 
 事件：this指向事件绑定元素(target为事件触发元素，currentTarget才是事件绑定元素);setTimeout依然遵循事件绑定，为全局绑定。
 
