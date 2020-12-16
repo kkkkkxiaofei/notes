@@ -39,7 +39,7 @@ exports.get = get;
 
 可以看到import/export会完全被转化为commonjs语法。
 
-> 那转化为怎么区分原始module类型呢？
+> 那转化完怎么区分原始module类型呢？
 
 关键在于exports对象上，如果是es module转化来的，则__esModule为true，这一属性将会在module导入的时候起到决定性作用，
 
@@ -94,7 +94,7 @@ const traverse = require('@babel/traverse').default;
 
 这两个必须要一起解释。
 
-`library`是wepack到处模块的名称。
+`library`是wepack导出模块的名称。
 
 ```
 output.library = 'lib';
