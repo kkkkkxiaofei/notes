@@ -127,7 +127,33 @@ Q1: 以上代码输出什么，为什么？
 
 Q2: 若将以上代码改写为cjs，输出会有什么不同，为什么？
 
+提示：cjs为浅拷贝，version的输出分别为： `1,1`, `1,2`
+
 Q3: 若将以上代码编译为cjs，输出会有什么不同，为什么？
+
+与原始es的输出一致。这里和第二问的最主要区别在于编译后会按照es的规则转化为cjs，具体来说，对于version的处理就会绑定exports，如下：
+
+`单纯的改写为cjs`: 
+
+```
+var version = 1;
+exports.version = version;
+exports.getVerison = function() {
+	verision = version + 1;
+}
+```
+
+`而编译后的getVersion`:
+
+```
+var version = 1;
+exports.version = version;
+exports.getVerison = function() {
+	exports.version = verision = version + 1;
+}
+```
+
+
 
 
 ### 2. output
