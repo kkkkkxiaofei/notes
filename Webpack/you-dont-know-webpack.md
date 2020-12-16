@@ -78,6 +78,58 @@ const traverse = require('@babel/traverse').default;
 
 2. 前者为引用输出，后者为对象的浅拷贝；因此对于`commonjs`，假若导出的是一个对象，那么你修改该对象的第一层的任何属性都不会影响原始对象，且每次`require`都会从缓存里取。
 
+*** 灵魂拷问1 ***
+
+`es-module.js`
+
+```js
+console.log('loading es-module ...');
+
+let version = 1;
+
+const addVersion = () => { version += 1 };
+
+const getVersion = () => version;
+
+const des = { name: 'object variable' };
+
+export {
+  version,
+  addVersion,
+  getVersion,
+}
+
+export default des;
+
+```
+
+`index.js`
+
+```js
+
+console.log('runing index ...');
+
+import mod1 from './es-module';
+
+import mod2, { version, addVersion, getVersion } from './es-module';
+
+console.log('mod1 === mod2', mod1 === mod2);
+
+console.log('=version0=', version, getVersion());
+
+addVersion();
+
+console.log('=version1=', version, getVersion());
+
+```
+
+Q1: 以上代码输出什么，为什么？
+
+Q2: 若将以上代码改写为cjs，输出会有什么不同，为什么？
+
+Q3: 若将以上代码编译为cjs，输出会有什么不同，为什么？
+
+
 ### 2. output
 
 最常用的output属性是`filename`，这个不多说，以下几个也很重要：
