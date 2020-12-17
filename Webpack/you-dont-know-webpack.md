@@ -296,3 +296,6 @@ webpack --profile --json > stat.json
 
 `browser`: 支持browser。
 
+### 7. 热更新
+
+[TODO: 参考](https://mp.weixin.qq.com/s/2L9Y0pdwTTmd8U2kXHFlPA)
