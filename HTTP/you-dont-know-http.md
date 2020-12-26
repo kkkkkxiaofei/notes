@@ -1,6 +1,10 @@
 ### 1. 缓存
 
-`Cache-Control`有以下用法：
+#### 1.1 强缓存
+
+强缓存若生效，则无需和服务器交互，直接返回200(from cache)，强缓存的头部有以下：
+
+`Cache-Control`
 
 - no-store
   表明当前资源不能被缓存，对于频繁改动且重要的资源这是必须的。
@@ -11,23 +15,27 @@
 - max-age
   表明缓存过期时间，优先级最高。
 
-缓存验证：
+`Expires`: 若max-age没设，则会查看该值，优先级次之。该值为GMT时间，在此时间之前都会命中强缓存。
 
-- Expires
 
-  若max-age没设，则会查看该值，优先级次之。
+#### 1.2 协商缓存
 
-- Last-Modified
+当没有命中强缓存后，浏览器会向服务器询问一次是否还能应用缓存，若服务器决策后的结果还有缓存，则返回304（not modified)。协商缓存的头部有以下：
 
-  若max-age和Expires都没有，会查看该值，优先级较低，常常与`If-Modified-Since`一起使用。
+- Last-Modified/If-Modified-Since
 
-- ETags
+浏览器首次请求资源时，由于没有缓存，服务器后返回资源，且带有`Last-Modified`的头（GMT时间）。浏览器第二次请求该资源的时候，会加上`If-Modified-Since`，这个值就是上次从服务器返回的`Last-Modified`。若两值相等，则返回304(不返回资源），否者重新生成头信息并返回资源。
 
-  如果请求响应头里有这个属性（值一般是资源hash），则下次请求时，客户端可以带上`If-Non-Match`。
+- ETags/If-Non-Match
 
-- If-Non-Match
+`ETags`与 `Last-Modified`的原理类似，但是`Etags`不是时间，而是资源的唯一标示（内容hash），只要没变则缓存继续有效。
 
-  该属性会和`Etags`一起使用，若服务端没有能够找到任何资源与Etags的值相等，则返回200。
+两者结合的好处：
+
+1. 多次对资源的时间进行修改，但内容不变，这时Etags就可以保证缓存依然有效。
+2. 秒级内多次更改资源，但由于`Last-Modified`粒度在秒级，所以无法即时让缓存失效（不新鲜缓存），因此ETags就可以保证返回新资源。
+
+*** ps: Last-Modified 和 Etags可以一起使用，Etags的优先级较高***
 
 ### 2.xss vs csrf
 
