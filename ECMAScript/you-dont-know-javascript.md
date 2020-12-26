@@ -211,6 +211,16 @@ d)第二次的`onClick`完成后，栈空，此时`macrotasks`队列里仍然有
 
 *** 2. setImmediate ***
 
+
+#### 2.3 浏览器，Node和v8之间的关系
+
+
+|         | js engine | network | event | dom | disk |
+|---------|-----------|---------|-------|-----|------|
+| v8      | Y         | N/A     | N/A   | N/A | N/A  |
+| browser | Y         | Y       | Y     | Y   | N/A  |
+| node    | Y         | Y       | Y     | N/A | Y    |
+
 ### 3.substr vs substring
 
 `substr`: (start, length)
