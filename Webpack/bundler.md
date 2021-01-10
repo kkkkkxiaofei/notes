@@ -17,6 +17,7 @@ module.exports = {
   }
 };
 
+
 ```
 
 配置很简单，它只需要`entry`和`output`（甚至可以有默认的）即可。

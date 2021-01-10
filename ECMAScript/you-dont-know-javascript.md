@@ -222,6 +222,59 @@ d)第二次的`onClick`完成后，栈空，此时`macrotasks`队列里仍然有
 | browser | Y         | Y       | Y     | Y   | N/A  |
 | node    | Y         | Y       | Y     | N/A | Y    |
 
+#### 2.4 事件委托
+
+比如要实现p标签的点击功能，我们可以绑定指定的p，但也可以将事件委托给父级：
+
+```
+document.addEventListener('click', function(e) {
+	if (e.target.nodeName === 'P') {
+		console.log('p is clicked!');
+	}
+});
+```
+
+这称之为`事件委托`。
+
+当然，我们可以自定义事件。
+
+```
+const customEvent = new CustomEvent('log', { 
+	bubbles: true,
+	detail: {
+		data: 'hello'
+	}
+});
+document.addEventListener('log', function(e) {
+	console.log('log event invoked', e.detail.data);
+});
+document.addEventListener('click', function(e) {
+	if (e.target.nodeName === 'P') {
+		console.log('dispatching');
+		e.target.dispatchEvent(customEvent)
+		console.log('dispatched');
+	}
+});
+
+```
+当点击p时，打印如下:
+
+```
+dispatching
+log event invoked hello
+dispatched
+```
+
+结论：
+
+- 与浏览器的事件不一样，自定义事件并不是异步的。
+- 自定义事件必须显示定义`bubbles`才会具有冒泡的机制，默认不冒泡。
+- 自定义事件的传参可利用`detail`对象。
+- 自定义事件的返回值为布尔值，表明是否可以取消。
+
+
+
+
 ### 3.substr vs substring
 
 `substr`: (start, length)
