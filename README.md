@@ -127,3 +127,21 @@
 - 如何打包ts+es6的工程项目
 - 如何管理一个lib的typing文件
 
+### 7. HTTP
+
+- HTTP1.0 VS HTTP1.1 VS HTTP2.0
+- HTTPS加密原理
+- 301 vs 302
+- cookie（各种属性的含义及用途）
+- 强缓存
+- 协商缓存（304）
+- 如何跨域
+- 什么是JSONP
+- XSS
+- CSRF
+- 三次握手 vs 四次挥手
+
+### 其他
+
+- Oauth2.0
+- 微前端实践
