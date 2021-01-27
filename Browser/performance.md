@@ -195,7 +195,11 @@ html {
 
   因此应当避免一次操作大量DOM或者频繁更改窗口大小，均会导致页面重排。重排也必然会重绘。
 
+- 6.组合（composite)
 
-### 4. transform
+  重绘结束后会产生多个层，组合就是将多个层按照层叠顺序合并为一个层（我们看到的那个层）
+
+### 4. transform vs position
+
 
 ### 5. requestAnimationFrame
