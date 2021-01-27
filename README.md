@@ -13,7 +13,7 @@
 
 #### 1.2 this
 
-- <mark>this的指向（箭头函数，实例方法，全局调用，事件回调，setTimeout）</mark>
+- this的指向（箭头函数，实例方法，全局调用，事件回调，setTimeout）
 - call/apply/bind的区别，如何手动实现？
 
 #### 1.3 原型
@@ -147,6 +147,13 @@
 - node多进程
 - 事件循环
 - 守护进程(forever, nodemon)
+
+### <mark>9. 算法</mark>
+
+- 栈/队列/链表/树
+- 排序算法（时间/空间复杂度）
+- BFS/DFS以及实际用途
+
 
 ### 其他
 
