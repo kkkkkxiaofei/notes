@@ -57,3 +57,13 @@
 - flex
 - grid
 - 16:9怎么实现
+
+### 3. 浏览器
+
+- 浏览器的组成
+- 浏览器 vs Nodejs vs v8
+- defer vs async
+- 关键路径分析
+- 页面渲染流程
+- transform vs position
+- requestAnimationFrame
