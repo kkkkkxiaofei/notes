@@ -48,4 +48,12 @@
 
 - Object.defineProperty vs Proxy
 
+### 2. CSS
 
+- disabled vs readonly
+- 伪元素和伪类
+- z-index层叠关系
+- viewport
+- flex
+- grid
+- 16:9怎么实现
