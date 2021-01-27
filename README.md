@@ -67,3 +67,21 @@
 - 页面渲染流程
 - transform vs position
 - requestAnimationFrame
+
+### 4. React(todo)
+
+- 什么是JSX
+- 什么是虚拟DOM
+- 怎么实现DOM Diff (key的作用)
+- 哪些生命周期在16以后就不安全了，为什么
+- 手动实现一个mini react，有什么思路
+- hook原理
+- reconciler是什么
+- 了解fiber node吗
+- redux和react什么关系
+- redux中间件的原理
+- 什么是shallowEqual
+- 什么是React-Redux
+- useSelector vs connect
+- 如何实现force render
+
