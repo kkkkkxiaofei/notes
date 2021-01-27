@@ -201,5 +201,8 @@ html {
 
 ### 4. transform vs position
 
+如果利用position改变位置，则会触发 `重排` -> `重绘` -> `组合`；
+
+而transform只会触发`组合`，显然在性能上要优于position
 
 ### 5. requestAnimationFrame
