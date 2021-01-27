@@ -85,3 +85,20 @@
 - useSelector vs connect
 - 如何实现force render
 
+### 5. 工程化
+
+#### 5.1 webpack
+
+- module vs chunk vs bundle
+- 什么是代码分离，原理是什么
+- 什么是tree shaking， 原理是什么
+- 什么是HMR
+- 什么是UMD
+- esm vs commonjs
+- compiler vs compilation 
+- loader vs plugin
+- 如何实现一个打包工具
+- webapck vs rollup
+- 最佳优化实践
+
+
