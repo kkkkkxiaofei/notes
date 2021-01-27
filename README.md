@@ -84,12 +84,14 @@
 - 什么是React-Redux
 - useSelector vs connect
 - 如何实现force render
+- 什么是ssr
 
 ### 5. 工程化
 
 #### 5.1 webpack
 
 - module vs chunk vs bundle
+- 为什么你写的代码从来不会出现声明问题
 - 什么是代码分离，原理是什么
 - 什么是tree shaking， 原理是什么
 - 什么是HMR
@@ -99,6 +101,19 @@
 - loader vs plugin
 - 如何实现一个打包工具
 - webapck vs rollup
-- 最佳优化实践
+- webpack最佳优化实践
+
+### 5.2 babel
+
+- 什么是AST
+- 什么是preset
+- 什么是plugin
+- babel-tranform, taverse, parse是什么
+
+### 5.3 部署
+
+- 你的前端项目是怎么部署的
+- 什么是CDN
+
 
 
