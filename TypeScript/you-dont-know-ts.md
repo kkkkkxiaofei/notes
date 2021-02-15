@@ -70,4 +70,18 @@ voidFn();
 
 ### 4. typescript 的编译
 
+`module`: 表明需要用怎样的模块机制来做处理，比如设置为`ES5`，那么当遇到`Import`时，就会解析为`require/export`;若设置为`ES6`，则`Import`则不会变。通常`module`若不显式设置，其的默认值是由`target`来控制。
+
+`outFile`: 在设置`module`为`None | System | AMD`时，可以对输出进行打包。注意此配置不能用来代替打包工具，因为它无法打包`ES module`或者`Commonjs module`。
+
+`lib`: ts 中内建的声明文件都在这（如`Dom`, `Promise`, `Window`..)，默认情况下`target`会决定`lib`的选项。比如`Target`为`ES5`, 那`lib`就对应为`'DOM', 'ES5', 'ScriptHost'`。因为`target`会控制`lib`，所以如果不想让编译器用默认的`lib`，可以设置`noLib`为`true`。
+
+`typeRoots`: `lib`里的声明文件可以让`IDE`捕捉到代码提示，但是毕竟它是由`target`决定的;`typeRoot`就可以允许我们自己定义声明文件的位置。
+
+`baseUrl`: 非相对路径的起点路径，默认是`.`，找不到则会去`node_modules`里寻找。
+
+`paths`: 类似于自定义路径别名，可定义多个。
+
+`rootDirs`: 与`baseUrl`相反，`rootDirs`可以规定使用相对路径的模块应该去哪里寻找。
+
 [参考][https://medium.com/jspoint/typescript-compilation-the-typescript-compiler-4cb15f7244bc]
