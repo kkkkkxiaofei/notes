@@ -60,4 +60,14 @@ voidFn();
 
 这里预编译就会报错： `A function returning never could not have a reachable end point`;
 
-s
+### 2. d.ts 的最佳管理方式
+
+[参考](https://medium.com/jspoint/typescript-type-declaration-files-4b29077c43)
+
+### 3. typescript 的模块加载
+
+[参考](https://medium.com/jspoint/typescript-module-system-5022cac310f6)
+
+### 4. typescript 的编译
+
+[参考][https://medium.com/jspoint/typescript-compilation-the-typescript-compiler-4cb15f7244bc]
