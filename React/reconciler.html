@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>shell入门 · GitBook</title>
+        <title>Reconciler · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,6 +57,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
+    <link rel="next" href="hook.html" />
+    
+    
+    <link rel="prev" href="api.html" />
     
 
     </head>
@@ -222,9 +226,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.1.4.1" data-path="../React/api.html">
+        <li class="chapter " data-level="1.1.4.1" data-path="api.html">
             
-                <a href="../React/api.html">
+                <a href="api.html">
             
                     
                     核心API
@@ -235,9 +239,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.4.2" data-path="../React/reconciler.html">
+        <li class="chapter active" data-level="1.1.4.2" data-path="reconciler.html">
             
-                <a href="../React/reconciler.html">
+                <a href="reconciler.html">
             
                     
                     Reconciler
@@ -248,9 +252,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.4.3" data-path="../React/hook.html">
+        <li class="chapter " data-level="1.1.4.3" data-path="hook.html">
             
-                <a href="../React/hook.html">
+                <a href="hook.html">
             
                     
                     Hook
@@ -261,9 +265,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.4.4" data-path="../React/mini-react.html">
+        <li class="chapter " data-level="1.1.4.4" data-path="mini-react.html">
             
-                <a href="../React/mini-react.html">
+                <a href="mini-react.html">
             
                     
                     React最小实现
@@ -601,9 +605,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="1.1.13.1" data-path="shell入门.html">
+        <li class="chapter " data-level="1.1.13.1" data-path="../Shell/shell入门.html">
             
-                <a href="shell入门.html">
+                <a href="../Shell/shell入门.html">
             
                     
                     shell入门
@@ -789,7 +793,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >shell入门</a>
+        <a href=".." >Reconciler</a>
     </h1>
 </div>
 
@@ -804,197 +808,16 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h5 id="1shell&#x7684;&#x7B2C;&#x4E00;&#x884C;">1.Shell&#x7684;&#x7B2C;&#x4E00;&#x884C;#!</h5>
-<p>dev.sh&#xFF1A;</p>
-<pre><code class="lang-sh"><span class="hljs-meta">#! /bin/sh</span>
-who
-</code></pre>
-<p><code>#! /bin/sh</code>&#x8868;&#x793A;&#x5229;&#x7528;/bin/sh&#x4F5C;&#x4E3A;&#x5F53;&#x524D;&#x7684;Shell&#xFF0C;&#x5F53;&#x4E0D;&#x5199;&#x7B2C;&#x4E00;&#x884C;&#x65F6;&#xFF0C;&#x7CFB;&#x7EDF;&#x5C06;&#x9ED8;&#x8BA4;&#x4F7F;&#x7528; /bin/sh</p>
-<h5 id="2&#x4F20;&#x9012;&#x63A5;&#x6536;&#x53C2;&#x6570;">2.&#x4F20;&#x9012;/&#x63A5;&#x6536;&#x53C2;&#x6570;</h5>
-<p>dev.sh&#xFF1A;</p>
-<pre><code class="lang-sh"><span class="hljs-meta">#! /bin/sh</span>
-<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">${1}</span> <span class="hljs-variable">${2}</span> <span class="hljs-variable">${3}</span>&quot;</span>
-</code></pre>
-<p>&#x8C03;&#x7528;&#xFF1A;</p>
-<pre><code class="lang-sh">dev.sh a b c
-</code></pre>
-<p>&#x8F93;&#x51FA;&#xFF1A;</p>
-<p>a b c</p>
-<p><code>${num}</code>&#x8868;&#x793A;&#x7B2C;&#x51E0;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;num&#x4ECE;1&#x5F00;&#x59CB;&#xFF0C;num&#x4E3A;0&#x65F6;&#x8868;&#x793A;Shell&#x811A;&#x672C;&#x540D;&#x3002;</p>
-<h5 id="3&#x5E38;&#x7528;&#x7CFB;&#x7EDF;&#x7EA7;&#x53D8;&#x91CF;">3.&#x5E38;&#x7528;&#x7CFB;&#x7EDF;&#x7EA7;&#x53D8;&#x91CF;</h5>
-<table>
-<thead>
-<tr>
-<th>&#x53D8;&#x91CF;</th>
-<th>&#x542B;&#x4E49;</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>$#</code></td>
-<td>&#x53C2;&#x6570;&#x4E2A;&#x6570;</td>
-</tr>
-<tr>
-<td><code>$*</code>,<code>$@</code></td>
-<td>&#x5168;&#x90E8;&#x53C2;&#x6570;</td>
-</tr>
-<tr>
-<td><code>$?</code></td>
-<td>&#x547D;&#x4EE4;&#x884C;&#x8FD4;&#x56DE;&#x503C;&#xFF08;&#x6B63;&#x5E38;0&#xFF0C;&#x5F02;&#x5E38;&#x975E;0)</td>
-</tr>
-</tbody>
-</table>
-<h5 id="4if&#x6761;&#x4EF6;&#x8BED;&#x53E5;">4.if&#x6761;&#x4EF6;&#x8BED;&#x53E5;</h5>
-<p>dev.sh&#xFF1A;</p>
-<pre><code class="lang-sh"><span class="hljs-meta">#! /bin/sh</span>
-<span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$1</span> &gt; 0 ]]; <span class="hljs-keyword">then</span>
-  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;greater than 0&quot;</span>
-<span class="hljs-keyword">elif</span> [[ <span class="hljs-variable">$1</span> &lt; 0 ]]; <span class="hljs-keyword">then</span>
-  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;less than 0&quot;</span>
-<span class="hljs-keyword">else</span>
-  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;equal to 0&quot;</span>
-<span class="hljs-keyword">fi</span>
-</code></pre>
-<p><code>elif</code>&#x4EE3;&#x8868;elseif&#xFF0C;<code>if</code>&#x5FC5;&#x987B;&#x8981;&#x4EE5;<code>fi</code>&#x8FDB;&#x884C;&#x7ED3;&#x5C3E;&#x95ED;&#x5408;&#x3002;&#x5176;&#x4E2D;<code>[]</code>&#x4E5F;&#x53EF;&#x4EE5;&#x7528;<code>()</code>&#x4EE3;&#x66FF;&#xFF0C;&#x4F46;&#x5FC5;&#x987B;&#x90FD;&#x6709;&#x4E24;&#x5BF9;&#x624D;&#x80FD;&#x5F62;&#x6210;&#x6761;&#x4EF6;&#x5224;&#x65AD;&#x8868;&#x8FBE;&#x5F0F;&#x3002;</p>
-<h5 id="5for&#x5FAA;&#x73AF;">5.for&#x5FAA;&#x73AF;</h5>
-<p>dev.sh&#xFF1A;</p>
-<pre><code class="lang-sh"><span class="hljs-meta">#! /bin/sh</span>
-<span class="hljs-keyword">for</span> (( i = 0;i &lt; 5;i++ )); <span class="hljs-keyword">do</span>
-  <span class="hljs-built_in">echo</span> <span class="hljs-variable">$i</span>
-<span class="hljs-keyword">done</span>
+                                <h3 id="1-&#x4EC0;&#x4E48;&#x662F;-reconciler">1. &#x4EC0;&#x4E48;&#x662F; reconciler</h3>
+<h3 id="2-reconciler&#x5B9E;&#x73B0;mini-redner">2. reconciler&#x5B9E;&#x73B0;mini-redner</h3>
+<h3 id="3&#x5EF6;&#x4F38;&#xFF1A;">3.&#x5EF6;&#x4F38;&#xFF1A;</h3>
+<ul>
+<li>&#x670D;&#x52A1;&#x7AEF;render</li>
+<li>&#x624B;&#x673A;&#x7AEF;render</li>
+<li>&#x5C0F;&#x7A0B;&#x5E8F;render&#xFF08;&#x4E7E;&#x5764;&#xFF09;</li>
+<li>webpack jsx</li>
+</ul>
 
-<span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> 1 2 3 4 5; <span class="hljs-keyword">do</span>
-  <span class="hljs-built_in">echo</span> <span class="hljs-variable">$j</span>
-<span class="hljs-keyword">done</span>
-</code></pre>
-<p>&#x4E24;&#x79CD;&#x5199;&#x6CD5;&#x90FD;&#x884C;&#xFF0C;&#x9002;&#x7528;&#x4E8E;&#x4E0D;&#x540C;&#x7684;&#x60C5;&#x51B5;&#x3002;</p>
-<h5 id="6while&#x5FAA;&#x73AF;">6.while&#x5FAA;&#x73AF;</h5>
-<p>dev.sh&#xFF1A;</p>
-<pre><code class="lang-sh"><span class="hljs-meta">#! /bin/sh</span>
-i=1
-<span class="hljs-keyword">while</span> [ <span class="hljs-variable">$i</span> -le 3 ]; <span class="hljs-keyword">do</span>
-  <span class="hljs-built_in">echo</span> <span class="hljs-variable">$i</span>
-  i=`expr <span class="hljs-variable">$i</span> + 1`
-<span class="hljs-keyword">done</span>
-</code></pre>
-<p>&#x8F93;&#x51FA;&#xFF1A;</p>
-<p>1
-2
-3</p>
-<p>&#x8FD9;&#x91CC;&#x5F97;&#x6CE8;&#x610F;&#xFF1A;<code>[ $i -le 3]</code>&#x7B49;&#x4EF7;&#x4E8E;<code>(( $i &lt;= 3 ))</code>&#x3002;</p>
-<h5 id="7case&#x8BED;&#x53E5;">7.case&#x8BED;&#x53E5;</h5>
-<p>dev.sh&#xFF1A;</p>
-<pre><code class="lang-sh"><span class="hljs-meta">#! /bin/sh</span>
-<span class="hljs-keyword">case</span> <span class="hljs-variable">$1</span> <span class="hljs-keyword">in</span>
-  <span class="hljs-string">&quot;a&quot;</span>) <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;this is a&quot;</span>;;
-  <span class="hljs-string">&quot;b&quot;</span>) <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;this is b&quot;</span>;;
-  <span class="hljs-string">&quot;c&quot;</span>) <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;this is c&quot;</span>;;
-  *) <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;i do not konw&quot;</span>;;
-<span class="hljs-keyword">esac</span>
-</code></pre>
-<p>case&#x8BED;&#x53E5;&#x76F8;&#x5F53;&#x4E8E;&#x5176;&#x4ED6;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x7684;switch case&#xFF0C;&#x5B83;&#x4EE5;<code>esac</code>&#x4F5C;&#x4E3A;&#x95ED;&#x5408;&#x7ED3;&#x5C3E;&#xFF0C;&#x6BCF;&#x4E00;&#x4E2A;case&#x7684;&#x90FD;&#x9700;&#x8981;&#x7528;<code>)</code>&#x5305;&#x88F9;&#xFF0C;<code>*)</code>&#x76F8;&#x5F53;&#x4E8E;default&#xFF0C;command&#x8C03;&#x7528;&#x7ED3;&#x675F;&#x540E;&#x6709;&#x4E24;&#x4E2A;<code>;;</code>&#xFF0C;&#x7F3A;&#x4E00;&#x4E0D;&#x53EF;&#x3002;</p>
-<h5 id="8debug">8.debug</h5>
-<p>dev.sh&#xFF1A;</p>
-<pre><code class="lang-sh"><span class="hljs-meta">#! /bin/sh</span>
-total=`expr <span class="hljs-variable">$1</span> + <span class="hljs-variable">$2</span>`
-<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;total: <span class="hljs-variable">$total</span>&quot;</span>
-</code></pre>
-<p>-x &#x8C03;&#x8BD5;&#xFF1A;</p>
-<pre><code class="lang-sh">sh -x dev.sh 1 2
-</code></pre>
-<p>&#x8F93;&#x51FA;&#xFF1A;</p>
-<pre><code class="lang-sh">++ expr 1 + 2
-+ total=3
-+ <span class="hljs-built_in">echo</span> <span class="hljs-string">&apos;total: 3&apos;</span>
-total: 3
-</code></pre>
-<p>-v &#x8C03;&#x8BD5;&#xFF1A;</p>
-<pre><code class="lang-sh">sh -v dev.sh 1 2
-</code></pre>
-<p>&#x8F93;&#x51FA;&#xFF1A;</p>
-<pre><code class="lang-sh"><span class="hljs-meta">#! /bin/sh</span>
-total=`expr <span class="hljs-variable">$1</span> + <span class="hljs-variable">$2</span>`
-expr <span class="hljs-variable">$1</span> + <span class="hljs-variable">$2</span>
-<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;total: <span class="hljs-variable">$total</span>&quot;</span>
-total: 3
-</code></pre>
-<p>&#x4E0D;&#x96BE;&#x770B;&#x51FA;&#xFF0C;-x&#x8C03;&#x8BD5;&#x53EF;&#x4EE5;&#x6253;&#x5370;&#x8F93;&#x5165;&#x53D8;&#x91CF;&#xFF0C;-v&#x8FB9;&#x6267;&#x884C;&#x811A;&#x672C;&#x8FB9;&#x8FDB;&#x884C;&#x8F93;&#x51FA;&#xFF0C;&#x8FD8;&#x6709;-n&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x68C0;&#x67E5;&#x8BED;&#x6CD5;&#x9519;&#x8BEF;&#x3002;</p>
-<h5 id="9function">9.function</h5>
-<p>dev.sh&#xFF1A;</p>
-<pre><code class="lang-sh"><span class="hljs-meta">#! /bin/sh</span>
-<span class="hljs-function"><span class="hljs-title">hello</span></span>()
-{
-  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;hello: <span class="hljs-variable">$1</span>&quot;</span>
-}
-
-hello <span class="hljs-variable">$1</span>
-</code></pre>
-<p>&#x8C03;&#x7528;&#xFF1A;</p>
-<pre><code class="lang-sh">dev.sh Mr.fly
-</code></pre>
-<p>&#x8F93;&#x51FA;&#xFF1A;</p>
-<p>hello: Mr.fly</p>
-<h5 id="10sed&#x6587;&#x4EF6;">10.sed&#x6587;&#x4EF6;</h5>
-<p>data.md&#xFF1A;</p>
-<pre><code class="lang-sh">this is a document
-</code></pre>
-<p>&#x8C03;&#x7528;&#xFF1A;</p>
-<pre><code class="lang-sh">sed <span class="hljs-string">&apos;&apos;</span> data.md &gt; newdata.md
-</code></pre>
-<p>&#x67E5;&#x770B;newdata&#xFF1A;</p>
-<p>this is a document</p>
-<p><code>sed {expression} {file}</code>&#x53EF;&#x4EE5;&#x5229;&#x7528;&#x4E00;&#x4E2A;&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x5728;&#x4E0D;&#x6253;&#x5F00;&#x6587;&#x4EF6;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x7F16;&#x8F91;&#x6587;&#x4EF6;&#x3002;&#x4E0A;&#x8FF0;Shell&#x5C31;&#x662F;&#x5229;&#x7528;sed&#x8BFB;&#x53D6;data.md&#x4E2D;&#x7684;&#x5185;&#x5BB9;&#x540E;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x6587;&#x4EF6;newdata.md&#xFF0C;&#x5E76;&#x5C06;&#x5185;&#x5BB9;&#x8F93;&#x5165;&#x8FDB;&#x53BB;&#x3002;&#x5F53;&#x7136;&#x8FD9;&#x91CC;&#x8FD8;&#x53EF;&#x4EE5;&#x7528;&#x6B63;&#x5219;&#x53BB;&#x5339;&#x914D;&#x6267;&#x884C;&#xFF0C;&#x5982;&#x5C06;&#x91CC;&#x9762;&#x7684;&#x6240;&#x6709;&#x5C0F;&#x5199;&#x5B57;&#x6BCD;&#x5168;&#x90E8;&#x66FF;&#x6362;&#x4E3A;<code>-</code>:</p>
-<pre><code class="lang-sh">sed <span class="hljs-string">&apos;/[a-z]/s//-/g&apos;</span> data.md &gt; newdata.md
-</code></pre>
-<p>&#x67E5;&#x770B;newdata&#xFF1A;</p>
-<p><code>---- -- - --------</code></p>
-<h5 id="11wc&#x7EDF;&#x8BA1;">11.wc&#x7EDF;&#x8BA1;</h5>
-<pre><code class="lang-sh">wc dev.sh
-</code></pre>
-<p>&#x8F93;&#x51FA;&#xFF1A;</p>
-<p>45     169     992 dev.sh</p>
-<p>&#x5206;&#x522B;&#x662F;: &#x884C;&#x6570;(-l) &#x5B57;&#x6570;(-w) &#x5B57;&#x8282;&#x6570;(-c)</p>
-<h5 id="12posix&#x7684;&#x7ED3;&#x675F;&#x72B6;&#x6001;">12.POSIX&#x7684;&#x7ED3;&#x675F;&#x72B6;&#x6001;</h5>
-<p>&#x901A;&#x5E38;&#x4E00;&#x4E2A;shell&#x547D;&#x4EE4;&#x7ED3;&#x675F;&#x540E;&#x4F1A;&#x6709;&#x4E00;&#x4E2A;&#x8FD4;&#x56DE;&#x503C;&#xFF0C;&#x7528;<code>$?</code>&#x8BBF;&#x95EE;&#xFF0C;&#x6539;&#x503C;&#x6709;&#x4EE5;&#x4E0B;&#x51E0;&#x79CD;&#x60C5;&#x51B5;:</p>
-<table>
-<thead>
-<tr>
-<th>&#x503C;</th>
-<th>&#x542B;&#x4E49;</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>0</code></td>
-<td>&#x547D;&#x4EE4;&#x6B63;&#x5E38;&#x9000;&#x51FA;</td>
-</tr>
-<tr>
-<td><code>1-125</code></td>
-<td>&#x547D;&#x4EE4;&#x4E3A;&#x6B63;&#x5E38;&#x9000;&#x51FA;&#xFF0C;&#x5177;&#x4F53;&#x7684;&#x503C;&#x662F;&#x7531;&#x5BF9;&#x5E94;&#x7684;&#x7A0B;&#x5E8F;&#x81EA;&#x5B9A;&#x4E49;&#x8FD4;&#x56DE;</td>
-</tr>
-<tr>
-<td><code>126</code></td>
-<td>&#x547D;&#x4EE4;&#x627E;&#x5230;&#x4E86;&#xFF0C;&#x4F46;&#x65E0;&#x6CD5;&#x6267;&#x884C;</td>
-</tr>
-<tr>
-<td><code>127</code></td>
-<td>&#x547D;&#x4EE4;&#x627E;&#x4E0D;&#x5230;</td>
-</tr>
-<tr>
-<td><code>&gt;128</code></td>
-<td>&#x547D;&#x4EE4;&#x56E0;&#x6536;&#x5230;&#x4FE1;&#x53F7;&#x800C;&#x6B7B;&#x4EA1;</td>
-</tr>
-</tbody>
-</table>
-<h5 id="12test&#x547D;&#x4EE4;">12.test&#x547D;&#x4EE4;</h5>
-<p>&#x5199;shell&#x65F6;&#x5E38;&#x5E38;&#x4F1A;&#x7528;&#x5230;&#x5224;&#x65AD;&#xFF0C;&#x4EE5;<code>[]</code>&#x4E3A;&#x4F8B;&#x5B50;&#xFF0C;&#x6709;&#x65F6;&#x4F1A;&#x7528;&#x5230;&#x4E24;&#x5BF9;&#xFF0C;&#x6709;&#x65F6;&#x53EA;&#x7528;&#x5230;&#x4E00;&#x5BF9;&#xFF0C;&#x5176;&#x5B9E;&#x4E00;&#x5BF9;<code>[]</code>&#x65F6;&#x91CC;&#x9762;&#x5FC5;&#x5B9A;&#x5185;&#x542B;&#x4E86;test&#x5224;&#x65AD;&#xFF0C;test&#x5224;&#x65AD;&#x8BED;&#x6CD5;&#x5982;&#x4E0B;&#xFF1A;</p>
-<p><code>test [expression]</code> &#x6216; <code>[[ expression ]]</code></p>
-<h5 id="13find">13.find</h5>
-<p>&#x5BFB;&#x627E;html&#x6587;&#x4EF6;&#xFF1A;</p>
-<pre><code>find . -name &apos;*.html&apos;
-</code></pre><p>&#x5BFB;&#x627E;project&#x6587;&#x4EF6;&#x5939;&#xFF1A;</p>
-<pre><code>find project -type d
-</code></pre>
                                 
                                 </section>
                             
@@ -1021,6 +844,14 @@ hello <span class="hljs-variable">$1</span>
 
             
                 
+                <a href="api.html" class="navigation navigation-prev " aria-label="Previous page: 核心API">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="hook.html" class="navigation navigation-next " aria-label="Next page: Hook">
+                    <i class="fa fa-angle-right"></i>
+                </a>
                 
             
         
@@ -1029,7 +860,7 @@ hello <span class="hljs-variable">$1</span>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"shell入门","level":"1.1.13.1","depth":3,"next":{"title":"Vim","level":"1.1.14","depth":2,"ref":"","articles":[{"title":"初级篇","level":"1.1.14.1","depth":3,"path":"Vim/Vim使用总结-初级篇.md","ref":"Vim/Vim使用总结-初级篇.md","articles":[]},{"title":"中级篇","level":"1.1.14.2","depth":3,"path":"Vim/Vim使用总结-中级篇.md","ref":"Vim/Vim使用总结-中级篇.md","articles":[]}]},"previous":{"title":"Shell","level":"1.1.13","depth":2,"ref":"","articles":[{"title":"shell入门","level":"1.1.13.1","depth":3,"path":"Shell/shell入门.md","ref":"Shell/shell入门.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Shell/shell入门.md","mtime":"2021-01-25T15:39:23.579Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-01-27T14:01:12.907Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Reconciler","level":"1.1.4.2","depth":3,"next":{"title":"Hook","level":"1.1.4.3","depth":3,"path":"React/hook.md","ref":"React/hook.md","articles":[]},"previous":{"title":"核心API","level":"1.1.4.1","depth":3,"path":"React/api.md","ref":"React/api.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"React/reconciler.md","mtime":"2021-01-25T15:39:23.578Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-01-27T14:01:12.907Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

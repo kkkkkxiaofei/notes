@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>shell入门 · GitBook</title>
+        <title>函数式接口 · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -601,9 +601,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="1.1.13.1" data-path="shell入门.html">
+        <li class="chapter " data-level="1.1.13.1" data-path="../Shell/shell入门.html">
             
-                <a href="shell入门.html">
+                <a href="../Shell/shell入门.html">
             
                     
                     shell入门
@@ -736,9 +736,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.1.16.1" data-path="../Java8/function-interface.html">
+        <li class="chapter active" data-level="1.1.16.1" data-path="function-interface.html">
             
-                <a href="../Java8/function-interface.html">
+                <a href="function-interface.html">
             
                     
                     函数式接口
@@ -789,7 +789,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >shell入门</a>
+        <a href=".." >函数式接口</a>
     </h1>
 </div>
 
@@ -804,197 +804,146 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h5 id="1shell&#x7684;&#x7B2C;&#x4E00;&#x884C;">1.Shell&#x7684;&#x7B2C;&#x4E00;&#x884C;#!</h5>
-<p>dev.sh&#xFF1A;</p>
-<pre><code class="lang-sh"><span class="hljs-meta">#! /bin/sh</span>
-who
-</code></pre>
-<p><code>#! /bin/sh</code>&#x8868;&#x793A;&#x5229;&#x7528;/bin/sh&#x4F5C;&#x4E3A;&#x5F53;&#x524D;&#x7684;Shell&#xFF0C;&#x5F53;&#x4E0D;&#x5199;&#x7B2C;&#x4E00;&#x884C;&#x65F6;&#xFF0C;&#x7CFB;&#x7EDF;&#x5C06;&#x9ED8;&#x8BA4;&#x4F7F;&#x7528; /bin/sh</p>
-<h5 id="2&#x4F20;&#x9012;&#x63A5;&#x6536;&#x53C2;&#x6570;">2.&#x4F20;&#x9012;/&#x63A5;&#x6536;&#x53C2;&#x6570;</h5>
-<p>dev.sh&#xFF1A;</p>
-<pre><code class="lang-sh"><span class="hljs-meta">#! /bin/sh</span>
-<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">${1}</span> <span class="hljs-variable">${2}</span> <span class="hljs-variable">${3}</span>&quot;</span>
-</code></pre>
-<p>&#x8C03;&#x7528;&#xFF1A;</p>
-<pre><code class="lang-sh">dev.sh a b c
-</code></pre>
-<p>&#x8F93;&#x51FA;&#xFF1A;</p>
-<p>a b c</p>
-<p><code>${num}</code>&#x8868;&#x793A;&#x7B2C;&#x51E0;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;num&#x4ECE;1&#x5F00;&#x59CB;&#xFF0C;num&#x4E3A;0&#x65F6;&#x8868;&#x793A;Shell&#x811A;&#x672C;&#x540D;&#x3002;</p>
-<h5 id="3&#x5E38;&#x7528;&#x7CFB;&#x7EDF;&#x7EA7;&#x53D8;&#x91CF;">3.&#x5E38;&#x7528;&#x7CFB;&#x7EDF;&#x7EA7;&#x53D8;&#x91CF;</h5>
-<table>
-<thead>
-<tr>
-<th>&#x53D8;&#x91CF;</th>
-<th>&#x542B;&#x4E49;</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>$#</code></td>
-<td>&#x53C2;&#x6570;&#x4E2A;&#x6570;</td>
-</tr>
-<tr>
-<td><code>$*</code>,<code>$@</code></td>
-<td>&#x5168;&#x90E8;&#x53C2;&#x6570;</td>
-</tr>
-<tr>
-<td><code>$?</code></td>
-<td>&#x547D;&#x4EE4;&#x884C;&#x8FD4;&#x56DE;&#x503C;&#xFF08;&#x6B63;&#x5E38;0&#xFF0C;&#x5F02;&#x5E38;&#x975E;0)</td>
-</tr>
-</tbody>
-</table>
-<h5 id="4if&#x6761;&#x4EF6;&#x8BED;&#x53E5;">4.if&#x6761;&#x4EF6;&#x8BED;&#x53E5;</h5>
-<p>dev.sh&#xFF1A;</p>
-<pre><code class="lang-sh"><span class="hljs-meta">#! /bin/sh</span>
-<span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$1</span> &gt; 0 ]]; <span class="hljs-keyword">then</span>
-  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;greater than 0&quot;</span>
-<span class="hljs-keyword">elif</span> [[ <span class="hljs-variable">$1</span> &lt; 0 ]]; <span class="hljs-keyword">then</span>
-  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;less than 0&quot;</span>
-<span class="hljs-keyword">else</span>
-  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;equal to 0&quot;</span>
-<span class="hljs-keyword">fi</span>
-</code></pre>
-<p><code>elif</code>&#x4EE3;&#x8868;elseif&#xFF0C;<code>if</code>&#x5FC5;&#x987B;&#x8981;&#x4EE5;<code>fi</code>&#x8FDB;&#x884C;&#x7ED3;&#x5C3E;&#x95ED;&#x5408;&#x3002;&#x5176;&#x4E2D;<code>[]</code>&#x4E5F;&#x53EF;&#x4EE5;&#x7528;<code>()</code>&#x4EE3;&#x66FF;&#xFF0C;&#x4F46;&#x5FC5;&#x987B;&#x90FD;&#x6709;&#x4E24;&#x5BF9;&#x624D;&#x80FD;&#x5F62;&#x6210;&#x6761;&#x4EF6;&#x5224;&#x65AD;&#x8868;&#x8FBE;&#x5F0F;&#x3002;</p>
-<h5 id="5for&#x5FAA;&#x73AF;">5.for&#x5FAA;&#x73AF;</h5>
-<p>dev.sh&#xFF1A;</p>
-<pre><code class="lang-sh"><span class="hljs-meta">#! /bin/sh</span>
-<span class="hljs-keyword">for</span> (( i = 0;i &lt; 5;i++ )); <span class="hljs-keyword">do</span>
-  <span class="hljs-built_in">echo</span> <span class="hljs-variable">$i</span>
-<span class="hljs-keyword">done</span>
-
-<span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> 1 2 3 4 5; <span class="hljs-keyword">do</span>
-  <span class="hljs-built_in">echo</span> <span class="hljs-variable">$j</span>
-<span class="hljs-keyword">done</span>
-</code></pre>
-<p>&#x4E24;&#x79CD;&#x5199;&#x6CD5;&#x90FD;&#x884C;&#xFF0C;&#x9002;&#x7528;&#x4E8E;&#x4E0D;&#x540C;&#x7684;&#x60C5;&#x51B5;&#x3002;</p>
-<h5 id="6while&#x5FAA;&#x73AF;">6.while&#x5FAA;&#x73AF;</h5>
-<p>dev.sh&#xFF1A;</p>
-<pre><code class="lang-sh"><span class="hljs-meta">#! /bin/sh</span>
-i=1
-<span class="hljs-keyword">while</span> [ <span class="hljs-variable">$i</span> -le 3 ]; <span class="hljs-keyword">do</span>
-  <span class="hljs-built_in">echo</span> <span class="hljs-variable">$i</span>
-  i=`expr <span class="hljs-variable">$i</span> + 1`
-<span class="hljs-keyword">done</span>
-</code></pre>
-<p>&#x8F93;&#x51FA;&#xFF1A;</p>
-<p>1
-2
-3</p>
-<p>&#x8FD9;&#x91CC;&#x5F97;&#x6CE8;&#x610F;&#xFF1A;<code>[ $i -le 3]</code>&#x7B49;&#x4EF7;&#x4E8E;<code>(( $i &lt;= 3 ))</code>&#x3002;</p>
-<h5 id="7case&#x8BED;&#x53E5;">7.case&#x8BED;&#x53E5;</h5>
-<p>dev.sh&#xFF1A;</p>
-<pre><code class="lang-sh"><span class="hljs-meta">#! /bin/sh</span>
-<span class="hljs-keyword">case</span> <span class="hljs-variable">$1</span> <span class="hljs-keyword">in</span>
-  <span class="hljs-string">&quot;a&quot;</span>) <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;this is a&quot;</span>;;
-  <span class="hljs-string">&quot;b&quot;</span>) <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;this is b&quot;</span>;;
-  <span class="hljs-string">&quot;c&quot;</span>) <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;this is c&quot;</span>;;
-  *) <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;i do not konw&quot;</span>;;
-<span class="hljs-keyword">esac</span>
-</code></pre>
-<p>case&#x8BED;&#x53E5;&#x76F8;&#x5F53;&#x4E8E;&#x5176;&#x4ED6;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x7684;switch case&#xFF0C;&#x5B83;&#x4EE5;<code>esac</code>&#x4F5C;&#x4E3A;&#x95ED;&#x5408;&#x7ED3;&#x5C3E;&#xFF0C;&#x6BCF;&#x4E00;&#x4E2A;case&#x7684;&#x90FD;&#x9700;&#x8981;&#x7528;<code>)</code>&#x5305;&#x88F9;&#xFF0C;<code>*)</code>&#x76F8;&#x5F53;&#x4E8E;default&#xFF0C;command&#x8C03;&#x7528;&#x7ED3;&#x675F;&#x540E;&#x6709;&#x4E24;&#x4E2A;<code>;;</code>&#xFF0C;&#x7F3A;&#x4E00;&#x4E0D;&#x53EF;&#x3002;</p>
-<h5 id="8debug">8.debug</h5>
-<p>dev.sh&#xFF1A;</p>
-<pre><code class="lang-sh"><span class="hljs-meta">#! /bin/sh</span>
-total=`expr <span class="hljs-variable">$1</span> + <span class="hljs-variable">$2</span>`
-<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;total: <span class="hljs-variable">$total</span>&quot;</span>
-</code></pre>
-<p>-x &#x8C03;&#x8BD5;&#xFF1A;</p>
-<pre><code class="lang-sh">sh -x dev.sh 1 2
-</code></pre>
-<p>&#x8F93;&#x51FA;&#xFF1A;</p>
-<pre><code class="lang-sh">++ expr 1 + 2
-+ total=3
-+ <span class="hljs-built_in">echo</span> <span class="hljs-string">&apos;total: 3&apos;</span>
-total: 3
-</code></pre>
-<p>-v &#x8C03;&#x8BD5;&#xFF1A;</p>
-<pre><code class="lang-sh">sh -v dev.sh 1 2
-</code></pre>
-<p>&#x8F93;&#x51FA;&#xFF1A;</p>
-<pre><code class="lang-sh"><span class="hljs-meta">#! /bin/sh</span>
-total=`expr <span class="hljs-variable">$1</span> + <span class="hljs-variable">$2</span>`
-expr <span class="hljs-variable">$1</span> + <span class="hljs-variable">$2</span>
-<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;total: <span class="hljs-variable">$total</span>&quot;</span>
-total: 3
-</code></pre>
-<p>&#x4E0D;&#x96BE;&#x770B;&#x51FA;&#xFF0C;-x&#x8C03;&#x8BD5;&#x53EF;&#x4EE5;&#x6253;&#x5370;&#x8F93;&#x5165;&#x53D8;&#x91CF;&#xFF0C;-v&#x8FB9;&#x6267;&#x884C;&#x811A;&#x672C;&#x8FB9;&#x8FDB;&#x884C;&#x8F93;&#x51FA;&#xFF0C;&#x8FD8;&#x6709;-n&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x68C0;&#x67E5;&#x8BED;&#x6CD5;&#x9519;&#x8BEF;&#x3002;</p>
-<h5 id="9function">9.function</h5>
-<p>dev.sh&#xFF1A;</p>
-<pre><code class="lang-sh"><span class="hljs-meta">#! /bin/sh</span>
-<span class="hljs-function"><span class="hljs-title">hello</span></span>()
-{
-  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;hello: <span class="hljs-variable">$1</span>&quot;</span>
+                                <h5 id="&#x9700;&#x6C42;">&#x9700;&#x6C42;</h5>
+<p>C&#x56E2;&#x961F;&#x662F;&#x4E00;&#x4E2A;&#x654F;&#x6377;&#x5F00;&#x53D1;&#x56E2;&#x961F;&#xFF0C;&#x5B83;&#x4EEC;&#x7684;&#x4EA7;&#x54C1;&#x6BCF;&#x5929;&#x90FD;&#x4F1A;&#x8FDB;&#x884C;&#x51E0;&#x5341;&#x6B21;&#x7684;&#x5C0F;&#x7248;&#x672C;&#x53D1;&#x5E03;&#xFF0C;&#x5982;&#x6B64;&#x9891;&#x7E41;&#x7684;&#x6301;&#x7EED;&#x96C6;&#x6210;&#x5FC5;&#x987B;&#x6709;&#x826F;&#x597D;&#x7684;&#x4EE3;&#x7801;&#x4F5C;&#x4E3A;&#x4FDD;&#x8BC1;&#x3002;&#x4E3A;&#x6B64;&#xFF0C;PM&#x5728;CI&#x4E2D;&#x7684;&#x6784;&#x5EFA;&#x4EFB;&#x52A1;&#x4E2D;&#x8BBE;&#x5B9A;&#x4E86;&#x201C;&#x95E8;&#x69DB;&#x201D;&#xFF0C;&#x6240;&#x6709;&#x90E8;&#x7F72;&#x5FC5;&#x987B;&#x8FDB;&#x884C;<code>Sonar</code>&#x4EE3;&#x7801;&#x626B;&#x63CF;&#xFF0C;&#x6EE1;&#x8DB3;&#x4E00;&#x5B9A;&#x7684;&#x9600;&#x503C;&#x624D;&#x53EF;&#x4EE5;&#x8FDB;&#x884C;&#x6B63;&#x5E38;&#x53D1;&#x5E03;&#xFF0C;&#x4EE5;&#x6B64;&#x4FDD;&#x8BC1;&#x4EA7;&#x54C1;&#x8D28;&#x91CF;&#x3002;&#x5177;&#x4F53;&#x6307;&#x6807;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>1.&#x5DE5;&#x7A0B;&#x7684;&#x6D4B;&#x8BD5;&#x8986;&#x76D6;&#x7387;&#x5FC5;&#x987B;&#x5927;&#x4E8E;90%</p>
+<h5 id="&#x5206;&#x6790;">&#x5206;&#x6790;</h5>
+<p>&#x83B7;&#x53D6;&#x6240;&#x6709;&#x5DE5;&#x7A0B;&#xFF0C;&#x7B5B;&#x9009;&#x51FA;&#x6D4B;&#x8BD5;&#x8986;&#x76D6;&#x7387;&#x5927;&#x4E8E;90%&#x7684;&#x5DE5;&#x7A0B;&#xFF0C;&#x8FDB;&#x884C;&#x53D1;&#x5E03;&#xFF0C;so easy~</p>
+<h5 id="&#x5B9E;&#x73B0;">&#x5B9E;&#x73B0;</h5>
+<pre><code>    private static List&lt;Project&gt; getValidProjects(List&lt;Project&gt; projectList) {
+        List&lt;Project&gt; validProjects = new ArrayList&lt;&gt;();
+        for(Project project : projectList) {
+            if(project.getTestCoverage() &gt; 0.9) {
+                validProjects.add(project);
+            }
+        }
+        return validProjects;
+    }
+</code></pre><p>&#x4EE3;&#x7801;&#x5F88;&#x7B80;&#x5355;&#xFF0C;&#x8FD9;&#x662F;java8&#x4E4B;&#x524D;&#x7684;&#x5B9E;&#x73B0;&#x3002;&#x5F53;&#x7136;&#x4E86;&#xFF0C;&#x6211;&#x5F88;&#x8FD8;&#x53EF;&#x4EE5;&#x5C06;<code>project.getTestCoverage() &gt; 0.9</code>&#x62BD;&#x8C61;&#x6210;<code>project.isValid()</code>&#xFF0C;&#x8FD9;&#x4E0B;&#x770B;&#x8D77;&#x6765;&#x4F3C;&#x4E4E;&#x6CA1;&#x592A;&#x5927;&#x95EE;&#x9898;&#x4E86;&#x3002;</p>
+<p>&#x9700;&#x6C42;2&#x6765;&#x4E86;&#xFF0C;PM&#x7684;&#x89C4;&#x5B9A;&#x7684;&#x65B0;&#x6307;&#x6807;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>1.&#x5DE5;&#x7A0B;&#x7684;&#x6D4B;&#x8BD5;&#x8986;&#x76D6;&#x7387;&#x5FC5;&#x987B;&#x5927;&#x4E8E;90%
+2.code smell&#x6570;&#x4E0D;&#x80FD;&#x8D85;&#x8FC7;3&#x4E2A;</p>
+<p>&#x4F60;&#x5F88;&#x5FEB;&#x901F;&#x7684;&#x5728;<code>Project.java</code>&#x91CC;&#x62BD;&#x8C61;&#x51FA;&#x4E86;&#xFF1A;</p>
+<pre><code>public boolean isValid() {
+    return this.getTestCoverage() &gt; 0.9 &amp;&amp; this.getCodeSmellNum() &lt; 3;
 }
+</code></pre><p>&#x90E8;&#x7F72;&#x65F6;&#x8FD8;&#x65F6;&#x8001;&#x51FA;&#x73B0;&#x95EE;&#x9898;&#xFF0C;PM&#x518D;&#x6B21;&#x63D0;&#x9AD8;&#x8D28;&#x91CF;&#x95E8;&#x69DB;&#xFF0C;&#x6307;&#x6807;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p>1.&#x5DE5;&#x7A0B;&#x7684;&#x6D4B;&#x8BD5;&#x8986;&#x76D6;&#x7387;&#x5FC5;&#x987B;&#x5927;&#x4E8E;90%
+2.code smell&#x6570;&#x4E0D;&#x80FD;&#x8D85;&#x8FC7;3&#x4E2A;
+3.&#x626B;&#x63CF;&#x95EE;&#x9898;&#x6570;&#x4E0D;&#x8D85;&#x8FC7;3&#x4E2A;
+4.API&#x6D4B;&#x8BD5;&#x7528;&#x4F8B;&#x6570;&#x5927;&#x4E8E;10
+5.UI&#x6D4B;&#x8BD5;&#x7528;&#x4F8B;&#x6570;&#x5927;&#x4E8E;10
+...
+...
+...</p>
+<p>&#x6B64;&#x65F6;&#x4F60;&#x7684;&#x662F;&#x4E0D;&#x60F3;&#x628A;PM&#x5F04;&#x6B7B;&#xFF0C;&#x53EF;&#x4F60;&#x8FD8;&#x662F;&#x5728;&#x6B64;&#x57FA;&#x7840;&#x4E0A;&#x6DFB;&#x52A0;&#x4E86;N&#x591A;&#x5224;&#x65AD;&#x3002;</p>
+<p>Java8&#x6765;&#x5566;&#x3002;&#x3002;&#x3002;&#x3002;</p>
+<h5 id="predicate">Predicate</h5>
+<p>&#x4ED4;&#x7EC6;&#x5206;&#x6790;&#x73B0;&#x5728;&#x7684;&#x9700;&#x6C42;&#xFF0C;&#x5176;&#x5B9E;&#x60F3;&#x8981;&#x5B9E;&#x73B0;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#x201C;&#x67D0;&#x79CD;&#x884C;&#x4E3A;&#x201D;&#x7684;&#x7ED3;&#x679C;&#x6765;&#x5BFC;&#x5411;&#x6821;&#x9A8C;&#x7684;&#x96C6;&#x5408;&#xFF0C;&#x4E5F;&#x5C31;&#x8BF4;&#x4E0A;&#x9762;&#x7684;&#x65B9;&#x6CD5;&#x53C2;&#x6570;&#x5E94;&#x8BE5;&#x7C7B;&#x4F3C;&#xFF1A;</p>
+<pre><code>    private static List&lt;Project&gt; getValidProjects(List&lt;Project&gt; projectList, Validation validation) {
+        List&lt;Project&gt; validProjects = new ArrayList&lt;&gt;();
+        for(Project project : projectList) {
+            if(validation.test()) {
+                validProjects.add(project);
+            }
+        }
+        return validProjects;
+    }
+</code></pre><p>&#x5C06;&#x6240;&#x6709;&#x7684;&#x60C5;&#x51B5;&#x90FD;&#x7EDF;&#x4E00;&#x62BD;&#x8C61;&#x6210;Validation&#x63A5;&#x53E3;&#xFF0C;&#x63A5;&#x53E3;&#x4E2D;&#x7684;<code>test</code>&#x65B9;&#x6CD5;&#x8868;&#x793A;&#x6821;&#x9A8C;&#x7ED3;&#x679C;&#x3002;&#x5982;&#x679C;&#x8FD9;&#x6837;&#x505A;&#xFF0C;&#x5C31;&#x53D8;&#x6210;&#x4E86;&#x591A;&#x6001;&#xFF0C;&#x5F53;&#x7136;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#xFF0C;&#x4E0D;&#x8FC7;&#x5C31;&#x5F97;&#x8BBE;&#x8BA1;&#x7684;&#x6BD4;&#x8F83;&#x590D;&#x6742;&#xFF0C;&#x597D;&#x597D;&#x7684;&#x4E00;&#x4E2A;&#x7B5B;&#x9009;&#xFF0C;&#x786C;&#x8981;&#x5199;&#x4E2A;&#x63A5;&#x53E3;&#x5728;&#x5199;N&#x591A;&#x7C7B;&#x53BB;&#x5B9E;&#x73B0;&#xFF0C;&#x5C82;&#x4E0D;&#x662F;&#x5F88;&#x69FD;&#x7CD5;&#x3002;Java8&#x5728;&#x6B64;&#x57FA;&#x7840;&#x4E0A;&#x5E2E;&#x6211;&#x4EEC;&#x5B9E;&#x73B0;&#x4E86;&#x51FD;&#x6570;&#x63A5;&#x53E3;&#xFF0C;&#x53EF;&#x4EE5;&#x5C06;<code>validation</code>&#x770B;&#x4F5C;&#x662F;&#x4E00;&#x4E2A;&#x8FD8;&#x672A;&#x88AB;&#x6267;&#x884C;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x5BF9;&#x5E94;&#x7684;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x8FD9;&#x4E48;&#x5199;&#xFF1A;</p>
+<pre><code>  private static List&lt;Project&gt; getValidProjects(List&lt;Project&gt; projectList, Predicate&lt;Project&gt; p) {
+        List&lt;Project&gt; validProjects = new ArrayList&lt;&gt;();
 
-hello <span class="hljs-variable">$1</span>
-</code></pre>
-<p>&#x8C03;&#x7528;&#xFF1A;</p>
-<pre><code class="lang-sh">dev.sh Mr.fly
-</code></pre>
-<p>&#x8F93;&#x51FA;&#xFF1A;</p>
-<p>hello: Mr.fly</p>
-<h5 id="10sed&#x6587;&#x4EF6;">10.sed&#x6587;&#x4EF6;</h5>
-<p>data.md&#xFF1A;</p>
-<pre><code class="lang-sh">this is a document
-</code></pre>
-<p>&#x8C03;&#x7528;&#xFF1A;</p>
-<pre><code class="lang-sh">sed <span class="hljs-string">&apos;&apos;</span> data.md &gt; newdata.md
-</code></pre>
-<p>&#x67E5;&#x770B;newdata&#xFF1A;</p>
-<p>this is a document</p>
-<p><code>sed {expression} {file}</code>&#x53EF;&#x4EE5;&#x5229;&#x7528;&#x4E00;&#x4E2A;&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x5728;&#x4E0D;&#x6253;&#x5F00;&#x6587;&#x4EF6;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x7F16;&#x8F91;&#x6587;&#x4EF6;&#x3002;&#x4E0A;&#x8FF0;Shell&#x5C31;&#x662F;&#x5229;&#x7528;sed&#x8BFB;&#x53D6;data.md&#x4E2D;&#x7684;&#x5185;&#x5BB9;&#x540E;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x6587;&#x4EF6;newdata.md&#xFF0C;&#x5E76;&#x5C06;&#x5185;&#x5BB9;&#x8F93;&#x5165;&#x8FDB;&#x53BB;&#x3002;&#x5F53;&#x7136;&#x8FD9;&#x91CC;&#x8FD8;&#x53EF;&#x4EE5;&#x7528;&#x6B63;&#x5219;&#x53BB;&#x5339;&#x914D;&#x6267;&#x884C;&#xFF0C;&#x5982;&#x5C06;&#x91CC;&#x9762;&#x7684;&#x6240;&#x6709;&#x5C0F;&#x5199;&#x5B57;&#x6BCD;&#x5168;&#x90E8;&#x66FF;&#x6362;&#x4E3A;<code>-</code>:</p>
-<pre><code class="lang-sh">sed <span class="hljs-string">&apos;/[a-z]/s//-/g&apos;</span> data.md &gt; newdata.md
-</code></pre>
-<p>&#x67E5;&#x770B;newdata&#xFF1A;</p>
-<p><code>---- -- - --------</code></p>
-<h5 id="11wc&#x7EDF;&#x8BA1;">11.wc&#x7EDF;&#x8BA1;</h5>
-<pre><code class="lang-sh">wc dev.sh
-</code></pre>
-<p>&#x8F93;&#x51FA;&#xFF1A;</p>
-<p>45     169     992 dev.sh</p>
-<p>&#x5206;&#x522B;&#x662F;: &#x884C;&#x6570;(-l) &#x5B57;&#x6570;(-w) &#x5B57;&#x8282;&#x6570;(-c)</p>
-<h5 id="12posix&#x7684;&#x7ED3;&#x675F;&#x72B6;&#x6001;">12.POSIX&#x7684;&#x7ED3;&#x675F;&#x72B6;&#x6001;</h5>
-<p>&#x901A;&#x5E38;&#x4E00;&#x4E2A;shell&#x547D;&#x4EE4;&#x7ED3;&#x675F;&#x540E;&#x4F1A;&#x6709;&#x4E00;&#x4E2A;&#x8FD4;&#x56DE;&#x503C;&#xFF0C;&#x7528;<code>$?</code>&#x8BBF;&#x95EE;&#xFF0C;&#x6539;&#x503C;&#x6709;&#x4EE5;&#x4E0B;&#x51E0;&#x79CD;&#x60C5;&#x51B5;:</p>
+        for(Project project : projectList) {
+            if(p.test(project)) {
+                validProjects.add(project);
+            }
+        }
+        return validProjects;
+    }
+</code></pre><pre><code>  List&lt;Project&gt; validProjects = getValidProjects(projectList, project-&gt; project.getTestCoverage() &gt; 0.9);
+</code></pre><p>&#x5C06;<code>project-&gt; project.getTestCoverage() &gt; 0.9</code>&#x4F5C;&#x4E3A;&#x65B9;&#x6CD5;&#x53C2;&#x6570;&#x4F20;&#x9012;&#x770B;&#x8D77;&#x6765;&#x5F88;&#x9177;&#x5427;&#xFF0C;&#x5BF9;&#x5E94;&#x7684;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x805A;&#x5408;&#x4E0A;&#x9762;&#x7684;&#x591A;&#x79CD;<code>predicate</code>:</p>
+<pre><code>    Predicate&lt;Project&gt; testCoveragePredicate = project-&gt; project.getTestCoverage() &gt; 0.9;
+    Predicate&lt;Project&gt; codeSmellPredicate = project-&gt; project.getCodeSmellNum() &lt; 3;
+    Predicate&lt;Project&gt; issuePredicate = project-&gt; project.getIssueCount() &lt; 3;
+    Predicate&lt;Project&gt; apiPredicate = project-&gt; project.getApiCount() &gt; 10;
+    Predicate&lt;Project&gt; uiPredicate = project-&gt; project.getApiCount() &gt; 10;
+
+    Predicate&lt;Project&gt; projectPredicate = testCoveragePredicate
+            .and(codeSmellPredicate)
+            .and(codeSmellPredicate)
+            .and(issuePredicate)
+            .and(apiPredicate)
+            .and(uiPredicate);
+
+    List&lt;Project&gt; validProjects = getValidProjects(projectList, projectPredicate);
+</code></pre><p>&#x8FD9;&#x6837;&#x7684;&#x4EE3;&#x7801;&#xFF0C;&#x65E2;&#x7136;&#x6F02;&#x4EAE;&#xFF0C;&#x53C8;&#x8868;&#x610F;&#xFF0C;&#x800C;&#x4E14;&#x53EF;&#x7EF4;&#x62A4;&#x6027;&#x8FD8;&#x66F4;&#x9AD8;&#xFF0C;&#x5F88;&#x9177;&#x5427;&#x3002;&#x4E0D;&#x8FC7;&#x4E0D;&#x96BE;&#x770B;&#x51FA;&#xFF0C;<code>Predicate</code>&#x662F;<code>T-&gt;boolean</code>&#x7684;&#x5F62;&#x5F0F;&#xFF0C;&#x5982;&#x679C;&#x9700;&#x8981;&#x5176;&#x4ED6;&#x7C7B;&#x578B;&#x600E;&#x4E48;&#x529E;&#x5462;&#xFF1F;&#x8FD9;&#x91CC;&#x7B80;&#x5355;&#x4ECB;&#x7ECD;&#x5176;&#x4ED6;&#x4E24;&#x4E2A;&#x51FD;&#x6570;&#x63A5;&#x53E3;</p>
+<h5 id="consumer-and-function">Consumer and Function</h5>
+<p><code>Consumer</code>, <code>Function</code>&#x4E0E;<code>Predicate</code> &#x7C7B;&#x4F3C;&#x53EA;&#x4E0D;&#x8FC7;&#x524D;&#x8005;&#x662F;<code>T-&gt;void</code>&#x7684;&#x5F62;&#x5F0F;&#xFF0C;&#x800C;&#x540E;&#x8005;&#x662F;<code>T-&gt;R</code>&#x7684;&#x5F62;&#x5F0F;&#xFF0C;&#x5E76;&#x4E14;&#x5B9E;&#x73B0;&#x7684;&#x65B9;&#x6CD5;&#x7565;&#x6709;&#x4E0D;&#x540C;&#x3002;</p>
+<p>Demo for Consumer: </p>
+<pre><code>  private static void displyAllCodeSmell(List&lt;Project&gt; projectList, Consumer&lt;Project&gt; c) {
+       for(Project project : projectList) {
+           c.accept(project);
+       }
+  }
+</code></pre><pre><code>  displyAllCodeSmell(projectList, project -&gt; System.out.println(project.getCodeSmellNum()));
+</code></pre><p>Demo for Function:</p>
+<pre><code>  private static int calcAllIssueCount(List&lt;Project&gt; projectList, Function&lt;Project, Integer&gt; f) {
+        int sum = 0;
+        for(Project project : projectList) {
+            sum += f.apply(project);
+        }
+        return sum;
+  }
+</code></pre><pre><code>  calcAllIssueCount(projectList, project -&gt; project.getIssueCount());
+</code></pre><h5 id="&#x5176;&#x4ED6;&#x51FD;&#x6570;&#x63A5;&#x53E3;">&#x5176;&#x4ED6;&#x51FD;&#x6570;&#x63A5;&#x53E3;</h5>
+<p>&#x672C;&#x6587;&#x53EA;&#x80FD;&#x65E8;&#x5728;&#x4ECB;&#x7ECD;&#x51FD;&#x6570;&#x63A5;&#x53E3;&#x7684;&#x601D;&#x60F3;&#x548C;&#x7528;&#x6CD5;&#xFF0C;&#x5E76;&#x4E0D;&#x80FD;&#x4E00;&#x4E00;&#x4ECB;&#x7ECD;&#xFF0C;&#x5177;&#x4F53;&#x5217;&#x8868;&#x53C2;&#x8003;&#x5982;&#x4E0B;&#xFF1A;</p>
 <table>
 <thead>
 <tr>
-<th>&#x503C;</th>
-<th>&#x542B;&#x4E49;</th>
+<th>Function Interface</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>0</code></td>
-<td>&#x547D;&#x4EE4;&#x6B63;&#x5E38;&#x9000;&#x51FA;</td>
+<td>Predicate<t></t></td>
+<td>T-&gt;boolean</td>
 </tr>
 <tr>
-<td><code>1-125</code></td>
-<td>&#x547D;&#x4EE4;&#x4E3A;&#x6B63;&#x5E38;&#x9000;&#x51FA;&#xFF0C;&#x5177;&#x4F53;&#x7684;&#x503C;&#x662F;&#x7531;&#x5BF9;&#x5E94;&#x7684;&#x7A0B;&#x5E8F;&#x81EA;&#x5B9A;&#x4E49;&#x8FD4;&#x56DE;</td>
+<td>Consumer<t></t></td>
+<td>T-&gt;void</td>
 </tr>
 <tr>
-<td><code>126</code></td>
-<td>&#x547D;&#x4EE4;&#x627E;&#x5230;&#x4E86;&#xFF0C;&#x4F46;&#x65E0;&#x6CD5;&#x6267;&#x884C;</td>
+<td>Function<t></t></td>
+<td>T-&gt;R</td>
 </tr>
 <tr>
-<td><code>127</code></td>
-<td>&#x547D;&#x4EE4;&#x627E;&#x4E0D;&#x5230;</td>
+<td>Supplier<t></t></td>
+<td>()-&gt;T</td>
 </tr>
 <tr>
-<td><code>&gt;128</code></td>
-<td>&#x547D;&#x4EE4;&#x56E0;&#x6536;&#x5230;&#x4FE1;&#x53F7;&#x800C;&#x6B7B;&#x4EA1;</td>
+<td>UnaryOperator<t></t></td>
+<td>T-&gt;T</td>
+</tr>
+<tr>
+<td>BinaryOperator<t></t></td>
+<td>(T,T)-&gt;T</td>
+</tr>
+<tr>
+<td>BiPredicate<l,r></l,r></td>
+<td>(L,R)-&gt;boolean</td>
+</tr>
+<tr>
+<td>BiConsumer<t,u></t,u></td>
+<td>(T,U)-&gt;void</td>
+</tr>
+<tr>
+<td>BiFunction(T,U,R)</td>
+<td>(T,U)-&gt;R</td>
 </tr>
 </tbody>
 </table>
-<h5 id="12test&#x547D;&#x4EE4;">12.test&#x547D;&#x4EE4;</h5>
-<p>&#x5199;shell&#x65F6;&#x5E38;&#x5E38;&#x4F1A;&#x7528;&#x5230;&#x5224;&#x65AD;&#xFF0C;&#x4EE5;<code>[]</code>&#x4E3A;&#x4F8B;&#x5B50;&#xFF0C;&#x6709;&#x65F6;&#x4F1A;&#x7528;&#x5230;&#x4E24;&#x5BF9;&#xFF0C;&#x6709;&#x65F6;&#x53EA;&#x7528;&#x5230;&#x4E00;&#x5BF9;&#xFF0C;&#x5176;&#x5B9E;&#x4E00;&#x5BF9;<code>[]</code>&#x65F6;&#x91CC;&#x9762;&#x5FC5;&#x5B9A;&#x5185;&#x542B;&#x4E86;test&#x5224;&#x65AD;&#xFF0C;test&#x5224;&#x65AD;&#x8BED;&#x6CD5;&#x5982;&#x4E0B;&#xFF1A;</p>
-<p><code>test [expression]</code> &#x6216; <code>[[ expression ]]</code></p>
-<h5 id="13find">13.find</h5>
-<p>&#x5BFB;&#x627E;html&#x6587;&#x4EF6;&#xFF1A;</p>
-<pre><code>find . -name &apos;*.html&apos;
-</code></pre><p>&#x5BFB;&#x627E;project&#x6587;&#x4EF6;&#x5939;&#xFF1A;</p>
-<pre><code>find project -type d
-</code></pre>
+
                                 
                                 </section>
                             
@@ -1029,7 +978,7 @@ hello <span class="hljs-variable">$1</span>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"shell入门","level":"1.1.13.1","depth":3,"next":{"title":"Vim","level":"1.1.14","depth":2,"ref":"","articles":[{"title":"初级篇","level":"1.1.14.1","depth":3,"path":"Vim/Vim使用总结-初级篇.md","ref":"Vim/Vim使用总结-初级篇.md","articles":[]},{"title":"中级篇","level":"1.1.14.2","depth":3,"path":"Vim/Vim使用总结-中级篇.md","ref":"Vim/Vim使用总结-中级篇.md","articles":[]}]},"previous":{"title":"Shell","level":"1.1.13","depth":2,"ref":"","articles":[{"title":"shell入门","level":"1.1.13.1","depth":3,"path":"Shell/shell入门.md","ref":"Shell/shell入门.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Shell/shell入门.md","mtime":"2021-01-25T15:39:23.579Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-01-27T14:01:12.907Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"函数式接口","level":"1.1.16.1","depth":3,"previous":{"title":"Java8","level":"1.1.16","depth":2,"ref":"","articles":[{"title":"函数式接口","level":"1.1.16.1","depth":3,"path":"Java8/function-interface.md","ref":"Java8/function-interface.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Java8/function-interface.md","mtime":"2021-01-25T15:39:23.575Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-01-27T14:01:12.907Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

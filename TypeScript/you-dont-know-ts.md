@@ -57,7 +57,6 @@ function voidFn(): never {
 
 voidFn();
 ```
-
 这里预编译就会报错： `A function returning never could not have a reachable end point`;
 
 ### 2. d.ts 的最佳管理方式

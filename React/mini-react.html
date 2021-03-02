@@ -1,0 +1,1177 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>React最小实现 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="hook.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    程序员的自我修养
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.1" >
+            
+                <span>
+            
+                    
+                    ECMAScript
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.1.1" data-path="../ECMAScript/ES2016 and ES2017.html">
+            
+                <a href="../ECMAScript/ES2016 and ES2017.html">
+            
+                    
+                    ECMAScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.1.2" data-path="../ECMAScript/you-dont-know-javascript.html">
+            
+                <a href="../ECMAScript/you-dont-know-javascript.html">
+            
+                    
+                    你不知道的JavaScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.2" >
+            
+                <span>
+            
+                    
+                    Browser
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.2.1" data-path="../Browser/performance.html">
+            
+                <a href="../Browser/performance.html">
+            
+                    
+                    性能分析
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.3" >
+            
+                <span>
+            
+                    
+                    HTML/CSS
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.3.1" data-path="../HTML-CSS/you-dont-know-html-css.html">
+            
+                <a href="../HTML-CSS/you-dont-know-html-css.html">
+            
+                    
+                    你不知道的HTML/CSS
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.4" >
+            
+                <span>
+            
+                    
+                    React
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.4.1" data-path="api.html">
+            
+                <a href="api.html">
+            
+                    
+                    核心API
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.4.2" data-path="reconciler.html">
+            
+                <a href="reconciler.html">
+            
+                    
+                    Reconciler
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.4.3" data-path="hook.html">
+            
+                <a href="hook.html">
+            
+                    
+                    Hook
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.1.4.4" data-path="mini-react.html">
+            
+                <a href="mini-react.html">
+            
+                    
+                    React最小实现
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.5" >
+            
+                <span>
+            
+                    
+                    Redux
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.5.1" data-path="../redux/redux-source.html">
+            
+                <a href="../redux/redux-source.html">
+            
+                    
+                    redux源码解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.5.2" data-path="../redux/mini-redux.html">
+            
+                <a href="../redux/mini-redux.html">
+            
+                    
+                    redux的最小实现
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.5.3" data-path="../redux/react-redux-source.html">
+            
+                <a href="../redux/react-redux-source.html">
+            
+                    
+                    react-redux源码解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.5.4" data-path="../redux/mini-react-redux.html">
+            
+                <a href="../redux/mini-react-redux.html">
+            
+                    
+                    react-redux最小实现
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.6" >
+            
+                <span>
+            
+                    
+                    Webpack
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.6.1" data-path="../Webpack/bundler.html">
+            
+                <a href="../Webpack/bundler.html">
+            
+                    
+                    一个入门级别的前端打包工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.6.2" data-path="../Webpack/you-dont-know-webpack.html">
+            
+                <a href="../Webpack/you-dont-know-webpack.html">
+            
+                    
+                    你不知道的Webpack
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.7" >
+            
+                <span>
+            
+                    
+                    Babel
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.7.1" data-path="../Babel/you-dont-know-babel.html">
+            
+                <a href="../Babel/you-dont-know-babel.html">
+            
+                    
+                    你不知道的Babel
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.8" >
+            
+                <span>
+            
+                    
+                    TypeScript
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.8.1" data-path="../TypeScript/you-dont-know-ts.html">
+            
+                <a href="../TypeScript/you-dont-know-ts.html">
+            
+                    
+                    你不知道的TypeScript
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.9" >
+            
+                <span>
+            
+                    
+                    Algorithm
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.9.1" data-path="../Algorithm/basic.html">
+            
+                <a href="../Algorithm/basic.html">
+            
+                    
+                    基本算法复习
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.10" >
+            
+                <span>
+            
+                    
+                    HTTP
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.10.1" data-path="../HTTP/you-dont-know-http.html">
+            
+                <a href="../HTTP/you-dont-know-http.html">
+            
+                    
+                    你不知道的http
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.11" >
+            
+                <span>
+            
+                    
+                    Git
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.11.1" data-path="../Git/you-dont-know-git.html">
+            
+                <a href="../Git/you-dont-know-git.html">
+            
+                    
+                    你不知道的Git
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.12" >
+            
+                <span>
+            
+                    
+                    Linux
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.12.1" data-path="../Linux/常用命令总结.html">
+            
+                <a href="../Linux/常用命令总结.html">
+            
+                    
+                    常用命令总结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.13" >
+            
+                <span>
+            
+                    
+                    Shell
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.13.1" data-path="../Shell/shell入门.html">
+            
+                <a href="../Shell/shell入门.html">
+            
+                    
+                    shell入门
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.14" >
+            
+                <span>
+            
+                    
+                    Vim
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.14.1" data-path="../Vim/Vim使用总结-初级篇.html">
+            
+                <a href="../Vim/Vim使用总结-初级篇.html">
+            
+                    
+                    初级篇
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.14.2" data-path="../Vim/Vim使用总结-中级篇.html">
+            
+                <a href="../Vim/Vim使用总结-中级篇.html">
+            
+                    
+                    中级篇
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.15" >
+            
+                <span>
+            
+                    
+                    Spring Cloud
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.15.1" data-path="../Spring Cloud/Installation.html">
+            
+                <a href="../Spring Cloud/Installation.html">
+            
+                    
+                    Installation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.15.2" data-path="../Spring Cloud/Config.html">
+            
+                <a href="../Spring Cloud/Config.html">
+            
+                    
+                    Eureka Config
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.15.3" data-path="../Spring Cloud/Zuul.html">
+            
+                <a href="../Spring Cloud/Zuul.html">
+            
+                    
+                    Eureka Zuul
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.16" >
+            
+                <span>
+            
+                    
+                    Java8
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.16.1" data-path="../Java8/function-interface.html">
+            
+                <a href="../Java8/function-interface.html">
+            
+                    
+                    函数式接口
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >React最小实现</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <p><a href="https://github.com/kkkkkxiaofei/dummy-playground/tree/master/react" target="_blank">&#x6E90;&#x7801;</a></p>
+<h3 id="1-jsx">1. JSX</h3>
+<h4 id="11-jsx&#x7684;&#x7ED3;&#x6784;">1.1 JSX&#x7684;&#x7ED3;&#x6784;</h4>
+<p><code>Vitrual DOM</code>(vdom)&#x672C;&#x8D28;&#x4E0A;&#x5C31;&#x662F;<code>Plain Object</code>&#xFF0C;&#x4E3A;&#x4E86;&#x65B9;&#x4FBF;&#x7F16;&#x5199;&#x7ED3;&#x6784;&#x5316;&#x7684;<code>vdom</code>&#xFF0C;&#x4E8E;&#x662F;<code>JSX</code>&#x8BED;&#x6CD5;&#x8BDE;&#x751F;&#x3002;</p>
+<p>&#x4E00;&#x6BB5;&#x7B80;&#x5355;&#x7684;<code>jsx</code>&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code>const App = ({ name }) =&gt; &lt;div&gt;{name}&lt;/div&gt;
+
+&lt;div&gt;
+  &lt;App name=&apos;jsx test&apos; /&gt;
+&lt;/div&gt;
+</code></pre><p><code>vdom</code>&#x7684;&#x7EC8;&#x6001;&#xFF08;&#x4E2D;&#x95F4;&#x6001;&#x6682;&#x65F6;&#x5FFD;&#x7565;&#xFF09;&#x4E3A;&#xFF1A;</p>
+<pre><code>{
+  type: &apos;div&apos;,
+  children: [
+    {
+      type: &apos;div&apos;,
+      props: {
+        name: &apos;jsx test&apos;
+      }
+    }
+  ]
+}
+</code></pre><p><code>jsx</code>&#x7684;&#x89E3;&#x6790;&#x903B;&#x8F91;&#x6781;&#x5176;&#x7B80;&#x5355;&#xFF1A;&#x5F53;&#x9047;&#x5230;&#x4EFB;&#x610F;&#x95ED;&#x5408;&#x5C16;&#x62EC;&#x53F7;&#x65F6;&#xFF0C;&#x5C06;&#x5176;&#x8F6C;&#x5316;&#x4E3A;<code>createElement</code>&#x7684;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x3002;</p>
+<p>&#x4F8B;&#x5982;<code>&lt;div&gt;hello&lt;/div&gt;</code>&#x4F1A;&#x88AB;&#x8F6C;&#x5316;&#x4E3A;:</p>
+<pre><code>{
+  type: &apos;div&apos;,
+  children: [
+    &apos;hello&apos;
+  ]
+}
+</code></pre><p>&#x4F46;&#x6709;&#x4E00;&#x79CD;&#x60C5;&#x51B5;&#x6BD4;&#x8F83;&#x7279;&#x6B8A;&#xFF1A;</p>
+<pre><code>&lt;App name=&apos;jsx test&apos;&gt;
+  &lt;div&gt;hello&lt;/div&gt;
+&lt;/App&gt;
+</code></pre><p>&#x8F6C;&#x5316;&#x540E;&#x4E3A;&#xFF1A;</p>
+<pre><code>{
+  type: &apos;App&apos;, // constructor of App component
+  props: {
+    name: &apos;jsx test&apos;
+  },
+  children: [
+    {
+      type: &apos;div&apos;,
+      children: [
+        &apos;hello&apos;
+      ]
+    }
+  ]
+}
+</code></pre><p><code>type</code>&#x53D8;&#x6210;&#x4E86;<code>function</code>&#xFF0C;&#x8FD9;&#x4E2A;&#x7279;&#x6B8A;&#x4E4B;&#x5904;&#x5F88;&#x660E;&#x663E;&#xFF0C;&#x7A0D;&#x540E;&#x6211;&#x4EEC;&#x7EC6;&#x8BF4;&#x3002;</p>
+<h4 id="12-jsx&#x7684;&#x5B9E;&#x73B0;">1.2 JSX&#x7684;&#x5B9E;&#x73B0;</h4>
+<p>&#x5982;&#x679C;&#x4F60;&#x719F;&#x6089;<a href="http://flypursue.com/notes/Webpack/bundler.html" target="_blank">&#x524D;&#x7AEF;&#x6253;&#x5305;&#x5DE5;&#x5177;&#x7684;&#x539F;&#x7406;</a>&#x7684;&#x8BDD;&#xFF0C;&#x90A3;&#x4E48;&#x81EA;&#x7136;&#x5BF9;<code>AST</code>&#x4EE5;&#x53CA;<code>Babel Plugin</code>&#x4E0D;&#x964C;&#x751F;&#x3002;</p>
+<p><code>jsx</code>&#x5176;&#x5B9E;&#x5C31;&#x662F;&#x4E00;&#x4E2A;<code>babel plugin</code>&#xFF0C;&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x6CA1;&#x5FC5;&#x8981;&#x518D;&#x53BB;&#x9020;&#x8FD9;&#x4E2A;&#x8F6E;&#x5B50;&#xFF0C;&#x56E0;&#x4E3A;<code>react jsx</code>&#x5B98;&#x65B9;&#x7684;&#x63D2;&#x4EF6;&#x662F;&#x63D0;&#x4F9B;&#x522B;&#x540D;&#x529F;&#x80FD;&#x7684;&#xFF0C;&#x6BD4;&#x5982;&#x6211;&#x4EEC;&#x7684;<code>babel.rc</code>&#x914D;&#x7F6E;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code>{
+  ...
+  &quot;plugins&quot;: [
+    [&quot;transform-react-jsx&quot;, {&quot;pragma&quot;: &quot;DummyReact.createElement&quot;}]
+  ]
+  ...
+}
+</code></pre><p>&#x6B64;&#x914D;&#x7F6E;&#x8868;&#x660E;&#xFF0C;&#x5F53;&#x9047;&#x5230;&#x4EFB;&#x4F55;<code>jsx</code>&#x95ED;&#x5408;&#x6807;&#x7B7E;&#x65F6;&#xFF0C;&#x4F1A;&#x7F16;&#x8BD1;&#x4E3A;<code>DummyReact.createElement</code>&#x7684;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x3002;</p>
+<p>&#x8FD9;&#x5176;&#x5B9E;&#x4E5F;&#x89E3;&#x91CA;&#x4E86;&#x4E3A;&#x4EC0;&#x4E48;&#x4F60;&#x5199;&#x7684;&#x6BCF;&#x4E00;&#x4E2A;<code>react</code>&#x7EC4;&#x4EF6;&#x90FD;&#x9700;&#x8981;<code>import React from &apos;react&apos;</code>&#xFF0C;&#x4F46;&#x4ED4;&#x7EC6;&#x627E;&#x5374;&#x53D1;&#x73B0;&#x6CA1;&#x6709;&#x663E;&#x5F0F;&#x8C03;&#x7528;&#xFF0C;&#x5176;&#x5B9E;&#x5B83;&#x662F;&#x9700;&#x8981;&#x7ED3;&#x5408;<code>jsx</code>&#x63D2;&#x4EF6;&#x4F7F;&#x7528;&#x7684;&#x3002;</p>
+<p><code>jsx</code>&#x53EA;&#x8D1F;&#x8D23;&#x8BED;&#x6CD5;&#x8F6C;&#x5316;&#xFF0C;&#x6240;&#x4EE5;<code>DummyReact.createElement</code>&#x8FD8;&#x53EA;&#x662F;&#x4E00;&#x4E2A;&#x7B7E;&#x540D;&#xFF0C;&#x4EE3;&#x7801;&#x81EA;&#x7136;&#x8FD8;&#x9700;&#x8981;&#x6211;&#x4EEC;&#x81EA;&#x5DF1;&#x5B9E;&#x73B0;&#xFF1A;</p>
+<p><code>DummyReact.js</code></p>
+<pre><code>const createElement = (type, props, ...children) =&gt; ({ type, props, children })
+export { createElement }
+</code></pre><p>&#x81F3;&#x6B64;&#xFF0C;<code>jsx</code>&#x7684;&#x8F6C;&#x5316;&#x6211;&#x4EEC;&#x501F;&#x52A9;&#x5DF2;&#x6709;&#x7684;&#x63D2;&#x4EF6;&#x5DF2;&#x7ECF;&#x5B9E;&#x73B0;&#xFF0C;&#x8FD9;&#x4E00;&#x6B65;&#x8FD0;&#x884C;&#x540E;&#x7684;&#x7ED3;&#x679C;&#x5C31;&#x662F;<code>vdom</code>&#x3002;</p>
+<h3 id="2-vdom-to-dom">2. vdom to dom</h3>
+<p>&#x4F7F;&#x7528;<code>jsx</code>&#x521B;&#x5EFA;<code>vdom</code>&#xFF0C;&#x5C31;&#x662F;&#x56E0;&#x4E3A;<code>vdom</code>&#x662F;&#x7EAF;<code>js</code>&#x5BF9;&#x8C61;&#xFF0C;&#x7528;&#x63CF;&#x8FF0;&#x6027;&#x7684;&#x7ED3;&#x6784;&#x64CD;&#x4F5C;<code>vdom</code>&#x81EA;&#x7136;&#x65B9;&#x4FBF;&#x548C;&#x5FEB;&#x6377;&#xFF0C;&#x8FD9;&#x6837;&#x5C31;&#x907F;&#x514D;&#x4E86;&#x5927;&#x91CF;<code>real dom</code>&#x7684;&#x64CD;&#x4F5C;&#xFF08;&#x8FD9;&#x662F;&#x6781;&#x5176;&#x8017;&#x80FD;&#x7684;&#xFF09;&#x3002;</p>
+<p>&#x4F46;&#xFF0C;&#x6700;&#x7EC8;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x7684;&#x8FD8;&#x662F;&#x6D4F;&#x89C8;&#x5668;&#x624D;&#x80FD;&#x591F;&#x8BA4;&#x8BC6;&#x7684;dom&#x3002;</p>
+<blockquote>
+<p>ps: &#x5982;&#x679C;&#x53EA;&#x8BA8;&#x8BBA;&#x64CD;&#x4F5C;dom&#x8FD9;&#x4E00;&#x5C42;&#x9762;&#x7684;&#x8BDD;&#xFF0C;vdom&#x7EDD;&#x5BF9;&#x6027;&#x80FD;&#x6781;&#x4F73;&#xFF1B;&#x4F46;&#x5728;&#x505A;&#x4F8B;&#x5982;diff&#x7684;&#x64CD;&#x4F5C;&#x65F6;&#xFF0C;vdom&#x7531;&#x4E8E;&#x5C42;&#x7EA7;&#x8F83;&#x6DF1;&#xFF0C;&#x6240;&#x4EE5;&#x6BD4;&#x8F83;&#x8D77;&#x6765;&#x4E5F;&#x80AF;&#x5B9A;&#x76F8;&#x5F53;&#x8017;&#x65F6;&#xFF0C;&#x8FD9;&#x5C31;&#x4E0D;&#x4E00;&#x5B9A;&#x5B70;&#x597D;&#x5B70;&#x574F;&#x4E86;(&#x53D6;&#x51B3;&#x4E8E;&#x7B97;&#x6CD5;&#x55BD;)&#x3002;&#x6240;&#x4EE5;vdom&#x4E00;&#x5B9A;&#x6BD4;dom&#x9AD8;&#x6548;&#x5417;&#xFF0C;&#x6B64;&#x5904;&#x4FDD;&#x7559;&#x89C2;&#x70B9;&#x3002;</p>
+</blockquote>
+<h4 id="21-&#x4ECE;&#x4E00;&#x822C;vdom&#x7684;&#x5230;dom">2.1 &#x4ECE;&#x4E00;&#x822C;vdom&#x7684;&#x5230;dom</h4>
+<p>&#x901A;&#x8FC7;&#x89C2;&#x5BDF;&#x4E0D;&#x96BE;&#x53D1;&#x73B0;&#xFF0C;&#x4E00;&#x822C;&#x7684;<code>vdom</code>&#x6EE1;&#x8DB3;&#x4EE5;&#x4E0B;&#x6761;&#x4EF6;&#xFF1A;</p>
+<ul>
+<li>type&#x4E3A;jsx&#x6807;&#x7B7E;&#x540D;&#xFF0C;&#x4E14;&#x4E3A;&#x5B57;&#x7B26;&#x4E32;</li>
+<li>props&#x4E3A;&#x7B80;&#x5355;&#x5BF9;&#x8C61;</li>
+<li>children&#x4E3A;&#x4E00;&#x7EC4;element</li>
+</ul>
+<p>&#x7531;&#x4E8E;&#x6807;&#x7B7E;&#x540D;&#x662F;&#x5929;&#x7136;&#x7684;<code>html</code>&#x6807;&#x7B7E;&#xFF0C;&#x56E0;&#x6B64;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x521B;&#x5EFA;<code>dom</code>&#x8282;&#x70B9;(<code>document.createElement(type)</code>)&#x3002;<code>props</code>&#x643A;&#x5E26;&#x4E86;&#x5F53;&#x524D;<code>dom</code>&#x8282;&#x70B9;&#x4EE5;&#x53CA;&#x5176;&#x5B50;&#x5B59;&#x7684;&#x5C5E;&#x6027;&#xFF0C;&#x4E00;&#x822C;&#x60C5;&#x51B5;&#x4E0B;&#xFF08;&#x9664;&#x8FC7;&#x4E00;&#x4E9B;&#x7279;&#x6B8A;&#x7684;key&#x540D;&#xFF09;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;<code>setAttribute</code>&#x3002;children&#x5C31;&#x66F4;&#x52A0;&#x7B80;&#x5355;&#x4E86;&#xFF0C;&#x9012;&#x5F52;&#x662F;&#x5FC5;&#x987B;&#x7684;&#x4E86;&#x3002;</p>
+<p>&#x56E0;&#x6B64;&#xFF0C;&#x6211;&#x4EEC;&#x6709;&#x4E86;&#x4E00;&#x4E2A;&#x521D;&#x6B65;&#x5B9E;&#x73B0;&#xFF1A;</p>
+<pre><code>export const render = (vdom, parentNode) =&gt; {
+  const { type, props = {}, children } = vdom
+  let node;
+
+  if (isString(vdom) || isNumber(vdom)) {
+    node = document.createTextNode(vdom)
+  }
+
+  if (isArray(vdom)) {
+    vdom.forEach(_vdom =&gt; render(_vdom, parentNode))
+    return parentNode
+  }
+
+  if (isObject(vdom)) {
+    if (isString(type)) {
+      const _parentNode = document.createElement(type)
+      children.forEach(childVdom =&gt; render(childVdom, _parentNode))
+      Object.entries(props || {}).forEach(([key, value]) =&gt; setAttribute(_parentNode, key, value))
+      node = _parentNode
+    }
+  }
+
+  const result = parentNode ? parentNode.appendChild(node) &amp;&amp; node : node
+  return result
+}
+</code></pre><p>&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x65E0;&#x8BBA;&#x662F;&#x51FD;&#x6570;&#x540D;&#x8FD8;&#x662F;&#x53C2;&#x6570;&#xFF0C;&#x90FD;&#x4FDD;&#x6301;&#x548C;<code>ReactDom</code>&#x7684;render&#x4E00;&#x81F4;&#x3002;</p>
+<p><code>setAttribute</code></p>
+<pre><code>const setAttribute = (node, key, value) =&gt; {
+  if (key === &apos;ref&apos; &amp;&amp; isFunction(value)) {
+    value(node)
+  } else if (isFunction(value) &amp;&amp; key.startsWith(&apos;on&apos;)) {
+    node._handlers = node._handlers || {}
+    const eventType = key.slice(2).toLowerCase()
+    node.removeEventListener(eventType, node._handlers[eventType])
+    node._handlers[eventType] = value
+    node.addEventListener(eventType, node._handlers[eventType])
+  } else {
+    let realKey = key, realValue = value
+    if (key === &apos;className&apos;) {
+      realKey = &apos;class&apos;
+    }
+
+    if (key === &apos;disabled&apos;) {
+      if (value !== true) {
+        return 
+      } 
+      realValue = &apos;&apos;
+    }
+
+    if (key === &apos;key&apos;) {
+      realKey = &apos;_key&apos;
+    }
+    node.setAttribute(realKey, realValue)
+  }
+}
+</code></pre><h4 id="22-&#x4ECE;&#x7EC4;&#x4EF6;&#x7684;vdom&#x5230;dom">2.2 &#x4ECE;&#x7EC4;&#x4EF6;&#x7684;vdom&#x5230;dom</h4>
+<p>&#x4E0A;&#x9762;&#x63D0;&#x5230;&#xFF0C;&#x4E00;&#x822C;&#x7684;<code>vdom</code>&#x91CC;<code>type</code>&#x662F;<code>html</code>&#x6807;&#x7B7E;&#x540D;&#xFF0C;&#x7EC4;&#x4EF6;&#x7684;<code>vdom</code>&#x6700;&#x5927;&#x7684;&#x533A;&#x522B;&#x5C31;&#x662F;<code>type</code>&#x662F;&#x7EC4;&#x4EF6;&#x7684;&#x6784;&#x9020;&#x5668;&#x3002;&#x7EC4;&#x4EF6;&#x7684;&#x771F;&#x6B63;<code>vdom</code>&#x662F;&#x5176;&#x81EA;&#x8EAB;<code>render</code>&#x540E;&#x7684;&#x7ED3;&#x679C;&#xFF0C;&#x8FD9;&#x91CC;&#x5C31;&#x8981;&#x5206;<code>function component</code>&#x548C;<code>class component</code>&#x4E86;&#x3002;</p>
+<pre><code>if (isFunction(type)) {
+  //class component
+  if (Object.getPrototypeOf(type) === Component) {
+    return Component.render(vdom, parentNode, render, update)
+  } 
+  //function component
+  return render(type({ ...props, children }), parentNode)
+}
+</code></pre><p>&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x63D0;&#x5230;&#x4E86;<code>Component.render</code>&#xFF08;&#x7A0D;&#x540E;&#x4F1A;&#x5B9E;&#x73B0;&#xFF09;&#xFF0C;&#x63A5;&#x4E0B;&#x6765;&#x6211;&#x4EEC;&#x5F00;&#x59CB;&#x5B9E;&#x73B0;<code>Component</code>&#x3002;</p>
+<h3 id="3-component">3. Component</h3>
+<p><code>Component</code>&#x7684;&#x7B7E;&#x540D;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code>class Component {
+  constructor(props) {
+    this.props = props
+  }
+
+  componentWillReceiveProps(nextProps) {}
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.props !== nextProps || this.state !== nextState
+  }
+
+  componentWillUpdate(nextProps, nextState) {}
+
+  componentDidUpdate() {} 
+
+  componentWillMount() {}
+
+  componentWillUnmount() {}
+
+  componentDidMount() {}
+
+  static render(vdom, parentNode, render, update) {}
+
+  static update(oldNode, newVdom, parentNode, update, render) {}
+
+  setState(nextState) {}
+}
+</code></pre><p>&#x8FD9;&#x91CC;&#x4E3A;&#x4E86;&#x7B80;&#x5355;&#x8D77;&#x89C1;&#xFF0C;&#x6211;&#x4EEC;&#x53EA;&#x5B9E;&#x73B0;&#x542B;&#x6709;<code>props</code>&#x7684;&#x6784;&#x9020;&#x5668;&#xFF08;&#x5FFD;&#x7565;context&#xFF09;&#x3002;<code>Component</code>&#x7531;&#x751F;&#x547D;&#x5468;&#x671F;&#xFF0C;<code>render</code>&#xFF0C;<code>setState</code>&#x548C;<code>update</code>&#x6784;&#x6210;&#x3002;</p>
+<h4 id="31-render">3.1 render</h4>
+<p><code>render</code>&#x51FD;&#x6570;&#x4E0D;&#x540C;&#x4E8E;&#x7EC4;&#x4EF6;&#x5B9E;&#x4F8B;&#xFF08;instance&#xFF09;&#x7684;<code>render</code>&#xFF0C;&#x540E;&#x8005;&#x8FD4;&#x56DE;&#x7684;&#x662F;&#x7EC8;&#x6001;&#x7684;<code>vdom</code>&#xFF0C;&#x800C;&#x5B83;&#x80FD;&#x591F;&#x5904;&#x7406;<code>vdom</code>&#x91CC;&#x6709;&#x7EC4;&#x4EF6;&#x6784;&#x9020;&#x5668;&#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x5E76;&#x4E14;&#x5728;&#x6B64;&#x8FC7;&#x7A0B;&#x53EF;&#x4EE5;&#x7BA1;&#x7406;&#x7EC4;&#x4EF6;&#x7684;&#x90E8;&#x5206;&#x751F;&#x547D;&#x5468;&#x671F;&#x3002;</p>
+<pre><code>static render(vdom, parentNode, render, update) {
+  const { type, props, children } = vdom
+  const instance = new type({ ...props, children })
+  instance.componentWillMount()
+  console.log(instance.render())
+  const node = render(instance.render())
+  parentNode &amp;&amp; parentNode.appendChild(node)
+  instance.componentDidMount()
+  instance._render = render
+  instance._update = update
+  node._parentNode = parentNode
+  node._instance = instance
+  instance._node = node
+  return node
+}
+</code></pre><p>&#x8FC7;&#x7A0B;&#x5F88;&#x7B80;&#x5355;&#xFF1A;&#x7531;&#x4E8E;<code>type</code>&#x4E3A;&#x7EC4;&#x4EF6;&#x6784;&#x9020;&#x5668;&#xFF0C;&#x9996;&#x5148;&#x53EF;&#x4EE5;&#x83B7;&#x53D6;&#x7EC4;&#x4EF6;<code>instance</code>&#xFF0C;&#x6B64;&#x65F6;&#x8FDB;&#x5165;<code>&#x51C6;&#x5907;&#x6302;&#x8F7D;&#x9636;&#x6BB5;(componentWillMount)</code>&#xFF0C;&#x800C;&#x540E;&#x5728;<code>instance</code>&#x4E0A;&#x8C03;&#x7528;&#x5B9E;&#x4F8B;&#x65B9;&#x6CD5;<code>render</code>&#x83B7;&#x53D6;&#x7EC8;&#x6001;&#x7684;<code>vdom</code>&#xFF0C;&#x518D;&#x6302;&#x8F7D;&#x5230;&#x7236;&#x8282;&#x70B9;&#x4E0A;&#xFF0C;&#x6B64;&#x65F6;&#x8FDB;&#x5165;<code>&#x5DF2;&#x7ECF;&#x6302;&#x8F7D;&#x9636;&#x6BB5;(componentDidMount)</code>&#xFF0C;&#x6700;&#x540E;&#x8BB0;&#x5F55;&#x8282;&#x70B9;&#x4FE1;&#x606F;&#x3002;</p>
+<h4 id="32-setstate">3.2 setState</h4>
+<p><code>setState</code>&#x53EF;&#x4EE5;&#x8BF4;&#x662F;&#x552F;&#x4E00;&#x80FD;&#x591F;&#x66F4;&#x65B0;&#x7EC4;&#x4EF6;&#x72B6;&#x6001;&#x7684;&#x65B9;&#x6CD5;&#x4E86;&#xFF0C;&#x5B83;&#x7684;&#x5927;&#x81F4;&#x5B9E;&#x73B0;&#x5982;&#x4E0B;&#xFF1A; </p>
+<pre><code>if (this.shouldComponentUpdate(nextState, this.props)) {
+  this.componentWillUpdate(nextState, this.props)
+  this.state = { ...nextState }
+  const newVdom = this.render()
+  const oldNode = this._node
+  this._update(oldNode, newVdom, oldNode._parentNode)
+  this.componentDidUpdate()
+}
+</code></pre><p>&#x82E5;&#x7EC4;&#x4EF6;&#x9700;&#x8981;&#x66F4;&#x65B0;&#xFF08;<code>shouldComponentUpdate</code>&#xFF09;&#xFF0C;&#x5219;&#x8FDB;&#x5165;<code>&#x5373;&#x5C06;&#x66F4;&#x65B0;&#x9636;&#x6BB5;(componentWillUpdate)</code>,&#x800C;&#x540E;&#x8C03;&#x7528;&#x7EC4;&#x4EF6;&#x5B9E;&#x4F8B;&#x4E0A;&#x7684;<code>render</code>&#x65B9;&#x6CD5;&#x83B7;&#x53D6;&#x6700;&#x65B0;&#x7684;<code>vdom</code>&#xFF0C;&#x6700;&#x540E;&#x66F4;&#x65B0;&#x7EC4;&#x4EF6;&#xFF0C;&#x8FDB;&#x5165;<code>&#x66F4;&#x65B0;&#x5B8C;&#x6BD5;&#x9636;&#x6BB5;(componentDidUpdate)</code>&#x3002;</p>
+<p>&#x8BFB;&#x5B8C;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#xFF0C;&#x4F60;&#x4F1A;&#x5BF9;&#x7EC4;&#x4EF6;&#x548C;&#x7EC4;&#x4EF6;&#x5B9E;&#x4F8B;&#x6709;&#x4E00;&#x4E2A;&#x6E05;&#x6670;&#x7684;&#x8BA4;&#x8BC6;&#xFF0C;&#x4F8B;&#x5982;:</p>
+<pre><code>const App = () =&gt; (&lt;div&gt;Hello&lt;/div&gt;)
+</code></pre><p><code>App</code>: &#x7EC4;&#x4EF6;&#x6784;&#x9020;&#x5668;&#x3002;
+<code>&lt;App /&gt;</code>: &#x6211;&#x4EEC;&#x5E38;&#x8BF4;&#x7684;&#x7EC4;&#x4EF6;&#xFF0C;&#x5176;&#x5B9E;&#x7EC8;&#x6001;&#x662F;<code>vdom</code>&#x3002;
+<code>new App(props)</code>: &#x7EC4;&#x4EF6;&#x5B9E;&#x4F8B;&#xFF0C;&#x5E73;&#x65F6;&#x4EE3;&#x7801;&#x91CC;&#x662F;&#x65E0;&#x6CD5;&#x6D89;&#x53CA;&#x7684;&#xFF0C;&#x4F46;&#x662F;&#x5E95;&#x5C42;&#x5B9E;&#x73B0;&#x65F6;&#x5177;&#x6709;&#x76F8;&#x5F53;&#x91CD;&#x8981;&#x7684;&#x5730;&#x4F4D;&#x3002;</p>
+<p>&#x81F3;&#x6B64;&#xFF0C;&#x9664;&#x4E86;<code>update</code>&#x5916;&#xFF0C;<code>Component</code>&#x7684;&#x57FA;&#x672C;&#x529F;&#x80FD;&#x5DF2;&#x7ECF;&#x5B9E;&#x73B0;&#xFF0C;<code>update</code>&#x6D89;&#x53CA;<code>diff</code>&#x7B97;&#x6CD5;&#xFF0C;&#x6211;&#x4EEC;&#x653E;&#x5230;&#x4E0B;&#x4E00;&#x7BC7;&#x7AE0;&#x3002;</p>
+<h3 id="4-&#x7EC4;&#x4EF6;&#x66F4;&#x65B0;&#xFF08;diff&#xFF09;">4. &#x7EC4;&#x4EF6;&#x66F4;&#x65B0;&#xFF08;diff&#xFF09;</h3>
+<p><code>setState</code>&#x7684;&#x5165;&#x53C2;&#x4E3A;&#x6700;&#x65B0;&#x7684;<code>vdom</code>&#xFF0C;&#x4E3A;&#x4E86;&#x66F4;&#x65B0;&#x5230;&#x7236;&#x8282;&#x70B9;&#x4E0A;&#xFF0C;&#x6700;&#x66B4;&#x529B;&#x7684;&#x65B9;&#x6CD5;&#x5C31;&#x662F;&#x76F4;&#x63A5;&#x628A;&#x6574;&#x4E2A;<code>vdom</code>&#x8F6C;&#x6362;&#x4E3A;<code>dom</code>&#xFF0C;&#x7136;&#x540E;<code>replace</code>&#x7236;&#x8282;&#x70B9;&#x6240;&#x6709;&#x7684;<code>children</code>&#x3002;&#x4F46;&#x8FD9;&#x6837;&#x5C31;&#x548C;&#x64CD;&#x4F5C;<code>real dom</code>&#x6CA1;&#x6709;&#x533A;&#x522B;&#x4E86;&#xFF0C;&#x4E5F;&#x5931;&#x53BB;&#x4E86;&#x4F7F;&#x7528;<code>vdom</code>&#x7684;&#x610F;&#x4E49;&#x3002;</p>
+<p>&#x56E0;&#x6B64;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x5C06;&#x6700;&#x65B0;&#x7684;<code>vdom</code>&#x4E0E;<code>real dom</code>&#x505A;&#x6BD4;&#x8F83;&#xFF0C;&#x627E;&#x51FA;&#x5DEE;&#x5F02;&#x8282;&#x70B9;&#xFF0C;&#x53EA;&#x6709;&#x6709;&#x5DEE;&#x5F02;&#x65F6;&#x624D;&#x66F4;&#x65B0;&#x5BF9;&#x5E94;&#x7684;&#x8282;&#x70B9;&#x3002;&#x53EF;&#x662F;&#x6839;&#x636E;<code>react</code>&#x5B98;&#x65B9;&#x7684;&#x4ECB;&#x7ECD;&#xFF0C;&#x5728;&#x4E0D;&#x53D6;&#x5DE7;&#x7684;&#x65B9;&#x5F0F;&#x4E0B;&#xFF0C;&#x7528;&#x4E00;&#x68F5;&#x6811;&#xFF08;vdom&#x6811;&#xFF09;&#x548C;&#x53E6;&#x4E00;&#x68F5;&#x6811;&#xFF08;real dom&#x6811;&#xFF09;&#x505A;&#x6BD4;&#x8F83;&#xFF0C;&#x5C06;&#x4F1A;&#x662F;&#x5669;&#x68A6;&#x822C;&#x7684;&#x65F6;&#x95F4;&#x590D;&#x6742;&#x5EA6;&#xFF0C;&#x56E0;&#x6B64;&#x6211;&#x4EEC;&#x5FC5;&#x987B;&#x8981;&#x53D6;&#x5DE7;&#x3002;</p>
+<p>&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x4EFF;&#x7167;<code>react</code>&#x7684;&#x601D;&#x8DEF;&#xFF0C;&#x6BCF;&#x4E00;&#x4E2A;<code>vdom</code>&#x548C;<code>real dom</code>&#x90FD;&#x6709;&#x552F;&#x4E00;&#x7684;<code>key</code>&#xFF0C;&#x4EE3;&#x8868;&#x4E24;&#x8005;&#x662F;&#x7EDF;&#x4E00;&#x8282;&#x70B9;&#x7684;&#x4E0D;&#x540C;&#x72B6;&#x6001;&#xFF0C;&#x53EF;&#x4EE5;&#x8FDB;&#x884C;&#x8F6C;&#x6362;&#xFF08;&#x9700;&#x8981;diff&#xFF09;&#xFF0C;&#x5426;&#x8005;&#x5C06;&#x8FDB;&#x884C;&#x66B4;&#x529B;&#x66F4;&#x65B0;&#x3002;&#x5177;&#x4F53;&#x7684;<code>diff</code>&#x903B;&#x8F91;&#x5927;&#x81F4;&#x5982;&#x4E0B;&#xFF1A;</p>
+<ul>
+<li><p><code>vdom</code>&#x4E3A;&#x5B57;&#x7B26;&#x4E32;&#x6216;&#x8005;&#x6570;&#x5B57;, &#x4E14;<code>real dom</code>&#x662F;<code>TEXT_NODE</code>&#x65F6;&#xFF0C; &#x9700;&#x8981;diff&#x3002;&#x82E5;<code>vdom</code>&#x548C;<code>textContent</code>&#x4E00;&#x81F4;&#xFF0C;&#x5219;&#x4E0D;&#x66F4;&#x65B0;&#xFF0C;&#x5426;&#x8005;&#x521B;&#x5EFA;&#x65B0;&#x7684;<code>TEXT_NODE</code>&#x8282;&#x70B9;&#x3002;</p>
+</li>
+<li><p><code>vdom</code>&#x662F;&#x5BF9;&#x8C61;&#xFF0C;&#x4E14;<code>vdom</code>&#x7684;&#x7C7B;&#x578B;&#x4E3A;&#x51FD;&#x6570;&#xFF0C;&#x65E0;&#x9700;diff&#xFF0C;&#x5C06;&#x5176;&#x89C6;&#x4E3A;&#x7EC4;&#x4EF6;&#xFF0C;&#x65E0;&#x8111;&#x9012;&#x5F52;&#x521B;&#x5EFA;&#x3002;</p>
+</li>
+<li><p><code>vdom</code>&#x662F;&#x5BF9;&#x8C61;&#xFF0C;&#x4E14;<code>vdom</code>&#x7684;&#x7C7B;&#x578B;&#x4E0E;<code>real dom</code>&#x7684;&#x8282;&#x70B9;&#x7C7B;&#x578B;&#x4E00;&#x81F4;&#xFF0C;&#x9700;&#x8981;diff&#x3002;</p>
+</li>
+</ul>
+<p>&#x6B64;&#x79CD;&#x60C5;&#x51B5;&#x8F83;&#x4E3A;&#x590D;&#x6742;&#xFF0C;&#x9700;&#x8981;&#x5206;&#x522B;&#x5BF9;&#x6BD4;<code>vdom</code>&#x548C;<code>real dom</code>&#x5B50;&#x8282;&#x70B9;&#x7684;<code>key</code>&#xFF0C;&#x82E5;&#x53EF;&#x4EE5;&#x5339;&#x914D;&#x5219;&#x9012;&#x5F52;&#x7684;&#x8FDB;&#x884C;diff&#x7B97;&#x6CD5;&#xFF0C;&#x5426;&#x8005;&#x5C06;&#x5229;&#x7528;<code>childVdom</code>&#x91CD;&#x65B0;&#x751F;&#x6210;&#x5B50;&#x8282;&#x70B9;&#x3002;&#x5BF9;&#x4E8E;&#x6CA1;&#x6709;&#x5339;&#x914D;&#x7684;&#x5B50;&#x8282;&#x70B9;&#xFF0C;&#x5C06;&#x4F1A;&#x8FDB;&#x5165;<code>&#x5373;&#x5C06;&#x5378;&#x8F7D;&#x9636;&#x6BB5;&#xFF08;componentWillUnmount&#xFF09;</code>&#x3002;</p>
+<blockquote>
+<p>ps: &#x8FD9;&#x4E5F;&#x5C31;&#x662F;&#x4E3A;&#x4EC0;&#x4E48;<code>react</code>&#x4E00;&#x81F4;&#x8981;&#x5F3A;&#x8C03;<code>key</code>&#x7684;&#x89C4;&#x8303;&#x4F7F;&#x7528;&#x548C;&#x5E26;&#x6765;&#x7684;&#x6027;&#x80FD;&#x95EE;&#x9898;&#x4E86;</p>
+</blockquote>
+<p>&#x5B9E;&#x73B0;&#x53C2;&#x8003;&#xFF1A;</p>
+<pre><code>const deepUnmount = instance =&gt; {
+  if (instance) {
+    instance.componentWillUnmount()
+    if (instance._node &amp;&amp; instance._node.childNodes.length &gt; 0) {
+      instance._node.childNodes.forEach(node =&gt; {
+        deepUnmount(node._instance)
+      })
+    }
+  }
+}
+
+
+const update = (oldNode, newVdom, parentNode=oldNode.parentNode) =&gt; {
+  if ((isString(newVdom) || isNumber(newVdom)) &amp;&amp; oldNode instanceof Text) {
+     oldNode.textContent != newVdom &amp;&amp; parentNode.replaceChild(document.createTextNode(newVdom), oldNode)
+  } else if (isObject(newVdom) &amp;&amp; newVdom.type !== oldNode.nodeName.toLowerCase()) {
+    if (isFunction(newVdom.type)) {
+      Component.update(oldNode, newVdom, parentNode, update, render)
+    } else {
+      deepUnmount(oldNode._instance)
+      parentNode.replaceChild(render(newVdom), oldNode)
+    }
+  } else if (isObject(newVdom) &amp;&amp; newVdom.type === oldNode.nodeName.toLowerCase()) {
+
+      const existingChildNodes = {};
+      [...oldNode.childNodes].forEach((childNode, index) =&gt; {
+          const key = childNode._key || `__index_${index}`;
+          existingChildNodes[key] = childNode;
+      });
+      [...newVdom.children]
+        .flat()
+        .filter($ =&gt; !isBoolean($))
+        .forEach((childVdom, index) =&gt; {
+            const key = childVdom.props &amp;&amp; childVdom.props.key || `__index_${index}`;
+            if (existingChildNodes[key]) {
+              update(existingChildNodes[key], childVdom)
+            } else {
+              render(childVdom, oldNode)
+            }
+            delete existingChildNodes[key];
+        });
+      for (const key in existingChildNodes) {
+          const instance = existingChildNodes[key]._instance;
+          if (instance) deepUnmount(instance);
+          existingChildNodes[key].remove();
+      }
+      for (const attr of oldNode.attributes) oldNode.removeAttribute(attr.name);
+      for (const prop in newVdom.props) setAttribute(oldNode, prop, newVdom.props[prop]);
+
+  } else {
+    console.log(&apos;can not update&apos;, newVdom, oldNode.nodeName)
+  }
+}
+</code></pre><h3 id="5-&#x603B;&#x7ED3;">5. &#x603B;&#x7ED3;</h3>
+<p>&#x4EE5;&#x4E0A;&#x7684;&#x5B9E;&#x73B0;&#x601D;&#x8DEF;&#x7C7B;&#x4F3C;React16&#x4EE5;&#x524D;&#xFF08;&#x5F53;&#x7136;&#x5DEE;&#x8DDD;&#x8FD8;&#x5F88;&#x5927;&#xFF09;&#xFF0C;&#x4F46;&#x4E0D;&#x96BE;&#x770B;&#x51FA;&#xFF0C;&#x5728;&#x83B7;&#x53D6;&#x65B0;vdom&#x4E4B;&#x524D;&#x7684;&#x6240;&#x6709;&#x64CD;&#x4F5C;&#x5747;&#x662F;&#x9012;&#x5F52;&#x5B8C;&#x6210;&#xFF0C;&#x4E14;&#x65E0;&#x6CD5;&#x505C;&#x6B62;&#xFF0C;React16&#x4EE5;&#x540E;&#x5F15;&#x5165;&#x4E86;Fiber Node&#xFF0C;&#x5728;render&#x4E4B;&#x524D;&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;&#x4F1A;&#x4E0D;&#x5B89;&#x5168;&#xFF0C;&#x56E0;&#x4E3A;&#x6709;&#x53EF;&#x80FD;&#x591A;&#x6B21;&#x8FDB;&#x5165;&#x540C;&#x4E00;&#x751F;&#x547D;&#x5468;&#x671F;&#xFF0C;&#x800C;&#x53EA;&#x6709;commit&#x9636;&#x6BB5;&#x624D;&#x4EE3;&#x8868;&#x76F8;&#x5BF9;&#x53EF;&#x9760;&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;&#xFF0C;&#x6700;&#x65B0;&#x7684;&#x751F;&#x547D;&#x5468;&#x671F;&#x56FE;&#x5DF2;&#x7ECF;&#x6CA1;&#x6709;&#x4E86;<code>componentWillReceiveProps</code>,<code>shouldComponentUpdate</code>&#x7B49;&#x4E0D;&#x5B89;&#x5168;&#x7684;api&#xFF0C;&#x5982;&#x4E0B;&#xFF1A;</p>
+<p><img src="../images/react/react-lifecycle.png" alt=""></p>
+<p>&#x53C2;&#x8003;&#xFF1A;</p>
+<p><a href="https://medium.com/react-in-depth/inside-fiber-in-depth-overview-of-the-new-reconciliation-algorithm-in-react-e1c04700ef6e" target="_blank">React-in-depth</a></p>
+<p><a href="https://medium.com/@sweetpalma/gooact-react-in-160-lines-of-javascript-44e0742ad60f" target="_blank">160&#x884C;&#x4EE3;&#x7801;&#x641E;&#x5B9A;react</a></p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="hook.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Hook">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"React最小实现","level":"1.1.4.4","depth":3,"next":{"title":"Redux","level":"1.1.5","depth":2,"ref":"","articles":[{"title":"redux源码解析","level":"1.1.5.1","depth":3,"path":"redux/redux-source.md","ref":"redux/redux-source.md","articles":[]},{"title":"redux的最小实现","level":"1.1.5.2","depth":3,"path":"redux/mini-redux.md","ref":"redux/mini-redux.md","articles":[]},{"title":"react-redux源码解析","level":"1.1.5.3","depth":3,"path":"redux/react-redux-source.md","ref":"redux/react-redux-source.md","articles":[]},{"title":"react-redux最小实现","level":"1.1.5.4","depth":3,"path":"redux/mini-react-redux.md","ref":"redux/mini-react-redux.md","articles":[]}]},"previous":{"title":"Hook","level":"1.1.4.3","depth":3,"path":"React/hook.md","ref":"React/hook.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"React/mini-react.md","mtime":"2021-01-25T15:39:23.578Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-01-27T14:01:12.907Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
