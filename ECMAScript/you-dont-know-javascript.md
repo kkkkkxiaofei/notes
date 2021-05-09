@@ -197,14 +197,66 @@ d)第二次的`onClick`完成后，栈空，此时`macrotasks`队列里仍然有
 
 4.每个宏任务之后，会立即执行微任务队列中的所有任务，然后再执行其他的宏任务，或渲染，或进行其他任何操作，用以确保微任务之间的环境一致（新网络数据等）
 
-[参考1  blog of jakearchibald](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/)
+[参考1 blog of jakearchibald](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/)
 
-[参考2  JS.INFO Event loop](https://javascript.info/event-loop#use-case-3-doing-something-after-the-event)
+[参考2 JS.INFO Event loop](https://javascript.info/event-loop#use-case-3-doing-something-after-the-event)
 
-[参考3  Node.js Event loop](https://nodejs.dev/learn/the-nodejs-event-loop)
+[参考3 Node.js Event loop](https://nodejs.dev/learn/the-nodejs-event-loop)
 
 [参考4 事件循环头条好文章](https://www.toutiao.com/i6909456210169315844/?tt_from=weixin&utm_campaign=client_share&wxshare_count=1&timestamp=1608769572&app=news_article&utm_source=weixin&utm_medium=toutiao_ios&use_new_style=1&req_id=202012240826110101470831040D3AC743&group_id=6909456210169315844)
+
+[参考5 知乎讲解](https://zhuanlan.zhihu.com/p/54882306)
+
 #### 2.2 Node.js中的事件循环
+
+先看下面的例子：
+
+```js
+
+setTimeout(function() {
+	console.log('timeout1');
+	Promise.resolve('promise1').then(console.log);
+}, 0);
+
+setTimeout(function() {
+	console.log("timeout2");
+	Promise.resolve('promise2').then(console.log);
+}, 0);
+
+```
+
+如果执行在浏览器中结果必然是：
+
+```
+timeout1 -> promise1 -> timeout2 -> promise2
+```
+
+但是`Node`里就不一定了，很有可能是：
+
+```
+timeout1 -> timeout2 -> promise1 -> promise2
+```
+
+这里说`不一定`是因为根据笔者的测试(Node.js 12)，结果是和浏览器一致的，但是在早起的Node版本里确实可能不一定，说明Node的升级也会逐渐将Eventloop的实现向浏览器靠拢。
+
+但是根据官方的解释，`Node.js`的`Event Loop`机制的确是和浏览器端是不一致的，如下图：
+
+![](/images/js/node-event-loop.png)
+
+- timers: 这个阶段会执行setTimeout()和setInterval()的回调
+
+- pending callbacks: 处理一些上一轮循环中的少数未执行的 I/O 回调
+
+- idle, prepare: 内部使用.
+
+- poll: 获取新的 I/O 事件, 适当的条件下 node 将阻塞在这里
+
+- check: setImmediate()的回调会在此阶段调用
+
+- close callbacks: 执行一些关闭时间的回调，如`socket.on('close', ...)`
+
+*** 在浏览器中，每执行完一个macrotask之后就会执行所有的microtask；而在Node中，microtask是在各个阶段之间执行的，比如timers阶段完成后但是在pending之前。 ***
+
 
 事件循环在`Node.js`中有些不一样，主要体现在两个新的API:
 
@@ -212,6 +264,7 @@ d)第二次的`onClick`完成后，栈空，此时`macrotasks`队列里仍然有
 
 *** 2. setImmediate ***
 
+to be continued...
 
 #### 2.3 浏览器，Node和v8之间的关系
 
