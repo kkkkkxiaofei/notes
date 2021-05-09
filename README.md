@@ -120,7 +120,7 @@
 
 - interface vs type
 - never
-- unknow vs any
+- unknown vs any
 - 如何定义一个JSON结构
 - d.ts
 - namespace/module
@@ -141,7 +141,7 @@
 - CSRF
 - 三次握手 vs 四次挥手
 
-### 8. Nodejs
+### 8. Nodejs(todo)
 
 - 进程与线程
 - node多进程
