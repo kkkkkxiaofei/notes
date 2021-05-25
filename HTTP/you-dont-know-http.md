@@ -77,9 +77,13 @@ Cookie中有domain（域），若域与网站的域一致，则为第一方Cooki
 第三方Cookie常用于广告跟踪，但往往也会到来网络安全问题(参考1)。
 
 ### 4. Authorization
-- OpenID Connect & OAuth 2.0
+- OpenID Connect vs Oauth2.0
 
-`OpenID Connect & OAuth 2.0`的常见API:
+`OAuth 2.0`: 鉴权框架，最主要用于保护资源服务器，典型的Bearer方式就是其中一种方式。
+
+`OpenID Connect`: 基于`OAuth 2.0`建立，使用JWT方式发布ID token,常常用于解决跨平台登陆问题。比如常见的code换token的方式就是来自此协议。
+
+`OpenID Connect`的常见API:
 
 | APIs                                    | Description                                    |
 |-----------------------------------------|------------------------------------------------|
@@ -131,9 +135,9 @@ http --form POST https://${yourOktaDomain}/oauth2/default/v1/token
 
 > ps: 目前refresh token真有在授权码和用户密码方式下才可以。
 
-- Oauth2.0
+- 以Oauth2.0的授权码模式为例子，其流程为
 
-1.授权码模式：
+`1.获取code：`
 
 获取授权码需要授权服务器提供`/authorize`的url，例如以下get请求用于获取code：
 
@@ -162,7 +166,7 @@ http://localhost:8080/?code=P5I7mdxxdv13_JfXrCSq&state=state-296bc9a0-a2a2-4a57
 
 授权码只会保留60秒的时间，下一步就是用授权码去获取token。
 
-2.交换token
+`2.交换token`
 
 需要授权服务器提供`/token`的url，例如以下post请求：
 
@@ -195,16 +199,26 @@ http://localhost:8080/?code=P5I7mdxxdv13_JfXrCSq&state=state-296bc9a0-a2a2-4a57
 }
 ```
 
-3.验证accessToken
+`3.验证accessToken`
 
 有了accessToken，理论上就可以为所欲为了，所以在使用它之前，必须得验证它是否合法。
+
+因为它的类型是`Bearer`，使用时需要将其注入到请求的header里:
+
+```
+Authorization: Bearer ${access_token}
+```
+
+关于如何解析Bearer的token，这一点规范也没说，因为这个token并不是JWT，一般是由授权服务器自己加密（或编码）生成，因此完全取决于如何编码，甚至还取决于资源服务器本身如何再次鉴权。
+
+`4.验证JWT（如ID token)`
 
 验证其实大体分两个步骤，但都发生在resource server（你的服务器）：
  - 1.auth验证
  
  a）由于token是被RS256/HS256加密过，所以需要首先获取解密的public key。这一步是遵循标准的，只要能够找到issuer，就知道授权服务器，授权服务器需要提供对应的api去获取公钥。
 
- b)由于token被base64编码过，需要解析access token
+ b)由于token被base64编码过，需要解析
 
  c)验证签名。在a步时已经获取了公钥，可以重新计算一次签名，和当前signature进行比较，算法为：
 
