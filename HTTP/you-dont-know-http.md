@@ -199,7 +199,7 @@ http://localhost:8080/?code=P5I7mdxxdv13_JfXrCSq&state=state-296bc9a0-a2a2-4a57
 }
 ```
 
-`3.验证accessToken`
+`3.验证AccessToken`
 
 有了accessToken，理论上就可以为所欲为了，所以在使用它之前，必须得验证它是否合法。
 
@@ -210,6 +210,10 @@ Authorization: Bearer ${access_token}
 ```
 
 关于如何解析Bearer的token，这一点规范也没说，因为这个token并不是JWT，一般是由授权服务器自己加密（或编码）生成，因此完全取决于如何编码，甚至还取决于资源服务器本身如何再次鉴权。
+
+***补充***
+
+`AccessToken`具有直接访问资源的能力，因此不宜给它过长的过期时间。但是如果过期时间过短的话又得让用户频繁的授权（在走一遍Auth流程），因此出现了`Reresh Token`。`Reresh Token`并不是说是刷新已有的`Access Token`，而是说当现在的`Access Token`失效后，为了避免重新授权，可以用`Reresh Token`请求新的`Access Token`。因此往往`Reresh Token`的过期时间会比较长。
 
 `4.验证JWT（如ID token)`
 
