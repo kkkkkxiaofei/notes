@@ -350,3 +350,138 @@ Q&A:
 
 为了使其可信，所以会对证书进行数字签名。网站收到证书后需要校验签名是否一致，否则就是被篡改过
 
+### 7. 如何使用https://localhost
+
+- 1.生成私钥匙
+
+```
+openssl genrsa -des3 -out rootCA.key 2048
+
+```
+phrase: 2090
+
+- 2.生成根证书(过期时间1024天)
+
+```
+openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024 -out rootCA.pem
+```
+```
+Country Name (2 letter code) []:CN
+State or Province Name (full name) []:State
+Locality Name (eg, city) []:Xian
+Organization Name (eg, company) []:Org
+Organizational Unit Name (eg, section) []:TW
+Common Name (eg, fully qualified host name) []:localhost
+Email Address []:fake@qq.com
+```
+
+- 3.信任根证书
+
+在`KeyChain`中导入`rootCA.pem`，这之后，根证书就会被应用到`localhost`上。
+
+- 4.创建必要的配置文件
+
+OpenSSL配置文件`server.csr.cnf`：
+
+```
+[req]
+default_bits = 2048
+prompt = no
+default_md = sha256
+distinguished_name = dn
+
+[dn]
+C=CN
+ST=State
+L=Xian
+O=Org
+OU=TW
+emailAddress=fake@qq.com
+CN=localhost
+```
+
+创建`v3.ext`: 
+
+```
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage=digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+subjectAltName=@alt_names
+
+[alt_names]
+DNS.1=localhost
+```
+
+- 5.生成新的private key `server.key`
+
+```
+openssl req -new -sha256 -nodes -out server.csr -newkey rsa:2048 -keyout server.key -config server.csr.cnf
+```
+
+- 6.生成域证书
+```
+openssl x509 -req -in server.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out server.crt -days 825 -sha256 -extfile v3.ext
+```
+
+- 7.利用wepack devServer测试
+
+`webpack.config.js`
+```
+{
+  devServer: {
+    host: "localhost.com",
+    port: 443,
+    allowedHosts: ["localhost.com"],
+    https: {
+      key: fs.readFileSync(path.resolve("dist/server.key")),
+      cert: fs.readFileSync(path.resolve("dist/server.crt")),
+    }
+  }
+}
+```
+
+[参考1](https://www.freecodecamp.org/news/how-to-get-https-working-on-your-local-development-environment-in-5-minutes-7af615770eec/)
+
+[参考2](https://lisongfeng.cn/2019/01/16/qucik-set-up-htts-development-environment.html)
+### 8. 解决本地前端登陆cookie无效的解决办法
+
+`背景`：
+
+最早期Chrome并不管控第三方`cookie`的`SameSite`，即服务器返回什么配置的`cookie`浏览器就照用，最重要是比如若`SameSite`没有设置则视为`None`。后来Chrome改变了这一策略，最明显的差别就是如果`cookie`没有设置`SameSite`，那么默认就是`Lax`，这样一来就只接受第三方的`Get`请求（或者说外部链接）。幸运的是我们还是可以通过`://flags`来配置浏览器对待`cookie`的行为，以此还原完全支持第三方`cookie`的状态。但是自从Chrome`90`版本以后，`://flags`里不再支持`SameSite`的篡改了，更甚之如果设为`SameSite=None`, 浏览器强制要求必须同时设置了`Secure`, 否者视为无效的`cookie`。（[参考](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite)）
+
+因此，如果常常调试本地前端项目，如果需要和线上的后端进行对接，尤其是登陆需求时，往往`cookie`可能很难正常返回。
+
+`解决办法`：
+
+- 1.下载以前90版本以前的Chrome
+
+没啥可以说的，很无奈的。
+
+- 2.依然使用最新版本，但是使用命令行修改默认配置
+
+例如`Mac OS`:
+```
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --disable-features=SameSiteByDefaultCookies,CookiesWithoutSameSiteMustBeSecure
+```
+但是这种玩法必须保证没有任何Chrom实例在运行才能启动，直接真的把你的Chrome当成调试工具了。
+
+- 3.搭建本地Https
+
+如果服务器返回了`Secure=true`的`cookie`，那这种情况搭建本地`https`也是一种办法。
+
+- 4.搭建本地域名
+
+如果服务端显示的设置了比较严格的`Domain`且没有设置`SameSite=None`, 比如`Domain=hello.china.com.cn`，那这个`cookie`就只能被域名为`hello.china.com.cn`或者`*.hello.china.com.cn`访问。因此`localhost`或者`127.0.0.1`这样的`host`自然接受不到`cookie`。
+
+可以在`/etc/hosts`建立简单的本地映射:
+
+```
+127.0.0.1 localhost.hell.china.com.cn
+```
+这样启动本地前端`http://localhost.hell.china.com.cn:9090`就可以接到后端发来的`cookie`了。
+
+- 5.后端根据条件配置cookie
+
+比如发现`origin`是本地调试(localhost)，则可以设为`SameSite=None;Secure=false`。
+
+但是目前不确认浏览器是否因为安全级别过低而不认这个`cookie`？（需要验证不同版本的Chrome）。总之意思就是后端可以条件式为不同环境和需求建立`cookie`配置。
