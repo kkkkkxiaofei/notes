@@ -1,4 +1,29 @@
-### 1. Authorization
+### OAuth 2.0
+
+#### 1.Introduction
+
+`OAuth 2.0`是一个规范标准，它可以安全地为应用程序提供资源访问权限，在了解它之前，有必要先理解下面的四个角色：
+
+`Authentication Server`: 授权服务器用来颁发`access token`, 最常见的就是你们`Okta`（想想为啥你们公司的Okta主页里的app可以实现共享登陆吧）.
+
+`Resource owner`: 应用的终端用户，他将通过他信任的授权服务器把权限授权给应用程序（`access token`)。
+
+`Client`: 应用程序，它将`access token`发送给资源服务器来访问资源。
+
+`Resource Sever`: 它接收`access token`后需要验证正确性和有效期，一般资源服务器指的就是你的`API server`。
+
+通常`OAuth2.0`的具体流程有以下几个步骤：
+
+- 1.应用程序向用户申请授权（唤起第三方登陆）
+
+- 2.若用户同意授权，则应用程序会把授权信息发送到授权服务器
+
+- 3.如果一切正确，授权服务器会向应用程序返回`access token`，有时也会携带`refresh token`或`ID token`
+
+- 4.应用程序用`access token`来访问资源。
+
+
+### 1. Authorization  
 - OpenID Connect vs Oauth2.0
 
 `OAuth 2.0`: 鉴权框架，最主要用于保护资源服务器，典型的Bearer方式就是其中一种方式。
