@@ -23,6 +23,35 @@
 - 4.应用程序用`access token`来访问资源。
 
 
+#### 2.几种常见的授权方式
+
+不同的应用程序在不同的场景下，授权方式也不尽相同，常见的授权方式有多种，这里直记录常用的两种：
+`Client Credentials flow`和`Authorization Code flow`.
+
+
+- Client Credentials flow
+
+这种授权方式要求你的应用程序没有终端用户，并且需要和资源服务器交互，也就是常见的后端`sever-to-server`的情况。
+
+这种方式下直接调用`/token`就可以拿到`access token`，但是并不会有`refresh token`.
+
+流程图如下：
+
+![](/images/auth/oauth_client_creds_flow.png)
+
+- Authorization Code flow
+
+`Authorizatiion Code`方式是最常见的授权方式之一，比起`Client Credentials flow`来说，它需要在此基础上加一步去获取授权码，这就依赖终端用户在浏览器里的交互。
+
+
+这种模式下往往会和`OpenID Connect`的方式结合，这样返回的token里不仅有`access token`和`refresh token`,还有`id token`。 
+
+流程图如下：
+
+![](/images/auth/oauth_auth_code_flow.png)
+
+[参考](https://developer.okta.com/docs/concepts/oauth-openid/)
+
 ### 1. Authorization  
 - OpenID Connect vs Oauth2.0
 
