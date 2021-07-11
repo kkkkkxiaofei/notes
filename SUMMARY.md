@@ -31,6 +31,7 @@
     - [OAuth2.0](Auth/oauth.md)
     - [OpenID-Connect](Auth/openid-connect.md)
     - [JWT](Auth/jwt.md)
+    - [Authorization Server](Auth/authorization-server.md)
   - AWS
     - [AWS基本知识汇总](AWS/you-dont-know-aws.md)
   - Algorithm
